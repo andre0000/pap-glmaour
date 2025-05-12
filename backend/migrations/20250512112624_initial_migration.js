@@ -17,7 +17,6 @@ exports.up = async function (knex) {
       table.boolean('is_deleted').defaultTo(false);
       table.timestamps(true, true);
     })
-
     .createTable('suppliers', (table) => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.string('name').notNullable();
@@ -58,15 +57,12 @@ exports.up = async function (knex) {
     })
     .createTable('sales', (table) => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
-      table
-        .uuid('user_id')
-        .references('id')
-        .inTable('users')
-        .onDelete('SET NULL');
       table.decimal('total', 10, 2).notNullable();
       table.decimal('discount', 10, 2).defaultTo(0.0);
       table.decimal('final_total', 10, 2).defaultTo(0.0);
       table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.boolean('is_active').defaultTo(true);
+      table.uuid('product_id').references('id').inTable('products');
     })
     .createTable('sale_items', (table) => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
@@ -81,8 +77,8 @@ exports.up = async function (knex) {
         .inTable('products')
         .onDelete('SET NULL');
       table.integer('quantity').notNullable();
-      table.decimal('unit_price', 10, 2).notNullable();
-      table.decimal('total_price', 10, 2).notNullable();
+      table.decimal('unit_price', 10, 2).notNullable(); // Preço do produto no momento da venda
+      table.decimal('total_price', 10, 2).notNullable(); // Quantidade * Preço unitário
     });
 };
 
