@@ -1,0 +1,254 @@
+* {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('../../fonts/suisse-intl-regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'SuisseIntl', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, Arial, sans-serif;
+  color: #000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 15px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  margin: 20px 0 0 0;
+}
+
+.nav-left {
+  display: flex;
+  gap: 10px;
+  padding-left: 20px; /* Optional: Add padding on the left of nav items */
+  padding-right: 20px; /* Optional: Add padding on the right of nav items */
+}
+
+.nav-left button {
+  background: #d1d1cd;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: Roboto, Arial, sans-serif;
+  transition: all 0.3s ease; /* Adiciona transição suave */
+}
+
+.nav-left button:hover {
+  background-color: #b0b0a6; /* Cor mais escura ao passar o mouse */
+  transform: scale(1.05); /* Aumenta o tamanho do botão ao passar o mouse */
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background: #d1d1cd;
+  border-radius: 6px;
+  padding: 4px 8px;
+  transition: all 0.3s ease; /* Adiciona transição suave */
+}
+
+.search-container input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: Roboto, Arial, sans-serif;
+  background: transparent;
+  width: 80px; /* Tamanho inicial */
+  transition: width 0.3s ease; /* Adiciona transição para a largura */
+}
+
+.search-container input:hover {
+  width: 200px; /* Aumenta a largura quando o mouse passa por cima */
+}
+
+.search-container i {
+  color: #000;
+  font-size: 16px;
+  margin-left: 6px;
+}
+
+.icon-btn {
+  background: #d1d1cd;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.icon-btn:hover {
+  background-color: #b0b0a6; /* Cor mais escura */
+  transform: scale(1.05); /* Aumenta o tamanho ao passar o mouse */
+}
+
+.icon-btn i {
+  font-size: 16px;
+  color: #000;
+}
+
+.bag-btn {
+  background: #d1d1cd;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: Roboto, Arial, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.bag-btn:hover {
+  background-color: #b0b0a6; /* Cor mais escura */
+  transform: scale(1.05); /* Aumenta o tamanho */
+}
+
+.bag-btn i {
+  font-size: 16px;
+}
+
+.notification-btn {
+  margin-top: 10px;
+  background: #fff;
+  border: 1.5px solid #000;
+  border-radius: 20px;
+  padding: 4px 10px 4px 6px;
+  font-size: 12px;
+  font-family: Roboto, Arial, sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.notification-btn:hover {
+  background-color: #f0f0f0; /* Cor mais clara */
+  transform: scale(1.05);
+}
+
+.notification-btn i {
+  font-size: 14px;
+}
+
+main {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.image-wrapper {
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+}
+
+.image-wrapper img {
+  display: block;
+  width: 50%;
+  object-fit: cover;
+}
+
+.text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.text-overlay h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.text-overlay p {
+  margin: 4px 0 0 0;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.image-container {
+  position: relative;
+  width: 900px;
+  max-width: 100%;
+}
+
+@font-face {
+  font-family: suisse;
+  src: url(../../fonts/suisse-intl-regular.ttf) format('truetype');
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-left {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .nav-right {
+    gap: 6px;
+  }
+
+  .search-container input {
+    width: 60px;
+  }
+
+  .user-name {
+    margin-left: 8px;
+    font-weight: 500;
+    font-family: suisse;
+    padding: 1rem;
+  }
+
+  .image-wrapper {
+    flex-direction: column;
+    border-radius: 15px;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: auto;
+  }
+
+  .image-container {
+    width: 100%;
+  }
+}

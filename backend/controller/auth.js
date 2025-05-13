@@ -1,5 +1,4 @@
 const pool = require('../config/db');
-const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
