@@ -54,6 +54,7 @@ exports.up = async function (knex) {
         .onDelete('CASCADE');
       table.integer('quantity').notNullable();
       table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.boolean('is_deleted').defaultTo(false);
     })
     .createTable('sales', (table) => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
@@ -67,11 +68,6 @@ exports.up = async function (knex) {
     .createTable('sale_items', (table) => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table
-        .uuid('sale_id')
-        .references('id')
-        .inTable('sales')
-        .onDelete('CASCADE');
-      table
         .uuid('product_id')
         .references('id')
         .inTable('products')
@@ -79,6 +75,7 @@ exports.up = async function (knex) {
       table.integer('quantity').notNullable();
       table.decimal('unit_price', 10, 2).notNullable(); // Preço do produto no momento da venda
       table.decimal('total_price', 10, 2).notNullable(); // Quantidade * Preço unitário
+      table.boolean('is_deleted').defaultTo(false);
     });
 };
 
