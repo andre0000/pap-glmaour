@@ -25,8 +25,7 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
         throw new Error(data.message || 'Erro ao fazer login');
       }
 
-      // Armazenar token e dados do user
-      localStorage.setItem('token', data.token);
+      sessionStorage.setItem('token', data.token);
       sessionStorage.setItem('user', JSON.stringify(data.user));
 
       if (onLoginSuccess) onLoginSuccess(data.user);
@@ -40,44 +39,77 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
 
   return (
     <div className='modal-backdrop' onClick={onClose}>
-      <div className='modal-content' onClick={(e) => e.stopPropagation()}>
+      <div className='modal-content form' onClick={(e) => e.stopPropagation()}>
         <button className='modal-close' onClick={onClose}>
           ×
         </button>
-        <h2>Login</h2>
 
         {error && <div className='modal-error'>{error}</div>}
 
-        <form onSubmit={handleLogin} className='modal-form'>
-          <label>Email:</label>
-          <input
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder='email@exemplo.com'
-          />
+        <form onSubmit={handleLogin}>
+          <div className='flex-column'>
+            <label>Email</label>
+          </div>
+          <div className='inputForm'>
+            {/* ícone */}
+            <svg height='20' viewBox='0 0 32 32' width='20'>
+              <path d='...' />
+            </svg>
+            <input
+              type='email'
+              className='input'
+              placeholder='Enter your Email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-          <label>Password:</label>
-          <input
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder='••••••••'
-          />
+          <div className='flex-column'>
+            <label>Password</label>
+          </div>
+          <div className='inputForm'>
+            {/* ícone */}
+            <svg height='20' viewBox='-64 0 512 512' width='20'>
+              <path d='...' />
+            </svg>
+            <input
+              type='password'
+              className='input'
+              placeholder='Enter your Password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            {/* ícone olho */}
+            <svg viewBox='0 0 576 512' height='1em'>
+              <path d='...' />
+            </svg>
+          </div>
 
-          <button type='submit' className='modal-button' disabled={loading}>
-            {loading ? 'Entrando...' : 'Entrar'}
+          <div className='flex-row'>
+            <div>
+              <input type='checkbox' />
+              <label>Remember me</label>
+            </div>
+            <span className='span'>Forgot password?</span>
+          </div>
+
+          <button className='button-submit' type='submit' disabled={loading}>
+            {loading ? 'Entrando...' : 'Sign In'}
           </button>
+
+          <p className='p'>
+            Don't have an account?{' '}
+            <span
+              className='span'
+              onClick={onOpenRegister}
+              style={{ cursor: 'pointer' }}
+            >
+              Sign Up
+            </span>
+          </p>
         </form>
-
-        <p className='modal-footer'>
-          Não tem conta?{' '}
-          <button type='button' className='modal-link' onClick={onOpenRegister}>
-            Criar Conta
-          </button>
-        </p>
       </div>
     </div>
   );

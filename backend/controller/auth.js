@@ -73,6 +73,25 @@ exports.register = async (req, res) => {
   }
 };
 
+exports.updateProfile = async (req, res) => {
+  const { name, email } = req.body;
+  const userId = req.user.id; // Vem do middleware de autenticação
+
+  try {
+    const result = await pool.query(
+      'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING id, name, email, is_admin',
+      [name, email, userId]
+    );
+
+    res
+      .status(200)
+      .json({ message: 'Perfil atualizado com sucesso', user: result.rows[0] });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erro ao atualizar perfil', error });
+  }
+};
+
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
 
