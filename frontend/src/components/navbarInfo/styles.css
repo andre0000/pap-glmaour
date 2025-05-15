@@ -1,0 +1,16 @@
+.mini-navbar {
+  background-color: #000;
+  color: white;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 6px 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1050;
+}
+
+.mini-text {
+  margin: 0;
+  letter-spacing: 0.5px;
+}

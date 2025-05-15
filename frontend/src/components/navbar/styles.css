@@ -1,18 +1,70 @@
+@font-face {
+  font-family: vixa;
+  src: url(../../fonts/Vixa-Regular.otf);
+}
+
 .custom-navbar {
   background-color: transparent;
-  padding: 0.75rem 1.5rem;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: relative;
+  margin-top: 30px;
+  z-index: 1040;
+  color: white;
 }
 
 .custom-navbar:hover {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.589);
+  color: black;
+}
+
+.custom-navbar .nav-link,
+.custom-navbar .minimal-brand,
+.custom-navbar .btn-icon,
+.custom-navbar .search-btn {
+  color: white;
+  transition: color 0.3s ease;
 }
 
 .minimal-brand {
   font-weight: bold;
-  font-size: 1.5rem;
-  color: #000;
+  font-size: 2rem;
   text-decoration: none;
+  font-family: vixa;
+  align-items: center;
+}
+
+.custom-link {
+  font-size: 0.9rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  font-family: inherit; /* herda o mesmo da search */
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.custom-link:hover {
+  text-decoration: underline;
+}
+
+.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-left,
+.navbar-right {
+  gap: 1rem;
+  height: 100%;
 }
 
 .search-form {
@@ -21,44 +73,68 @@
 
 .minimal-search {
   border: none;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid white;
   border-radius: 0;
   background: transparent;
   padding: 4px 8px;
   font-size: 0.9rem;
+  color: white;
 }
 
+.minimal-search::placeholder {
+  color: white;
+}
+
+.minimal-search:focus {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  border-color: white;
+  color: white;
+}
+
+/* BOTÃO DA LUPA */
 .search-btn {
   background: none;
   border: none;
-  color: #333;
+  color: white;
   margin-left: 5px;
+}
+
+.search-btn:focus {
+  background: none;
+  outline: none;
+  box-shadow: none;
 }
 
 .btn-icon {
   background: none;
   border: none;
-  font-size: 1.2rem;
-  color: #333;
+  color: white;
   transition: color 0.2s;
 }
 
-.btn-icon:hover {
-  color: #000;
+.custom-navbar:hover .nav-link,
+.custom-navbar:hover .minimal-brand,
+.custom-navbar:hover .btn-icon,
+.custom-navbar:hover .search-btn {
+  color: black;
 }
 
-/* Evita fundo branco ao focar no input */
-.minimal-search:focus {
-  background: transparent;
-  outline: none;
-  box-shadow: none;
-  border-color: #666; /* ou a cor desejada para indicar foco */
+.custom-navbar:hover .minimal-search {
+  border-bottom: 1px solid black;
+  color: black;
 }
 
-/* Evita fundo branco ou comportamento inesperado no botão ao clicar */
-.search-btn:focus {
-  background: none;
-  outline: none;
-  box-shadow: none;
-  color: #000; /* mantém a cor consistente */
+.custom-navbar:hover .minimal-search::placeholder {
+  color: black;
+}
+
+.custom-navbar:hover .custom-link {
+  color: black;
+}
+
+.custom-navbar:hover .minimal-search:focus {
+  border-color: black;
+  color: black;
 }

@@ -1,94 +1,118 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { FaSearch, FaUser, FaShoppingBag } from 'react-icons/fa';
-import LoginModal from './modals/LoginModal'; // Importe o LoginModal
 import './styles.css';
 
-const Navbar = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState(null);
+const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // Verificar se o usuário está logado (exemplo usando sessionStorage)
-  const checkUserLoggedIn = () => {
-    const token = sessionStorage.getItem('token');
-    const loggedUser = sessionStorage.getItem('user');
-    if (token && loggedUser) {
-      setUser(JSON.parse(loggedUser));
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Erro ao fazer login');
+      }
+
+      sessionStorage.setItem('token', data.token);
+      sessionStorage.setItem('user', JSON.stringify(data.user));
+
+      if (onLoginSuccess) onLoginSuccess(data.user);
+      onClose();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-  };
-
-  // Chamar essa função no useEffect ou em algum lugar para verificar o login
-  React.useEffect(() => {
-    checkUserLoggedIn();
-  }, []);
-
-  const handleOpenModal = () => {
-    if (!user) {
-      setIsModalOpen(true); // Abre a modal se o usuário não estiver logado
-    }
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Fecha a modal
-  };
-
-  const handleLoginSuccess = (user) => {
-    setUser(user); // Salva o usuário logado
-  };
-
-  const handleOpenRegister = () => {
-    // Lógica para abrir a tela de registro
   };
 
   return (
-    <nav className='navbar navbar-expand-lg custom-navbar'>
-      <div className='container-fluid d-flex justify-content-between align-items-center'>
-        <a className='navbar-brand minimal-brand' href='#'>
-          Glamour
-        </a>
+    <div className='modal-backdrop' onClick={onClose}>
+      <div className='modal-content form' onClick={(e) => e.stopPropagation()}>
+        <button className='modal-close' onClick={onClose}>
+          ×
+        </button>
 
-        <div className='d-flex align-items-center gap-3'>
-          <form className='search-form d-flex align-items-center'>
+        {error && <div className='modal-error'>{error}</div>}
+
+        <form onSubmit={handleLogin}>
+          <div className='flex-column'>
+            <label>Email</label>
+          </div>
+          <div className='inputForm'>
+            {/* ícone */}
+            <svg height='20' viewBox='0 0 32 32' width='20'>
+              <path d='...' />
+            </svg>
             <input
-              className='form-control form-control-sm minimal-search'
-              type='search'
-              placeholder='Search'
-              aria-label='Search'
+              type='email'
+              className='input'
+              placeholder='Enter your Email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-            <button className='btn btn-sm search-btn' type='submit'>
-              <FaSearch />
-            </button>
-          </form>
+          </div>
 
-          <button
-            className='btn btn-icon'
-            title='Profile'
-            onClick={handleOpenModal} // Abre a modal quando clicar
-          >
-            {user ? (
-              <span>{user.name}</span> // Exibe o nome do usuário se estiver logado
-            ) : (
-              <FaUser />
-            )}
+          <div className='flex-column'>
+            <label>Password</label>
+          </div>
+          <div className='inputForm'>
+            {/* ícone */}
+            <svg height='20' viewBox='-64 0 512 512' width='20'>
+              <path d='...' />
+            </svg>
+            <input
+              type='password'
+              className='input'
+              placeholder='Enter your Password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            {/* ícone olho */}
+            <svg viewBox='0 0 576 512' height='1em'>
+              <path d='...' />
+            </svg>
+          </div>
+
+          <div className='flex-row'>
+            <div>
+              <input type='checkbox' />
+              <label>Remember me</label>
+            </div>
+            <span className='span'>Forgot password?</span>
+          </div>
+
+          <button className='button-submit' type='submit' disabled={loading}>
+            {loading ? 'Entrando...' : 'Sign In'}
           </button>
 
-          <button className='btn btn-icon' title='Bag'>
-            <FaShoppingBag />
-          </button>
-        </div>
+          <p className='p'>
+            Don't have an account?{' '}
+            <span
+              className='span'
+              onClick={onOpenRegister}
+              style={{ cursor: 'pointer' }}
+            >
+              Sign Up
+            </span>
+          </p>
+        </form>
       </div>
-
-      {/* Modal de login */}
-      {isModalOpen && (
-        <LoginModal
-          onClose={handleCloseModal}
-          onLoginSuccess={handleLoginSuccess}
-          onOpenRegister={handleOpenRegister}
-        />
-      )}
-    </nav>
+    </div>
   );
 };
 
-export default Navbar;
+export default LoginModal;
