@@ -121,6 +121,13 @@
   color: black;
 }
 
+.icon-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
 .custom-navbar:hover .minimal-search {
   border-bottom: 1px solid black;
   color: black;

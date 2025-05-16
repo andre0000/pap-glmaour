@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './styles.css';
 
-const RegisterModal = ({ onClose, onLoginSuccess }) => {
+const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -18,23 +18,20 @@ const RegisterModal = ({ onClose, onLoginSuccess }) => {
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Erro ao criar conta');
+        throw new Error(data.message || 'Error creating account');
       }
 
-      // Armazenar token e dados do user
       localStorage.setItem('token', data.token);
       sessionStorage.setItem('user', JSON.stringify(data.user));
 
-      setSuccess('Conta criada com sucesso!');
+      setSuccess('Account created with success!');
       if (onLoginSuccess) onLoginSuccess(data.user);
 
       setTimeout(() => {
@@ -48,48 +45,126 @@ const RegisterModal = ({ onClose, onLoginSuccess }) => {
   };
 
   return (
-    <div className='modal-backdrop' onClick={onClose}>
-      <div className='modal-content' onClick={(e) => e.stopPropagation()}>
+    <div className='register-modal-backdrop' onClick={onClose}>
+      <div
+        className='register-modal-content'
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className='modal-close' onClick={onClose}>
           ×
         </button>
-        <h2>Criar Conta</h2>
+
+        <h2 style={{ marginBottom: '20px' }}>Create Account</h2>
 
         {error && <div className='modal-error'>{error}</div>}
         {success && <div className='modal-success'>{success}</div>}
 
-        <form onSubmit={handleRegister} className='modal-form'>
-          <label>Nome:</label>
-          <input
-            type='text'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            placeholder='Seu nome'
-          />
+        <form className='form' onSubmit={handleRegister}>
+          <div className='flex-column'>
+            <label>Name</label>
+          </div>
+          <div className='inputForm'>
+            <svg
+              height='20'
+              viewBox='0 0 24 24'
+              width='20'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            >
+              <path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z'></path>
+              <path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'></path>
+            </svg>
+            <input
+              type='text'
+              className='input'
+              placeholder='Seu nome'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-          <label>Email:</label>
-          <input
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder='email@exemplo.com'
-          />
+          <div className='flex-column'>
+            <label>Email</label>
+          </div>
+          <div className='inputForm'>
+            <svg
+              height='20'
+              viewBox='0 0 32 32'
+              width='20'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            >
+              <path d='M4 8v16h24V8H4z'></path>
+              <polyline points='4 8 16 18 28 8'></polyline>
+            </svg>
+            <input
+              type='email'
+              className='input'
+              placeholder='email@exemplo.com'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-          <label>Senha:</label>
-          <input
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder='••••••••'
-          />
+          <div className='flex-column'>
+            <label>Password</label>
+          </div>
+          <div className='inputForm'>
+            <svg
+              height='20'
+              viewBox='-64 0 512 512'
+              width='20'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            >
+              <rect
+                x='128'
+                y='192'
+                width='256'
+                height='192'
+                rx='24'
+                ry='24'
+              ></rect>
+              <path d='M192 192v-64a64 64 0 0 1 128 0v64'></path>
+            </svg>
+            <input
+              type='password'
+              className='input'
+              placeholder='••••••••'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-          <button type='submit' className='modal-button' disabled={loading}>
-            {loading ? 'Criando...' : 'Criar Conta'}
+          <button className='button-submit' type='submit' disabled={loading}>
+            {loading ? 'Signing up...' : 'Sign up'}
           </button>
         </form>
+
+        <p className='p'>
+          Already Signed up?{' '}
+          <span
+            className='span'
+            onClick={() => {
+              if (onOpenLogin) onOpenLogin();
+            }}
+            style={{ cursor: 'pointer' }}
+          >
+            Sign in
+          </span>
+        </p>
       </div>
     </div>
   );

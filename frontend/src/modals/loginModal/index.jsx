@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './styles.css';
+import RegisterModal from '../registerModal';
 
 const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
   const [email, setEmail] = useState('');
@@ -39,19 +40,18 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
 
   return (
     <div className='modal-backdrop' onClick={onClose}>
-      <div className='modal-content form' onClick={(e) => e.stopPropagation()}>
+      <div className='login-modal-content' onClick={(e) => e.stopPropagation()}>
         <button className='modal-close' onClick={onClose}>
           ×
         </button>
 
         {error && <div className='modal-error'>{error}</div>}
-
-        <form onSubmit={handleLogin}>
+        <form className='form' onSubmit={handleLogin}>
+          <h2 style={{ marginBottom: '20px' }}>Login</h2>
           <div className='flex-column'>
             <label>Email</label>
           </div>
           <div className='inputForm'>
-            {/* ícone */}
             <svg height='20' viewBox='0 0 32 32' width='20'>
               <path d='...' />
             </svg>
@@ -69,7 +69,6 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
             <label>Password</label>
           </div>
           <div className='inputForm'>
-            {/* ícone */}
             <svg height='20' viewBox='-64 0 512 512' width='20'>
               <path d='...' />
             </svg>
@@ -81,7 +80,6 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            {/* ícone olho */}
             <svg viewBox='0 0 576 512' height='1em'>
               <path d='...' />
             </svg>
@@ -103,7 +101,9 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
             Don't have an account?{' '}
             <span
               className='span'
-              onClick={onOpenRegister}
+              onClick={() => {
+                if (onOpenRegister) onOpenRegister();
+              }}
               style={{ cursor: 'pointer' }}
             >
               Sign Up
