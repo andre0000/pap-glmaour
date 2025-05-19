@@ -52,9 +52,20 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
             <label>Email</label>
           </div>
           <div className='inputForm'>
-            <svg height='20' viewBox='0 0 32 32' width='20'>
-              <path d='...' />
+            <svg
+              height='20'
+              viewBox='0 0 32 32'
+              width='20'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            >
+              <path d='M4 8v16h24V8H4z'></path>
+              <polyline points='4 8 16 18 28 8'></polyline>
             </svg>
+
             <input
               type='email'
               className='input'
@@ -69,9 +80,20 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
             <label>Password</label>
           </div>
           <div className='inputForm'>
-            <svg height='20' viewBox='-64 0 512 512' width='20'>
-              <path d='...' />
+            <svg
+              height='20'
+              viewBox='0 0 24 24'
+              width='20'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+            >
+              <rect x='3' y='11' width='18' height='11' rx='2' ry='2'></rect>
+              <path d='M7 11V7a5 5 0 0 1 10 0v4'></path>
             </svg>
+
             <input
               type='password'
               className='input'
@@ -86,15 +108,16 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
           </div>
 
           <div className='flex-row'>
-            <div>
-              <input type='checkbox' />
-              <label>Remember me</label>
+            <div className='checkbox-group'>
+              <input type='checkbox' id='rememberMe' />
+              <label htmlFor='rememberMe'>Remember me</label>
             </div>
+
             <span className='span'>Forgot password?</span>
           </div>
 
           <button className='button-submit' type='submit' disabled={loading}>
-            {loading ? 'Entrando...' : 'Sign In'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
 
           <p className='p'>

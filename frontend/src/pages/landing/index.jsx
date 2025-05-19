@@ -1,7 +1,9 @@
 import React from 'react';
 import './styles.css';
+import { useTranslation } from 'react-i18next';
 
 const LandingPage = () => {
+  const { t } = useTranslation();
   return (
     <div className='split-screen'>
       <div className='split left'>
@@ -10,7 +12,7 @@ const LandingPage = () => {
           alt='Clothing'
           className='bg-img'
         />
-        <div className='overlay-text'>MEN</div>
+        <div className='overlay-text'>{t('gender.men')}</div>
       </div>
       <div className='split right'>
         <img
@@ -18,7 +20,7 @@ const LandingPage = () => {
           alt='Boutique'
           className='bg-img'
         />
-        <div className='overlay-text'>WOMEN</div>
+        <div className='overlay-text'>{t('gender.women')}</div>
       </div>
     </div>
   );

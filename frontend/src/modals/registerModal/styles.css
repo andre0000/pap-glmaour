@@ -40,6 +40,19 @@
   font-weight: bold;
   transition: color 0.2s ease-in-out;
 }
+
+/* Estilo para link tipo texto */
+.register-modal-content .span {
+  color: #2d79f3;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.2s ease-in-out;
+}
+
+.register-modal-content .span:hover {
+  color: #1a5fd1;
+}
+
 .register-modal-content .modal-close:hover {
   color: #2d79f3;
 }

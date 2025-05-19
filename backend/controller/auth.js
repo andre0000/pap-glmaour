@@ -74,13 +74,13 @@ exports.register = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-  const { name, email } = req.body;
-  const userId = req.user.id; // Vem do middleware de autenticação
+  const { name, email, pfp } = req.body;
+  const userId = req.user.id;
 
   try {
     const result = await pool.query(
-      'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING id, name, email, is_admin',
-      [name, email, userId]
+      'UPDATE users SET name = $1, email = $2, pfp = $3 WHERE id = $4 RETURNING id, name, email, is_admin',
+      [name, email, pfp, userId]
     );
 
     res

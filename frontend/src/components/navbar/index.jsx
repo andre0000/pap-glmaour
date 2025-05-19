@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { FaSearch, FaShoppingBag, FaBars } from 'react-icons/fa';
@@ -7,11 +8,15 @@ import LoginModal from '../../modals/loginModal';
 import RegisterModal from '../../modals/registerModal'; // importe o registerModal
 import profileWhiteIcon from '../../assets/wProfile.svg';
 import profileBlackIcon from '../../assets/profile.svg';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLoginSuccess = (user) => {
     console.log('Login bem-sucedido:', user);
@@ -55,9 +60,9 @@ const Navbar = () => {
           </div>
 
           <div className='navbar-center'>
-            <a className='navbar-brand minimal-brand' href='/'>
+            <Link className='navbar-brand minimal-brand' to='/'>
               Glamour
-            </a>
+            </Link>
           </div>
 
           <div className='navbar-right d-flex align-items-center gap-3'>
@@ -65,8 +70,8 @@ const Navbar = () => {
               <input
                 className='form-control form-control-sm minimal-search'
                 type='search'
-                placeholder='Search'
-                aria-label='Search'
+                placeholder={t('input.search')}
+                aria-label={t('input.search')}
               />
               <button className='btn btn-sm search-btn' type='submit'>
                 <FaSearch />
@@ -77,8 +82,14 @@ const Navbar = () => {
               className='btn btn-icon'
               title='Profile'
               onClick={() => {
-                setIsRegisterOpen(false); // Fecha a modal de registro, se estiver aberta
-                setIsLoginOpen(true); // Abre a modal de login
+                const user = sessionStorage.getItem('user');
+
+                if (user) {
+                  navigate('/profile');
+                } else {
+                  setIsRegisterOpen(false);
+                  setIsLoginOpen(true);
+                }
               }}
             >
               <img

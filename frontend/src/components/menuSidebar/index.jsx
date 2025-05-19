@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import './styles.css';
-
-const menClothes = ['Tops', 'Bottoms', 'Accessories', 'Outerwear', 'Footwear'];
-
-const womenClothes = [
-  'Tops',
-  'Bottoms',
-  'Accessories',
-  'Outerwear',
-  'Footwear',
-];
+import { useTranslation } from 'react-i18next';
 
 const MenuSidebar = () => {
   const [activeGender, setActiveGender] = useState('Men');
+  const { t } = useTranslation();
+
+  const menClothes = [
+    t('clothes.tops'),
+    t('clothes.bottoms'),
+    t('clothes.accessories'),
+    t('clothes.outerwear'),
+    t('clothes.footwear'),
+  ];
+
+  const womenClothes = [
+    t('clothes.tops'),
+    t('clothes.bottoms'),
+    t('clothes.accessories'),
+    t('clothes.outerwear'),
+    t('clothes.footwear'),
+  ];
 
   const handleGenderClick = (gender) => {
     setActiveGender(gender);
@@ -28,7 +36,6 @@ const MenuSidebar = () => {
       aria-labelledby='offcanvasMenuLabel'
     >
       <div className='offcanvas-header d-flex justify-content-between align-items-center'>
-
         <button
           type='button'
           className='btn-close'
@@ -43,13 +50,13 @@ const MenuSidebar = () => {
           className={`gender-tab ${activeGender === 'Men' ? 'active' : ''}`}
           onClick={() => handleGenderClick('Men')}
         >
-          Men
+          {t('gender.men')}
         </button>
         <button
           className={`gender-tab ${activeGender === 'Women' ? 'active' : ''}`}
           onClick={() => handleGenderClick('Women')}
         >
-          Women
+          {t('gender.women')}
         </button>
       </div>
 
