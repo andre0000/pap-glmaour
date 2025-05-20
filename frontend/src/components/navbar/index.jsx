@@ -5,7 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { FaSearch, FaShoppingBag, FaBars } from 'react-icons/fa';
 import './styles.css';
 import LoginModal from '../../modals/loginModal';
-import RegisterModal from '../../modals/registerModal'; // importe o registerModal
+import RegisterModal from '../../modals/registerModal';
 import profileWhiteIcon from '../../assets/wProfile.svg';
 import profileBlackIcon from '../../assets/profile.svg';
 import { Link } from 'react-router-dom';
@@ -26,13 +26,11 @@ const Navbar = () => {
     console.log('Registro bem-sucedido:', user);
   };
 
-  // Abrir registro e fechar login
   const openRegisterFromLogin = () => {
     setIsLoginOpen(false);
     setIsRegisterOpen(true);
   };
 
-  // Abrir login e fechar registro (caso queira permitir essa troca)
   const openLoginFromRegister = () => {
     setIsRegisterOpen(false);
     setIsLoginOpen(true);
@@ -110,7 +108,7 @@ const Navbar = () => {
         <LoginModal
           onClose={() => setIsLoginOpen(false)}
           onLoginSuccess={handleLoginSuccess}
-          onOpenRegister={openRegisterFromLogin} // Passa para abrir o registro da modal login
+          onOpenRegister={openRegisterFromLogin}
         />
       )}
 
@@ -118,7 +116,7 @@ const Navbar = () => {
         <RegisterModal
           onClose={() => setIsRegisterOpen(false)}
           onLoginSuccess={handleRegisterSuccess}
-          onOpenLogin={openLoginFromRegister} // Caso queira trocar do registro para o login
+          onOpenLogin={openLoginFromRegister}
         />
       )}
     </>

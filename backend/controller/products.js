@@ -1,12 +1,12 @@
 const pool = require('../config/db');
 
 exports.addProduct = async (req, res) => {
-  const { name, description, price, stock, supplier_id } = req.body;
+  const { name, description, price, stock, supplier_id, image } = req.body;
 
   try {
     const result = await pool.query(
-      'INSERT INTO products (name, description, price, stock, supplier_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, description, price, stock, supplier_id]
+      'INSERT INTO products (name, description, price, stock, supplier_id, image) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [name, description, price, stock, supplier_id, image]
     );
 
     const newProduct = result.rows[0];
@@ -42,5 +42,20 @@ exports.editProduct = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro ao editar produto', error });
+  }
+};
+
+exports.getProduct = async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM products WHERE is_deleted = false ORDER BY name DESC'
+    );
+
+    const products = result.rows;
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Erro ao buscar produtos:', error);
+    res.status(500).json({ message: 'Erro ao buscar produtos', error });
   }
 };

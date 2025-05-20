@@ -117,7 +117,7 @@ const ProfilePage = () => {
       </div>
 
       <div className='profile-wrapper'>
-        <h2 className='title'>{t('profile.title')}</h2>
+        <h2 className='title'>{t('title.profile')}</h2>
 
         <div className='profile-pfp'>
           <img

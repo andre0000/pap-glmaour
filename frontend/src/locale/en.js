@@ -1,6 +1,8 @@
 const enTranslation = {
-  profile: {
-    title: 'Profile',
+  title: {
+    profile: 'Profile',
+    catalog: 'Catalog',
+    addProduct: 'Add Product',
   },
 
   fields: {
@@ -14,6 +16,7 @@ const enTranslation = {
     edit: 'Edit',
     logout: 'Logout',
     pfp: 'Change Profile Photo',
+    buy: 'Buy Now',
   },
 
   gender: {

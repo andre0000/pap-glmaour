@@ -31,6 +31,7 @@ app.use('/api', productRoutes);
 app.use('/api/sale_items', saleItemsRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/suppliers', suppliersRoutes);
+app.use('/api/products', productRoutes);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

@@ -7,6 +7,7 @@ import NavbarInfo from './components/navbarInfo';
 import MenuSidebar from './components/menuSidebar';
 import LoginModal from './modals/loginModal';
 import RegisterModal from './modals/registerModal';
+import CatalogPage from './pages/catalog';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/catalog' element={<CatalogPage />} />
       </Routes>
 
       {isLoginOpen && (

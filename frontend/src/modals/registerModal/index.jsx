@@ -28,8 +28,10 @@ const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
         throw new Error(data.message || 'Error creating account');
       }
 
-      localStorage.setItem('token', data.token);
-      sessionStorage.setItem('user', JSON.stringify(data.user));
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('user', JSON.stringify(data.user));
+      }
 
       setSuccess('Account created with success!');
       if (onLoginSuccess) onLoginSuccess(data.user);
@@ -120,7 +122,7 @@ const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
           <div className='inputForm'>
             <svg
               height='20'
-              viewBox='-64 0 512 512'
+              viewBox='0 0 24 24'
               width='20'
               fill='none'
               stroke='currentColor'
@@ -128,15 +130,8 @@ const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
               strokeLinecap='round'
               strokeLinejoin='round'
             >
-              <rect
-                x='128'
-                y='192'
-                width='256'
-                height='192'
-                rx='24'
-                ry='24'
-              ></rect>
-              <path d='M192 192v-64a64 64 0 0 1 128 0v64'></path>
+              <rect x='3' y='11' width='18' height='11' rx='2' ry='2'></rect>
+              <path d='M7 11V7a5 5 0 0 1 10 0v4'></path>
             </svg>
             <input
               type='password'
