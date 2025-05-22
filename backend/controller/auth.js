@@ -26,7 +26,6 @@ exports.login = async (req, res) => {
     const token = jwt.sign(
       { id: user.id, email: user.email, is_admin: user.is_admin },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
     res.status(200).json({
@@ -52,6 +51,7 @@ exports.register = async (req, res) => {
       'SELECT * FROM users WHERE email = $1',
       [email]
     );
+
     if (existingUser.rows.length > 0) {
       return res.status(400).json({ message: 'Email já registrado' });
     }
@@ -64,9 +64,18 @@ exports.register = async (req, res) => {
     );
 
     const newUser = result.rows[0];
-    res
-      .status(201)
-      .json({ message: 'Usuário registrado com sucesso', user: newUser });
+
+    const token = jwt.sign(
+      { id: newUser.id, email: newUser.email, is_admin: newUser.is_admin },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.status(201).json({
+      message: 'Usuário registrado com sucesso',
+      user: newUser,
+      token,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro ao registrar usuário', error });

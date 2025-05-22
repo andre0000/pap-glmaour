@@ -1,6 +1,5 @@
 const pool = require('../config/db');
 
-// ➕ Criar fornecedor
 exports.addSupplier = async (req, res) => {
   const { name, email, phone, address } = req.body;
 
@@ -26,7 +25,6 @@ exports.addSupplier = async (req, res) => {
   }
 };
 
-// 🔁 Atualizar fornecedor
 exports.updateSupplier = async (req, res) => {
   const { id } = req.params;
   const { name, email, phone, address } = req.body;
@@ -54,7 +52,6 @@ exports.updateSupplier = async (req, res) => {
   }
 };
 
-// ❌ Remover fornecedor (soft delete)
 exports.deleteSupplier = async (req, res) => {
   const { id } = req.params;
 
@@ -75,7 +72,6 @@ exports.deleteSupplier = async (req, res) => {
   }
 };
 
-// 📥 Obter todos os fornecedores (não removidos)
 exports.getAllSuppliers = async (req, res) => {
   try {
     const result = await pool.query(
