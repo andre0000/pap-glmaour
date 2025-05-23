@@ -2,8 +2,13 @@ import { useEffect, useState } from 'react';
 import './styles.css';
 import { useTranslation } from 'react-i18next';
 import AddButton from '../../components/addProductButton';
+import AddProductModal from '../../modals/addProduct';
 
 const CatalogPage = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpen = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState(null);
   const { t } = useTranslation();
@@ -60,7 +65,7 @@ const CatalogPage = () => {
 
         {user?.is_admin && (
           <div className='add-button-wrapper'>
-            <AddButton />
+            <AddButton onClick={handleOpen} /> {/* Ensure onClick is passed */}
           </div>
         )}
 
@@ -82,6 +87,7 @@ const CatalogPage = () => {
           ))}
         </div>
       </div>
+      <AddProductModal show={showModal} handleClose={handleClose} />
     </>
   );
 };

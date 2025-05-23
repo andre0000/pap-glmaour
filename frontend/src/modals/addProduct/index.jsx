@@ -17,27 +17,27 @@ const AddProductModal = ({ show, handleClose }) => {
   const [suppliers, setSuppliers] = useState([]);
 
   useEffect(() => {
-  const fetchSuppliers = async () => {
-    try {
-      const token = sessionStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/suppliers', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setSuppliers(data);
-      } else {
-        console.error('Erro ao buscar fornecedores:', data.message);
+    const fetchSuppliers = async () => {
+      try {
+        const token = sessionStorage.getItem('token');
+        const response = await fetch('http://localhost:5000/api/suppliers', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setSuppliers(data);
+        } else {
+          console.error('Erro ao buscar fornecedores:', data.message);
+        }
+      } catch (err) {
+        console.error('Erro de conexão ao buscar fornecedores:', err);
       }
-    } catch (err) {
-      console.error('Erro de conexão ao buscar fornecedores:', err);
-    }
-  };
+    };
 
-  fetchSuppliers();
-}, []);
+    fetchSuppliers();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,8 +72,13 @@ const AddProductModal = ({ show, handleClose }) => {
 
   return (
     <div className='add-product-modal-backdrop' onClick={handleClose}>
-      <div className='add-product-modal-content' onClick={(e) => e.stopPropagation()}>
-        <button className='add-product-modal-close' onClick={handleClose}>×</button>
+      <div
+        className='add-product-modal-content'
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className='add-product-modal-close' onClick={handleClose}>
+          ×
+        </button>
         <form className='add-product-form' onSubmit={handleSubmit}>
           <h2 className='add-product-title'>Adicionar Produto</h2>
 
@@ -137,25 +142,24 @@ const AddProductModal = ({ show, handleClose }) => {
           </div>
 
           <div className='flex-column'>
-  <label>Fornecedor</label>
-  <div className='inputForm'>
-    <select
-      name='supplier_id'
-      className='input'
-      value={form.supplier_id}
-      onChange={handleChange}
-      required
-    >
-      <option value=''>Selecione um fornecedor</option>
-      {suppliers.map((supplier) => (
-        <option key={supplier.id} value={supplier.id}>
-          {supplier.name}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
-
+            <label>Fornecedor</label>
+            <div className='inputForm'>
+              <select
+                name='supplier_id'
+                className='input'
+                value={form.supplier_id}
+                onChange={handleChange}
+                required
+              >
+                <option value=''>Selecione um fornecedor</option>
+                {suppliers.map((supplier) => (
+                  <option key={supplier.id} value={supplier.id}>
+                    {supplier.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
           <div className='flex-column'>
             <label>URL da Imagem</label>

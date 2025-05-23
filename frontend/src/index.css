@@ -3,7 +3,7 @@
   height: 100vh;
   margin: 0;
   text-align: center;
-  overflow: hidden; /* Impede o scroll */
+  overflow: hidden;
 }
 
 body {

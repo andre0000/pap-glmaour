@@ -46,11 +46,6 @@ const ProfilePage = () => {
     fetchUser();
   }, [navigate]);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('user');
-    navigate('/');
-  };
-
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = async () => {
@@ -177,13 +172,10 @@ const ProfilePage = () => {
               {t('buttons.save')}
             </button>
           ) : (
-            <button className='btn edit' onClick={handleEdit}>
-              {t('buttons.edit')}
+            <button className='btn edit-icon' onClick={handleEdit}>
+              🖉
             </button>
           )}
-          <button className='btn logout' onClick={handleLogout}>
-            {t('buttons.logout')}
-          </button>
         </div>
       </div>
     </>

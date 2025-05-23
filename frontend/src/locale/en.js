@@ -19,6 +19,12 @@ const enTranslation = {
     buy: 'Buy Now',
   },
 
+  dropdown: {
+    profile: 'Profile',
+    adminsettings: 'Admin Settings',
+    logout: 'Logout',
+  },
+
   gender: {
     men: 'Men',
     women: 'Women',

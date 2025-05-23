@@ -28,6 +28,12 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
       sessionStorage.setItem('token', data.token);
       sessionStorage.setItem('user', JSON.stringify(data.user));
 
+      if (data.user.pfp) {
+        sessionStorage.setItem('pfp', data.user.pfp);
+      } else {
+        sessionStorage.removeItem('pfp');
+      }
+
       if (onLoginSuccess) onLoginSuccess(data.user);
       onClose();
     } catch (err) {

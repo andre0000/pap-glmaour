@@ -31,6 +31,12 @@ const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
       if (typeof window !== 'undefined') {
         sessionStorage.setItem('token', data.token);
         sessionStorage.setItem('user', JSON.stringify(data.user));
+
+        if (data.user.pfp) {
+          sessionStorage.setItem('pfp', data.user.pfp);
+        } else {
+          sessionStorage.removeItem('pfp');
+        }
       }
 
       setSuccess('Account created with success!');

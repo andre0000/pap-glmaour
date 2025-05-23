@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { FaSearch, FaShoppingBag, FaBars } from 'react-icons/fa';
@@ -8,32 +8,61 @@ import LoginModal from '../../modals/loginModal';
 import RegisterModal from '../../modals/registerModal';
 import profileWhiteIcon from '../../assets/wProfile.svg';
 import profileBlackIcon from '../../assets/profile.svg';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [pfp, setPfp] = useState(null);
+  const [isLogged, setIsLogged] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    const userString = sessionStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      setIsLogged(true);
+
+      if (user.pfp && user.pfp.trim() !== '') {
+        setPfp(user.pfp);
+      } else {
+        setPfp(null);
+      }
+    } else {
+      setIsLogged(false);
+      setPfp(null);
+    }
+  }, []);
 
   const handleLoginSuccess = (user) => {
     console.log('Login bem-sucedido:', user);
+    setIsLogged(true);
+    if (user.pfp && user.pfp.trim() !== '') {
+      setPfp(user.pfp);
+    } else {
+      setPfp(null);
+    }
   };
 
   const handleRegisterSuccess = (user) => {
     console.log('Registro bem-sucedido:', user);
+    setIsLogged(true);
+    if (user.pfp && user.pfp.trim() !== '') {
+      setPfp(user.pfp);
+    } else {
+      setPfp(null);
+    }
   };
 
-  const openRegisterFromLogin = () => {
-    setIsLoginOpen(false);
-    setIsRegisterOpen(true);
-  };
-
-  const openLoginFromRegister = () => {
-    setIsRegisterOpen(false);
-    setIsLoginOpen(true);
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    setIsLogged(false);
+    setPfp(null);
+    setShowDropdown(false);
+    navigate('/');
   };
 
   return (
@@ -76,26 +105,57 @@ const Navbar = () => {
               </button>
             </form>
 
-            <button
-              className='btn btn-icon'
-              title='Profile'
-              onClick={() => {
-                const user = sessionStorage.getItem('user');
+            <div className='dropdown position-relative'>
+              <button
+                className='btn btn-icon'
+                title='Profile'
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                {isLogged && pfp ? (
+                  <img src={pfp} alt='Profile' className='pfp-img' />
+                ) : (
+                  <img
+                    src={isHovered ? profileBlackIcon : profileWhiteIcon}
+                    alt='Profile'
+                    className='icon-img'
+                  />
+                )}
+              </button>
 
-                if (user) {
-                  navigate('/profile');
-                } else {
-                  setIsRegisterOpen(false);
-                  setIsLoginOpen(true);
-                }
-              }}
-            >
-              <img
-                src={isHovered ? profileBlackIcon : profileWhiteIcon}
-                alt='Profile'
-                className='icon-img'
-              />
-            </button>
+              {showDropdown && (
+                <div
+                  className='dropdown-menu show position-absolute end-0 mt-2'
+                  style={{ minWidth: '160px' }}
+                >
+                  <button
+                    className='dropdown-item'
+                    onClick={() => {
+                      navigate('/profile');
+                      setShowDropdown(false);
+                    }}
+                  >
+                    {t('dropdown.profile')}
+                  </button>
+                  {JSON.parse(sessionStorage.getItem('user'))?.is_admin && (
+                    <button
+                      className='dropdown-item'
+                      onClick={() => {
+                        navigate('/admin/settings');
+                        setShowDropdown(false);
+                      }}
+                    >
+                      {t('dropdown.adminsettings')}
+                    </button>
+                  )}
+                  <button
+                    className='dropdown-item text-danger'
+                    onClick={handleLogout}
+                  >
+                    {t('dropdown.logout')}
+                  </button>
+                </div>
+              )}
+            </div>
 
             <button className='btn btn-icon' title='Bag'>
               <FaShoppingBag />
@@ -108,7 +168,10 @@ const Navbar = () => {
         <LoginModal
           onClose={() => setIsLoginOpen(false)}
           onLoginSuccess={handleLoginSuccess}
-          onOpenRegister={openRegisterFromLogin}
+          onOpenRegister={() => {
+            setIsLoginOpen(false);
+            setIsRegisterOpen(true);
+          }}
         />
       )}
 
@@ -116,7 +179,10 @@ const Navbar = () => {
         <RegisterModal
           onClose={() => setIsRegisterOpen(false)}
           onLoginSuccess={handleRegisterSuccess}
-          onOpenLogin={openLoginFromRegister}
+          onOpenLogin={() => {
+            setIsRegisterOpen(false);
+            setIsLoginOpen(true);
+          }}
         />
       )}
     </>

@@ -6,8 +6,8 @@
 .custom-navbar {
   background-color: transparent;
   transition: background-color 0.3s ease, color 0.3s ease;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
   position: relative;
   margin-top: 30px;
   z-index: 1040;
@@ -143,5 +143,60 @@
 
 .custom-navbar:hover .minimal-search:focus {
   border-color: black;
+  color: black;
+}
+
+.navbar .pfp-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  transition: transform 0.2s ease;
+}
+
+.custom-navbar:hover .pfp-img {
+  border-color: black;
+}
+
+.profile-dropdown-container {
+  position: relative;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  z-index: 1050;
+  min-width: 160px;
+  margin-top: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.profile-dropdown .dropdown-item {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 8px 16px;
+  width: 100%;
+  font-size: 0.9rem;
+  color: black;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.profile-dropdown .dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.profile-dropdown .logout {
+  color: red;
+}
+
+.custom-navbar:hover .profile-dropdown {
   color: black;
 }
