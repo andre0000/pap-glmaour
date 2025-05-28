@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/landing';
-import ProfilePage from './pages/profile';
-import NavBar from './components/navbar';
-import NavbarInfo from './components/navbarInfo';
-import MenuSidebar from './components/menuSidebar';
-import LoginModal from './modals/loginModal';
-import RegisterModal from './modals/registerModal';
-import CatalogPage from './pages/catalog';
+import React, { useContext } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/landing";
+import ProfilePage from "./pages/profile";
+import NavBar from "./components/navbar";
+import NavbarInfo from "./components/navbarInfo";
+import MenuSidebar from "./components/menuSidebar";
+import LoginModal from "./modals/loginModal";
+import RegisterModal from "./modals/registerModal";
+import CatalogPage from "./pages/catalog";
+import { UserProvider, UserContext } from "../userContext";
 
-function App() {
-  const [user, setUser] = useState(null);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-
-  const handleLoginSuccess = (userData) => {
-    setUser(userData);
-    setIsLoginOpen(false);
-    setIsRegisterOpen(false);
-  };
+function AppContent() {
+  const {
+    user,
+    isLoginOpen,
+    setIsLoginOpen,
+    isRegisterOpen,
+    setIsRegisterOpen,
+    handleLoginSuccess,
+  } = useContext(UserContext);
 
   return (
-    <Router>
+    <>
       <NavbarInfo
         user={user}
         onOpenLogin={() => setIsLoginOpen(true)}
@@ -31,9 +31,9 @@ function App() {
       <MenuSidebar />
 
       <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/catalog' element={<CatalogPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/catalog" element={<CatalogPage />} />
       </Routes>
 
       {isLoginOpen && (
@@ -57,7 +57,17 @@ function App() {
           }}
         />
       )}
-    </Router>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <UserProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </UserProvider>
   );
 }
 
