@@ -200,3 +200,23 @@
 .custom-navbar:hover .profile-dropdown {
   color: black;
 }
+
+.catalog-navbar {
+  background-color: transparent;
+  color: black !important;
+}
+
+.catalog-navbar .nav-link,
+.catalog-navbar .minimal-brand,
+.catalog-navbar .btn-icon,
+.catalog-navbar .search-btn,
+.catalog-navbar .custom-link,
+.catalog-navbar .minimal-search,
+.catalog-navbar .minimal-search::placeholder {
+  color: black !important;
+  border-color: black !important;
+}
+
+.catalog-navbar .navbar .pfp-img {
+  border-color: black !important;
+}

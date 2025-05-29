@@ -26,8 +26,8 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
-
   const isLogged = !!user;
+  const isCatalogPage = location.pathname === "/catalog";
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
@@ -39,7 +39,9 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className="navbar navbar-expand-lg custom-navbar"
+        className={`navbar navbar-expand-lg custom-navbar ${
+          isCatalogPage ? "catalog-navbar" : ""
+        }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -92,7 +94,11 @@ const Navbar = () => {
                   <img src={user.pfp} alt="Profile" className="pfp-img" />
                 ) : (
                   <img
-                    src={isHovered ? profileBlackIcon : profileWhiteIcon}
+                    src={
+                      isCatalogPage || isHovered
+                        ? profileBlackIcon
+                        : profileWhiteIcon
+                    }
                     alt="Profile"
                     className="icon-img"
                   />

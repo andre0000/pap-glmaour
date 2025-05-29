@@ -16,7 +16,7 @@
 }
 
 .profile-background::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -65,7 +65,7 @@
 .profile-wrapper label,
 .profile-wrapper p,
 .profile-wrapper h2 {
-  font-family: 'Vixa', sans-serif;
+  font-family: "Vixa", sans-serif;
 }
 
 .profile-buttons .btn {
@@ -99,14 +99,15 @@
   transform: scale(1.1);
 }
 
-.title {
-  font-family: 'Vixa', sans-serif;
+.profile-title {
+  font-family: "Vixa", sans-serif;
   font-size: 2.5rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 30px;
   text-align: center;
+  color: #fff;
 }
 
 .profile-group {
@@ -125,7 +126,7 @@
 .profile-group p {
   font-size: 1.1rem;
   color: #fff;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .profile-group input {
@@ -136,7 +137,7 @@
   color: #fff;
   border: 1px solid #444;
   border-radius: 6px;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .profile-buttons {
@@ -156,7 +157,7 @@
   letter-spacing: 1px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-family: 'Vixa', sans-serif;
+  font-family: "Vixa", sans-serif;
 }
 
 .btn.edit {
@@ -223,7 +224,7 @@
   gap: 10px;
 }
 
-input[type='file'] {
+input[type="file"] {
   color: white;
   background-color: rgba(34, 34, 34, 0.8);
   border: 1px solid #444;
@@ -238,7 +239,7 @@ input[type='file'] {
   border-radius: 6px;
   padding: 10px 12px;
   font-size: 1.1rem;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   vertical-align: middle;
   height: 42px;
   box-sizing: border-box;
@@ -279,7 +280,7 @@ input[type='file'] {
   flex: 1;
   font-size: 1.1rem;
   color: #fff;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .profile-group-row input {

@@ -3,6 +3,7 @@ import NewArrivals from "../../components/newArrivals";
 import AddButton from "../../components/addProductButton";
 import AddProductModal from "../../modals/addProduct";
 import { useState } from "react";
+import "./styles.css";
 
 const CatalogPage = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -11,13 +12,17 @@ const CatalogPage = () => {
     <CatalogBase>
       {({ products, user }) => (
         <>
-          {user?.is_admin && (
-            <div className="add-button-wrapper">
-              <AddButton onClick={() => setShowAddModal(true)} />
-            </div>
-          )}
+          <div className="hero-section">
+            {user?.is_admin && (
+              <div className="add-button-wrapper">
+                <AddButton onClick={() => setShowAddModal(true)} />
+              </div>
+            )}
+          </div>
 
-          <NewArrivals products={products} />
+          <div className="new-arrivals-wrapper">
+            <NewArrivals products={products} />
+          </div>
 
           <AddProductModal
             show={showAddModal}
