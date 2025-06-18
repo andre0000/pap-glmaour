@@ -134,6 +134,7 @@ exports.forgotPassword = async (req, res) => {
       [resetToken, user.id]
     );
 
+    console.log("Enviando email para", user.email);
     await transporter.sendMail({
       from: process.env.EMAIL_SENDER,
       to: user.email,

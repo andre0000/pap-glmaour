@@ -3,10 +3,10 @@ const enTranslation = {
     profile: "Profile",
     catalog: "Catalog",
     addProduct: "Add Product",
-    newarrivals: "New Arrivals",
+    cart: "Cart",
   },
-
-  fields: {
+  label: {
+    name: "Name",
     name: "Name",
     email: "Email",
     password: "Password",
@@ -47,8 +47,16 @@ const enTranslation = {
     search: "Search",
   },
 
+  cart: {
+    empty: "Your cart is empty",
+    total: "Total",
+    checkout: "Checkout",
+  },
+
   button: {
-    addProduct: "Product",
+    addProduct: "Add Product",
+    imageUrl: "Image URL",
+    imageUpload: "Image Upload",
   },
 };
 

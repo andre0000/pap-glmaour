@@ -1,0 +1,78 @@
+/* cartSidebar.css */
+.cart-toggle-btn {
+  position: relative;
+  z-index: 1010;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-sidebar.open {
+  right: 0;
+}
+
+.cart-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.close-btn {
+  border: none;
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.cart-content {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.cart-footer {
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.checkout-btn {
+  width: 100%;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.cart-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1040;
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./styles.css";
+import { useTranslation } from "react-i18next";
 
 const AddProductModal = ({ show, handleClose }) => {
   const [form, setForm] = useState({
@@ -7,6 +8,7 @@ const AddProductModal = ({ show, handleClose }) => {
     description: "",
     price: "",
     stock: "",
+    gender: "",
     supplier_id: "",
     image: "",
   });
@@ -14,6 +16,7 @@ const AddProductModal = ({ show, handleClose }) => {
   const [suppliers, setSuppliers] = useState([]);
   const [imageMode, setImageMode] = useState("url");
   const [imageFile, setImageFile] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -52,12 +55,12 @@ const AddProductModal = ({ show, handleClose }) => {
       let headers;
 
       if (imageMode === "upload" && imageFile) {
-        // FormData para upload de imagem
         requestBody = new FormData();
         requestBody.append("name", form.name);
         requestBody.append("description", form.description);
         requestBody.append("price", form.price);
         requestBody.append("stock", form.stock);
+        requestBody.append("gender", form.gender);
         requestBody.append("supplier_id", form.supplier_id);
         requestBody.append("image", imageFile);
 
@@ -108,13 +111,13 @@ const AddProductModal = ({ show, handleClose }) => {
           <h2 className="add-product-title">Adicionar Produto</h2>
 
           <div className="flex-column">
-            <label>Nome</label>
+            <label>{t("label.name")}</label>
             <div className="inputForm">
               <input
                 type="text"
                 name="name"
                 className="input"
-                placeholder="Nome do Produto"
+                placeholder={t("placeholder.name")}
                 value={form.name}
                 onChange={handleChange}
                 required
@@ -123,13 +126,13 @@ const AddProductModal = ({ show, handleClose }) => {
           </div>
 
           <div className="flex-column">
-            <label>Descrição</label>
+            <label>{t("label.description")}</label>
             <div className="inputForm">
               <input
                 type="text"
                 name="description"
                 className="input"
-                placeholder="Descrição do Produto"
+                placeholder={t("placeholder.description")}
                 value={form.description}
                 onChange={handleChange}
               />
@@ -137,14 +140,14 @@ const AddProductModal = ({ show, handleClose }) => {
           </div>
 
           <div className="flex-column">
-            <label>Preço</label>
+            <label>{t("label.price")}</label>
             <div className="inputForm">
               <input
                 type="number"
                 step="0.01"
                 name="price"
                 className="input"
-                placeholder="Preço"
+                placeholder={t("placeholder.price")}
                 value={form.price}
                 onChange={handleChange}
                 required
@@ -153,13 +156,30 @@ const AddProductModal = ({ show, handleClose }) => {
           </div>
 
           <div className="flex-column">
-            <label>Stock</label>
+            <label>{t("label.gender")}</label>
+            <div className="inputForm">
+              <select
+                name="gender"
+                className="input"
+                value={form.gender}
+                onChange={handleChange}
+                required
+              >
+                <option value="">{t("option.gender")}</option>
+                <option value="male">{t("option.male")}</option>
+                <option value="female">{t("option.female")}</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex-column">
+            <label>{t("label.stock")}</label>
             <div className="inputForm">
               <input
                 type="number"
                 name="stock"
                 className="input"
-                placeholder="Stock"
+                placeholder={t("placeholder.stock")}
                 value={form.stock}
                 onChange={handleChange}
               />
@@ -176,7 +196,7 @@ const AddProductModal = ({ show, handleClose }) => {
                 onChange={handleChange}
                 required
               >
-                <option value="">Selecione um fornecedor</option>
+                <option value="">{t("option.supplier")}</option>
                 {suppliers.map((supplier) => (
                   <option key={supplier.id} value={supplier.id}>
                     {supplier.name}
@@ -187,21 +207,21 @@ const AddProductModal = ({ show, handleClose }) => {
           </div>
 
           <div className="flex-column">
-            <label>Imagem</label>
+            <label>{t("label.image")}</label>
             <div className="image-mode-toggle">
               <button
                 type="button"
                 onClick={() => setImageMode("url")}
                 className={imageMode === "url" ? "active" : ""}
               >
-                URL
+                {t("button.imageUrl")}
               </button>
               <button
                 type="button"
                 onClick={() => setImageMode("upload")}
                 className={imageMode === "upload" ? "active" : ""}
               >
-                Upload
+                {t("button.imageUpload")}
               </button>
             </div>
 
@@ -211,7 +231,7 @@ const AddProductModal = ({ show, handleClose }) => {
                   type="text"
                   name="image"
                   className="input"
-                  placeholder="https://exemplo.com/imagem.jpg"
+                  placeholder={t("placeholder.urlImage")}
                   value={form.image}
                   onChange={handleChange}
                 />
@@ -228,7 +248,7 @@ const AddProductModal = ({ show, handleClose }) => {
           </div>
 
           <button className="button-submit" type="submit">
-            Adicionar Produto
+            {t("button.addProduct")}
           </button>
         </form>
       </div>

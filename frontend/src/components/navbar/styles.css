@@ -6,12 +6,15 @@
 .custom-navbar {
   background-color: transparent;
   transition: background-color 0.3s ease, color 0.3s ease;
-  padding-top: 1vh;
-  padding-bottom: 1vh;
   position: relative;
-  margin-top: 30px;
-  z-index: 1040;
+  z-index: 10;
   color: white;
+  top: 30px !important;
+  overflow: hidden;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  min-height: 48px;
+  height: 48px;
 }
 
 .custom-navbar:hover {
@@ -28,10 +31,17 @@
 }
 
 .minimal-brand {
-  font-weight: bold;
-  font-size: 2rem;
-  text-decoration: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 8rem;
   font-family: vixa;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  height: 100%;
+  display: flex;
   align-items: center;
 }
 
@@ -41,7 +51,7 @@
   display: flex;
   align-items: center;
   padding: 0;
-  font-family: inherit; /* herda o mesmo da search */
+  font-family: inherit;
   color: white;
   transition: color 0.3s ease;
 }
@@ -54,7 +64,6 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 0;
   height: 100%;
   display: flex;
   align-items: center;

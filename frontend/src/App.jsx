@@ -9,6 +9,9 @@ import LoginModal from "./modals/loginModal";
 import RegisterModal from "./modals/registerModal";
 import CatalogPage from "./pages/catalog";
 import { UserProvider, UserContext } from "../userContext";
+import ResetPasswordPage from "./pages/resetPassword";
+import CartSidebar from "./components/cartSideBar";
+import HomeButton from "./components/homeButton";
 
 function AppContent() {
   const {
@@ -29,11 +32,14 @@ function AppContent() {
       />
       <NavBar />
       <MenuSidebar />
+      <CartSidebar />
+      <HomeButton />
 
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/catalog" element={<CatalogPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
       </Routes>
 
       {isLoginOpen && (

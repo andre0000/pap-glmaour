@@ -1,15 +1,13 @@
-/* Full-screen split layout */
 .split-screen {
   display: flex;
   height: 100vh;
   width: 100%;
   position: relative;
   overflow: hidden;
-  margin-top: -60px; /* sobe atrás da navbar, ajuste conforme altura */
+  margin-top: -3rem;
   z-index: 0;
 }
 
-/* Left and right sections */
 .split {
   position: relative;
   width: 50%;
@@ -17,7 +15,6 @@
   cursor: pointer;
 }
 
-/* Imagem de fundo */
 .bg-img {
   width: 100%;
   height: 100%;
@@ -25,7 +22,6 @@
   transition: transform 0.3s ease;
 }
 
-/* Texto sobreposto centralizado */
 .overlay-text {
   position: absolute;
   top: 50%;
@@ -44,26 +40,23 @@
   text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
 }
 
-/* Overlay para escurecer imagem no hover */
 .split::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.3); /* leve escurecimento padrão */
+  background-color: rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s ease;
   z-index: 1;
 }
 
-/* Hover effects */
 .split:hover::before {
-  background-color: rgba(0, 0, 0, 0.2); /* escurecimento no hover */
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .split:hover .bg-img {
-  transform: scale(1.02); /* leve zoom na imagem */
+  transform: scale(1.02);
 }
 
-/* Garante que a navbar fique por cima */
 .custom-navbar {
   position: relative;
   z-index: 10;

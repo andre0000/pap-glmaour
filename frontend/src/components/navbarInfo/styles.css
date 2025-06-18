@@ -1,16 +1,34 @@
 .mini-navbar {
   background-color: #000;
   color: white;
-  text-align: center;
   font-size: 0.8rem;
   padding: 6px 0;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1050;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.mini-text {
-  margin: 0;
-  letter-spacing: 0.5px;
+.scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 100s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
