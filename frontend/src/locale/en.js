@@ -18,6 +18,7 @@ const enTranslation = {
     logout: "Logout",
     pfp: "Change Profile Photo",
     buy: "Buy Now",
+    shop: "Shop",
   },
 
   dropdown: {

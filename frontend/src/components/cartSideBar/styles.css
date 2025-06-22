@@ -34,16 +34,17 @@
   border-bottom: 1px solid #ddd;
 }
 
-.close-btn {
+.cart-close-btn {
   border: none;
   font-size: 1.5rem;
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: color 0.2s ease;
+  background: transparent;
 }
 
-.close-btn:hover {
-  color: rgba(0, 0, 0, 0.7);
+.cart-close-btn:hover {
+  color: rgb(0, 0, 0);
 }
 
 .cart-content {

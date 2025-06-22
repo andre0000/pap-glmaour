@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { FaSearch, FaShoppingBag, FaBars } from "react-icons/fa";
+import { FaSearch, FaShoppingBag } from "react-icons/fa";
 import "./styles.css";
 import LoginModal from "../../modals/loginModal";
 import RegisterModal from "../../modals/registerModal";
@@ -11,6 +11,7 @@ import profileBlackIcon from "../../assets/profile.svg";
 import { useTranslation } from "react-i18next";
 import { UserContext } from "../../../userContext";
 import CartSidebar from "../cartSideBar";
+import ShopDropdown from "../../components/shopDropdown";
 
 const Navbar = () => {
   const {
@@ -25,6 +26,8 @@ const Navbar = () => {
 
   const [isHovered, setIsHovered] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
+  const [shopCloseTimeout, setShopCloseTimeout] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
@@ -33,6 +36,21 @@ const Navbar = () => {
 
   const isLogged = !!user;
   const isCatalogPage = location.pathname === "/catalog";
+
+  const handleShopEnter = () => {
+    if (shopCloseTimeout) {
+      clearTimeout(shopCloseTimeout);
+      setShopCloseTimeout(null);
+    }
+    setShopOpen(true);
+  };
+
+  const handleShopLeave = () => {
+    const timeout = setTimeout(() => {
+      setShopOpen(false);
+    }, 200);
+    setShopCloseTimeout(timeout);
+  };
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
@@ -75,18 +93,31 @@ const Navbar = () => {
             Glamour
           </div>
 
-          <div className="navbar-left d-flex align-items-center gap-4">
-            <button
-              className="btn btn-icon"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasMenu"
-              aria-controls="offcanvasMenu"
-              aria-label="Open menu"
-              title="Menu"
+          <div className="navbar-left d-flex align-items-center gap-4 position-relative">
+            <div
+              className="shop-dropdown-wrapper"
+              onMouseEnter={handleShopEnter}
+              onMouseLeave={handleShopLeave}
+              style={{ position: "relative" }}
             >
-              <FaBars />
-            </button>
+              <button
+                className="btn btn-icon dropdown-toggle"
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={shopOpen}
+              >
+                {t("buttons.shop")}
+              </button>
+
+              {shopOpen && (
+                <div
+                  className="dropdown-menu show mt-2 shop-dropdown-menu"
+                  style={{ position: "absolute", top: "100%", left: 0 }}
+                >
+                  <ShopDropdown />
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="navbar-center"></div>

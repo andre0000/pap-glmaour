@@ -1,0 +1,46 @@
+body {
+  background: linear-gradient(180deg, #000000 0%, #ffffff 100%);
+  font-family: "Arial", sans-serif;
+}
+
+.checkout-container {
+  max-width: 60rem;
+  margin: 10% auto auto auto;
+  background: #6969692c;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  padding: 2.5rem 2rem 2rem 2rem;
+}
+
+.checkout-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.checkout-form label {
+  font-weight: 500;
+  color: #222;
+}
+
+.checkout-form .form-control,
+.checkout-form .form-select {
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.checkout-form .btn {
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  transition: background 0.2s;
+}
+
+.checkout-form .btn:active {
+  background: #222 !important;
+}

@@ -52,7 +52,7 @@ exports.updateSupplier = async (req, res) => {
   }
 };
 
-exports.deleteSupplier = async (req, res) => {
+exports.softDeleteSupplier = async (req, res) => {
   const { id } = req.params;
 
   try {

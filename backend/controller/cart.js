@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const pool = require("../config/db");
 
 // Adicionar item ao carrinho
 exports.addToCart = async (req, res) => {
@@ -8,7 +8,7 @@ exports.addToCart = async (req, res) => {
     if (!user_id || !product_id || !quantity) {
       return res.status(400).json({
         message:
-          'Campos obrigatórios ausentes: user_id, product_id ou quantity',
+          "Campos obrigatórios ausentes: user_id, product_id ou quantity",
       });
     }
 
@@ -20,37 +20,40 @@ exports.addToCart = async (req, res) => {
     );
 
     res.status(201).json({
-      message: 'Item adicionado ao carrinho com sucesso',
+      message: "Item adicionado ao carrinho com sucesso",
       item: result.rows[0],
     });
   } catch (error) {
-    console.error('Erro ao adicionar item ao carrinho:', error);
+    console.error("Erro ao adicionar item ao carrinho:", error);
     res.status(500).json({
-      message: 'Erro ao adicionar item ao carrinho',
+      message: "Erro ao adicionar item ao carrinho",
       error,
     });
   }
 };
 
-// Obter todos os itens do carrinho de um usuário
+// Obter todos os itens do carrinho de um usuário (com detalhes do produto)
 exports.getCartItems = async (req, res) => {
   const { user_id } = req.params;
 
   try {
     const result = await pool.query(
-      `SELECT * FROM cart WHERE user_id = $1 AND is_deleted = false`,
+      `SELECT cart.*, products.name, products.price, products.image
+       FROM cart
+       JOIN products ON cart.product_id = products.id
+       WHERE cart.user_id = $1 AND cart.is_deleted = false`,
       [user_id]
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Carrinho vazio' });
+      return res.status(404).json({ message: "Carrinho vazio" });
     }
 
     res.status(200).json({ items: result.rows });
   } catch (error) {
-    console.error('Erro ao buscar itens do carrinho:', error);
+    console.error("Erro ao buscar itens do carrinho:", error);
     res.status(500).json({
-      message: 'Erro ao buscar itens do carrinho',
+      message: "Erro ao buscar itens do carrinho",
       error,
     });
   }
@@ -73,17 +76,17 @@ exports.updateCartItem = async (req, res) => {
     if (result.rows.length === 0) {
       return res
         .status(404)
-        .json({ message: 'Item não encontrado no carrinho' });
+        .json({ message: "Item não encontrado no carrinho" });
     }
 
     res.status(200).json({
-      message: 'Quantidade do item no carrinho atualizada com sucesso',
+      message: "Quantidade do item no carrinho atualizada com sucesso",
       item: result.rows[0],
     });
   } catch (error) {
-    console.error('Erro ao atualizar item no carrinho:', error);
+    console.error("Erro ao atualizar item no carrinho:", error);
     res.status(500).json({
-      message: 'Erro ao atualizar item no carrinho',
+      message: "Erro ao atualizar item no carrinho",
       error,
     });
   }
@@ -105,14 +108,14 @@ exports.removeFromCart = async (req, res) => {
     if (result.rowCount === 0) {
       return res
         .status(404)
-        .json({ message: 'Item não encontrado no carrinho' });
+        .json({ message: "Item não encontrado no carrinho" });
     }
 
-    res.status(200).json({ message: 'Item removido do carrinho com sucesso' });
+    res.status(200).json({ message: "Item removido do carrinho com sucesso" });
   } catch (error) {
-    console.error('Erro ao remover item do carrinho:', error);
+    console.error("Erro ao remover item do carrinho:", error);
     res.status(500).json({
-      message: 'Erro ao remover item do carrinho',
+      message: "Erro ao remover item do carrinho",
       error,
     });
   }

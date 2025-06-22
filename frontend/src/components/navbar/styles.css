@@ -121,6 +121,7 @@
   border: none;
   color: white;
   transition: color 0.2s;
+  font-family: vixa;
 }
 
 .custom-navbar:hover .nav-link,
@@ -228,4 +229,19 @@
 
 .catalog-navbar .navbar .pfp-img {
   border-color: black !important;
+}
+
+.navbar-left .dropdown-menu {
+  min-width: 180px;
+  z-index: 2000;
+}
+
+.shop-dropdown-menu {
+  display: block;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  z-index: 3000;
+  min-width: 200px;
 }
