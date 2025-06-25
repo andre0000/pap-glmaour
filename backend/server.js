@@ -9,6 +9,8 @@ const salesRoutes = require('./routes/sales');
 const saleItemsRoutes = require('./routes/saleItems');
 const cartRoutes = require('./routes/cart');
 const suppliersRoutes = require('./routes/suppliers');
+const typesRoutes = require('./routes/types');
+const subTypesRoutes = require('./routes/subTypes');
 
 dotenv.config();
 
@@ -23,7 +25,6 @@ app.use(
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
-// Rotas
 app.use('/api/auth', authRoutes);
 app.use('/api/sales', salesRoutes);
 app.use('/api', productRoutes);
@@ -31,6 +32,8 @@ app.use('/api/sale_items', saleItemsRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/suppliers', suppliersRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/types', typesRoutes);
+app.use('/api/subTypes', subTypesRoutes);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
