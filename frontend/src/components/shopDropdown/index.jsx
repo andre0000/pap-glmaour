@@ -1,58 +1,46 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
 const ShopDropdown = () => {
+  const [types, setTypes] = useState({});
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      try {
+        const response = await fetch("/api/products/types");
+        const data = await response.json();
+        setTypes(data);
+      } catch (error) {
+        console.error("Erro ao buscar tipos e subtipos:", error);
+      }
+    };
+
+    fetchTypes();
+  }, []);
+
   return (
     <div className="shop-dropdown">
       <div className="shop-dropdown-inner">
-        <div className="dropdown-col">
-          <Link
-            to="/catalog?filter=new"
-            className="dropdown-item dropdown-bold"
-          >
-            New Arrivals
-          </Link>
-          <Link
-            to="/catalog?filter=best"
-            className="dropdown-item dropdown-bold"
-          >
-            Best Sellers
-          </Link>
-        </div>
-        <div className="dropdown-col">
-          <Link
-            to="/catalog?category=clothing"
-            className="dropdown-item dropdown-bold"
-          >
-            Clothing
-          </Link>
-          <Link to="/catalog?type=shirts" className="dropdown-item">
-            Shirts
-          </Link>
-          <Link to="/catalog?type=pants" className="dropdown-item">
-            Pants
-          </Link>
-          <Link to="/catalog?type=jackets" className="dropdown-item">
-            Jackets
-          </Link>
-        </div>
-        <div className="dropdown-col">
-          <Link
-            to="/catalog?category=accessories"
-            className="dropdown-item dropdown-bold"
-          >
-            Accessories
-          </Link>
-          <Link to="/catalog?type=hats" className="dropdown-item">
-            Hats
-          </Link>
-          <Link to="/catalog?type=bags" className="dropdown-item">
-            Bags
-          </Link>
-          <Link to="/catalog?type=socks" className="dropdown-item">
-            Socks
-          </Link>
-        </div>
+        {Object.entries(types).map(([type, subTypes]) => (
+          <div className="dropdown-col" key={type}>
+            <Link
+              to={`/catalog?category=${type}`}
+              className="dropdown-item dropdown-bold"
+            >
+              {type}
+            </Link>
+            {subTypes.map((subType) => (
+              <Link
+                to={`/catalog?type=${subType}`}
+                className="dropdown-item"
+                key={subType}
+              >
+                {subType}
+              </Link>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );

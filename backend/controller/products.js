@@ -88,3 +88,26 @@ exports.softDeleteProduct = async (req, res) => {
     res.status(500).json({ message: "Erro ao remover produto", error });
   }
 };
+
+exports.getTypesAndSubTypes = async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT DISTINCT type, sub_type FROM products WHERE is_deleted = false"
+    );
+
+    const types = {};
+    result.rows.forEach(({ type, sub_type }) => {
+      if (!types[type]) {
+        types[type] = [];
+      }
+      if (sub_type && !types[type].includes(sub_type)) {
+        types[type].push(sub_type);
+      }
+    });
+
+    res.status(200).json(types);
+  } catch (error) {
+    console.error("Erro ao buscar tipos e subtipos:", error);
+    res.status(500).json({ message: "Erro ao buscar tipos e subtipos", error });
+  }
+};
