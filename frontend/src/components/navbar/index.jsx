@@ -36,6 +36,9 @@ const Navbar = () => {
 
   const isLogged = !!user;
   const isCatalogPage = location.pathname === "/catalog";
+  const isCheckoutPage = location.pathname === "/checkout"; // Check if on the checkout page
+
+  if (isCheckoutPage) return null; // Do not render the navbar on the checkout page
 
   const handleShopEnter = () => {
     if (shopCloseTimeout) {
