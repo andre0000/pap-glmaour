@@ -44,7 +44,6 @@ const ShopDropdown = () => {
   return (
     <div className='shop-dropdown container-fluid px-0'>
       <div className='shop-dropdown-inner row mx-0'>
-        {/* Coluna esquerda com filtros */}
         <div className='dropdown-col col-12 col-md-2 mb-3'>
           <Link
             to='/catalog?filter=new_arrivals'
@@ -58,10 +57,12 @@ const ShopDropdown = () => {
           >
             {t('title.bestSellers')}
           </Link>
+          <Link to='/catalog' className='type-link d-block fw-bold'>
+            {t('title.allProducts')}
+          </Link>
         </div>
 
-        {/* Colunas dinâmicas para os tipos */}
-        {types.map((type) => (
+        {[...types].reverse().map((type) => (
           <div key={type.id} className='dropdown-col col-6 col-md-2 mb-3'>
             <Link
               to={`/catalog?type_id=${type.id}`}

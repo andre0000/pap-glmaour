@@ -4,8 +4,9 @@ const enTranslation = {
     catalog: 'Catalog',
     addProduct: 'Add Product',
     cart: 'Cart',
-    newArrivals: 'New Arrivals',
-    bestSellers: 'Best Sellers',
+    newArrivals: 'NEW ARRIVALS',
+    bestSellers: 'BESTSELLERS',
+    allProducts: 'ALL PRODUCTS',
   },
   label: {
     name: 'Name',

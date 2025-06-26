@@ -21,7 +21,11 @@
 .dropdown-col {
   display: flex;
   flex-direction: column;
-  min-width: 160px;
+  min-width: 160px; /* Ensure consistent width for all columns */
+}
+
+.dropdown-col:first-child {
+  min-width: 160px; /* Match the width of type columns */
 }
 
 .dropdown-title {
@@ -64,6 +68,26 @@
   opacity: 1;
   color: #000;
   background: none;
+}
+
+.type-link {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Use inherited color */
+  font-size: 0.875rem; /* Match font size with dynamically generated types */
+  font-weight: 600; /* Match font weight with dynamically generated types */
+}
+
+.type-link:nth-child(2) {
+  margin-bottom: 0.5rem; /* Add spacing below Best Sellers */
+}
+
+.type-link + .type-link {
+  margin-top: 0.5rem; /* Add consistent spacing between type links */
+}
+
+.sub-type-link {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Use inherited color */
 }
 
 @keyframes fadeInDown {
