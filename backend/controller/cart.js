@@ -120,3 +120,24 @@ exports.removeFromCart = async (req, res) => {
     });
   }
 };
+
+// Obter itens comprados (com detalhes do produto)
+exports.getBoughtItems = async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT cart.id, cart.product_id, cart.quantity, cart.size, cart.user_id, 
+              products.name, products.price, products.image
+       FROM cart
+       JOIN products ON cart.product_id = products.id
+       WHERE cart.is_deleted = false AND cart.bought = true
+       ORDER BY cart.id ASC`
+    );
+    res.status(200).json({ items: result.rows });
+  } catch (error) {
+    console.error("Erro ao buscar itens comprados:", error);
+    res.status(500).json({
+      message: "Erro ao buscar itens comprados",
+      error,
+    });
+  }
+};

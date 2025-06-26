@@ -12,6 +12,7 @@ import ResetPasswordPage from "./pages/resetPassword";
 import CartSidebar from "./components/cartSideBar";
 import HomeButton from "./components/homeButton";
 import CheckoutPage from "./pages/checkout";
+import AdminSettings from "./pages/adminSettings";
 
 function AppContent() {
   const {
@@ -40,6 +41,7 @@ function AppContent() {
         <Route path="/catalog" element={<CatalogPage />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/admin-settings" element={<AdminSettings />} />
       </Routes>
 
       {isLoginOpen && (
