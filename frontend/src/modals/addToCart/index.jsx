@@ -8,7 +8,7 @@ const AddToCartModal = ({ product, show, handleClose, user }) => {
   const handleAddToCart = async (size) => {
     // Só exemplo, quantidade fixa 1
     try {
-      const response = await fetch("http://localhost:5000/api/cart", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

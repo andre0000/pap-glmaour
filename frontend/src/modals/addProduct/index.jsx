@@ -24,9 +24,12 @@ const AddProductModal = ({ show, handleClose }) => {
     const fetchSuppliers = async () => {
       try {
         const token = sessionStorage.getItem("token");
-        const response = await fetch("http://localhost:5000/api/suppliers", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/suppliers`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         const data = await response.json();
         if (response.ok) setSuppliers(data);
         else console.error("Erro ao buscar fornecedores:", data.message);
@@ -37,7 +40,7 @@ const AddProductModal = ({ show, handleClose }) => {
 
     const fetchTypes = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/types");
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/types`);
         const data = await response.json();
         if (response.ok) setTypes(data);
         else console.error("Erro ao buscar tipos:", data.message);
@@ -59,7 +62,7 @@ const AddProductModal = ({ show, handleClose }) => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/subTypes/type/${form.type}`
+          `${import.meta.env.VITE_API_URL}/subTypes/type/${form.type}`
         );
         const data = await response.json();
         if (response.ok) setSubTypes(data);
@@ -88,7 +91,7 @@ const AddProductModal = ({ show, handleClose }) => {
       };
       delete payload.type;
 
-      const response = await fetch("http://localhost:5000/api/products", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

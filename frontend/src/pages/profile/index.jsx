@@ -20,11 +20,14 @@ const ProfilePage = () => {
         if (!token) return navigate("/");
 
         try {
-          const response = await fetch("http://localhost:5000/api/auth/me", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/auth/me`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
           const data = await response.json();
 
@@ -70,7 +73,7 @@ const ProfilePage = () => {
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/auth/update-profile",
+        `${import.meta.env.VITE_API_URL}/auth/update-profile`,
         {
           method: "PUT",
           headers: {

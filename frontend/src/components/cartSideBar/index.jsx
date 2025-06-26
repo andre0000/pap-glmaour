@@ -11,18 +11,20 @@ export default function CartSidebar({ isOpen, toggleCart }) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!isOpen) return;
+
     const storedUser = JSON.parse(sessionStorage.getItem("user"));
     if (!storedUser) return;
 
     setUser(storedUser);
 
     axios
-      .get(`http://localhost:5000/api/cart/${storedUser.id}`)
+      .get(`${import.meta.env.VITE_API_URL}/cart/${storedUser.id}`)
       .then((res) => {
         setCartItems(res.data.items || []);
       })
       .catch(() => setCartItems([]));
-  }, []);
+  }, [isOpen]);
 
   const handleCheckout = () => {
     navigate("/checkout");
