@@ -7,16 +7,20 @@ import { useNavigate } from "react-router-dom";
 export default function CartSidebar({ isOpen, toggleCart }) {
   const { t } = useTranslation();
   const [cartItems, setCartItems] = useState([]);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    if (!user) return;
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
+    if (!storedUser) return;
+
+    setUser(storedUser);
 
     axios
-      .get(`/cart/${user.id}`)
+      .get(`http://localhost:5000/api/cart/${storedUser.id}`)
       .then((res) => {
         setCartItems(res.data.items || []);
+        console.log("Cart response:", res.data);
       })
       .catch(() => setCartItems([]));
   }, []);
@@ -24,6 +28,11 @@ export default function CartSidebar({ isOpen, toggleCart }) {
   const handleCheckout = () => {
     navigate("/checkout");
   };
+
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   if (!cartItems.length) {
     return (
@@ -47,58 +56,52 @@ export default function CartSidebar({ isOpen, toggleCart }) {
         {isOpen && <div className="cart-overlay" onClick={toggleCart}></div>}
       </>
     );
-  } else {
-    return (
-      <>
-        <div className={`cart-sidebar ${isOpen ? "open" : ""}`}>
-          <div className="cart-header">
-            <h2>{t("title.cart")}</h2>
-            <button className="cart-close-btn" onClick={toggleCart}>
-              ✕
-            </button>
-          </div>
+  }
 
-          <div className="cart-content">
-            <div>
-              <table className="table align-middle">
-                <tbody>
-                  {cartItems.map((item) => (
-                    <tr key={item.id}>
-                      <td>
-                        <div className="d-flex align-items-center gap-3">
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            style={{
-                              width: 60,
-                              height: 60,
-                              objectFit: "cover",
-                              borderRadius: 8,
-                            }}
-                          />
-                          <div>
-                            <div className="fw-bold">{item.name}</div>
-                            <div className="text-muted">Size: {item.size}</div>
-                            <div className="text-primary">{item.price}€</div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+  return (
+    <>
+      <div className={`cart-sidebar ${isOpen ? "open" : ""}`}>
+        <div className="cart-header">
+          <h2>{t("title.cart")}</h2>
+          <button className="cart-close-btn" onClick={toggleCart}>
+            ✕
+          </button>
+        </div>
 
-          <div className="cart-footer">
-            <button className="checkout-btn" onClick={handleCheckout}>
-              {t("cart.checkout")}
-            </button>
+        <div className="cart-content">
+          <div className="cart-items">
+            {cartItems.map((item) => (
+              <div className="cart-item" key={item.id}>
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="cart-item-image"
+                />
+                <div className="cart-item-details">
+                  <div className="cart-item-name">{item.name}</div>
+                  <div className="cart-item-meta">
+                    {item.quantity}x | Size: {item.size}
+                  </div>
+                  <div className="cart-item-price">
+                    {(item.price * item.quantity).toFixed(2)}€
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {isOpen && <div className="cart-overlay" onClick={toggleCart}></div>}
-      </>
-    );
-  }
+        <div className="cart-footer">
+          <div className="cart-total">
+            <strong>Total: {total.toFixed(2)}€</strong>
+          </div>
+          <button className="checkout-btn" onClick={handleCheckout}>
+            {t("cart.checkout")}
+          </button>
+        </div>
+      </div>
+
+      {isOpen && <div className="cart-overlay" onClick={toggleCart}></div>}
+    </>
+  );
 }

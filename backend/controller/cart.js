@@ -2,7 +2,7 @@ const pool = require("../config/db");
 
 // Adicionar item ao carrinho
 exports.addToCart = async (req, res) => {
-  const { user_id, product_id, quantity } = req.body;
+  const { user_id, product_id, quantity, size, bought = false } = req.body;
 
   try {
     if (!user_id || !product_id || !quantity) {
@@ -13,10 +13,10 @@ exports.addToCart = async (req, res) => {
     }
 
     const result = await pool.query(
-      `INSERT INTO cart (user_id, product_id, quantity)
-       VALUES ($1, $2, $3)
+      `INSERT INTO cart (user_id, product_id, quantity, size, bought)
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
-      [user_id, product_id, quantity]
+      [user_id, product_id, quantity, size, bought]
     );
 
     res.status(201).json({
@@ -41,7 +41,7 @@ exports.getCartItems = async (req, res) => {
       `SELECT cart.*, products.name, products.price, products.image
        FROM cart
        JOIN products ON cart.product_id = products.id
-       WHERE cart.user_id = $1 AND cart.is_deleted = false`,
+       WHERE cart.user_id = $1 AND cart.is_deleted = false AND cart.bought = false`,
       [user_id]
     );
 
@@ -59,18 +59,21 @@ exports.getCartItems = async (req, res) => {
   }
 };
 
-// Atualizar quantidade de um item no carrinho
+// Atualizar quantidade, tamanho ou status de compra de um item do carrinho
 exports.updateCartItem = async (req, res) => {
   const { id } = req.params;
-  const { quantity } = req.body;
+  const { quantity, size, bought } = req.body;
 
   try {
     const result = await pool.query(
       `UPDATE cart
-       SET quantity = $1
-       WHERE id = $2 AND is_deleted = false
+       SET 
+         quantity = COALESCE($1, quantity),
+         size = COALESCE($2, size),
+         bought = COALESCE($3, bought)
+       WHERE id = $4 AND is_deleted = false
        RETURNING *`,
-      [quantity, id]
+      [quantity, size, bought, id]
     );
 
     if (result.rows.length === 0) {
@@ -80,7 +83,7 @@ exports.updateCartItem = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "Quantidade do item no carrinho atualizada com sucesso",
+      message: "Item do carrinho atualizado com sucesso",
       item: result.rows[0],
     });
   } catch (error) {
@@ -92,7 +95,7 @@ exports.updateCartItem = async (req, res) => {
   }
 };
 
-// Remover um item do carrinho
+// Remover um item do carrinho (soft delete)
 exports.removeFromCart = async (req, res) => {
   const { id } = req.params;
 

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import AddButton from '../../components/addProductButton';
-import AddProductModal from '../../modals/addProduct';
-import AddToCartModal from '../../modals/addToCart';
-import './styles.css';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import AddButton from "../../components/addProductButton";
+import AddProductModal from "../../modals/addProduct";
+import AddToCartModal from "../../modals/addToCart";
+import "./styles.css";
 
 const CatalogPage = () => {
   const [products, setProducts] = useState([]);
@@ -14,19 +14,19 @@ const CatalogPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
+    const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
       try {
         setUser(JSON.parse(storedUser));
       } catch (error) {
-        console.error('Erro ao parsear usuário:', error);
+        console.error("Erro ao parsear usuário:", error);
       }
     }
 
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/products');
-        if (!response.ok) throw new Error('Erro ao buscar produtos');
+        const response = await fetch("http://localhost:5000/api/products");
+        if (!response.ok) throw new Error("Erro ao buscar produtos");
         const data = await response.json();
         setProducts(data);
       } catch (err) {
@@ -52,34 +52,34 @@ const CatalogPage = () => {
     .slice(0, 9);
 
   return (
-    <div className='container py-5'>
-      <div className='d-flex justify-content-between align-items-center mb-4'>
-        <h2 className='title m-0'>{t('title.catalog')}</h2>
+    <div className="container py-5">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="title m-0">{t("title.catalog")}</h2>
         {user?.is_admin && (
-          <div className='add-button-wrapper'>
+          <div className="add-button-wrapper">
             <AddButton onClick={() => setShowAddModal(true)} />
           </div>
         )}
       </div>
 
-      <div className='row'>
+      <div className="row">
         {latestProducts.map((product) => (
-          <div key={product.id} className='col-12 col-sm-6 col-md-4 mb-4'>
+          <div key={product.id} className="col-12 col-sm-6 col-md-4 mb-4">
             <div
-              className='product-card'
+              className="product-card"
               onClick={() => openCartModal(product)}
             >
               <img
                 src={product.image}
                 alt={product.name}
-                className='product-img'
+                className="product-img"
               />
-              <div className='product-hover'>
-                <button className='add-icon'>+</button>
+              <div className="product-hover">
+                <button className="add-icon">+</button>
               </div>
-              <div className='product-info'>
-                <h5 className='product-name'>{product.name}</h5>
-                <p className='product-price'>
+              <div className="product-info">
+                <h5 className="product-name">{product.name}</h5>
+                <p className="product-price">
                   € {Number(product.price).toFixed(2)}
                 </p>
               </div>
@@ -93,11 +93,12 @@ const CatalogPage = () => {
         show={showAddModal}
         handleClose={() => setShowAddModal(false)}
       />
-      {selectedProduct && (
+      {selectedProduct && user && (
         <AddToCartModal
           product={selectedProduct}
           show={showCartModal}
           handleClose={closeCartModal}
+          user={user}
         />
       )}
     </div>

@@ -19,6 +19,7 @@ const enTranslation = {
     image: "Image URL",
     type: "Type",
     subType: "Sub Type",
+    fileSelected: "File Selected",
   },
 
   options: {
@@ -28,6 +29,7 @@ const enTranslation = {
     subType: "Select Sub Type",
     male: "Male",
     female: "Female",
+    unisex: "Unisex",
   },
   placeholder: {
     name: "Enter your Name",
@@ -45,6 +47,7 @@ const enTranslation = {
     pfp: "Change Profile Photo",
     buy: "Buy Now",
     shop: "Shop",
+    browse: "Browse",
   },
 
   dropdown: {
