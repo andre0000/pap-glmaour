@@ -20,7 +20,6 @@ export default function CartSidebar({ isOpen, toggleCart }) {
       .get(`http://localhost:5000/api/cart/${storedUser.id}`)
       .then((res) => {
         setCartItems(res.data.items || []);
-        console.log("Cart response:", res.data);
       })
       .catch(() => setCartItems([]));
   }, []);

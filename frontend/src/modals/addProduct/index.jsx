@@ -10,16 +10,14 @@ const AddProductModal = ({ show, handleClose }) => {
     stock: "",
     gender: "",
     supplier_id: "",
-    image: "",
     type: "",
     subType: "",
   });
 
   const [suppliers, setSuppliers] = useState([]);
-  const [imageMode, setImageMode] = useState("url");
-  const [imageFile, setImageFile] = useState(null);
   const [types, setTypes] = useState([]);
   const [subTypes, setSubTypes] = useState([]);
+  const [imageUrl, setImageUrl] = useState("");
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -83,38 +81,20 @@ const AddProductModal = ({ show, handleClose }) => {
     const token = sessionStorage.getItem("token");
 
     try {
-      let requestBody;
-      let headers;
-
-      // Cria o objeto para enviar, mapeando type para type_id
       const payload = {
         ...form,
-        type_id: form.type, // aqui manda type como type_id
+        type_id: form.type,
+        imageUrl,
       };
-      delete payload.type; // remove o type, se não quiser enviar os dois
-
-      if (imageMode === "upload" && imageFile) {
-        requestBody = new FormData();
-        for (const key in payload) {
-          requestBody.append(key, payload[key]);
-        }
-        requestBody.append("image", imageFile);
-
-        headers = {
-          Authorization: `Bearer ${token}`,
-        };
-      } else {
-        requestBody = JSON.stringify(payload);
-        headers = {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        };
-      }
+      delete payload.type;
 
       const response = await fetch("http://localhost:5000/api/products", {
         method: "POST",
-        headers,
-        body: requestBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -285,49 +265,23 @@ const AddProductModal = ({ show, handleClose }) => {
             </div>
           </div>
 
+          {/* Campo simplificado para a URL da imagem */}
           <div className="flex-column">
             <label>{t("label.image")}</label>
-            <div className="image-mode-toggle">
-              <button
-                type="button"
-                onClick={() => setImageMode("url")}
-                className={imageMode === "url" ? "active" : ""}
-              >
-                {t("button.imageUrl")}
-              </button>
-              <button
-                type="button"
-                onClick={() => setImageMode("upload")}
-                className={imageMode === "upload" ? "active" : ""}
-              >
-                {t("button.imageUpload")}
-              </button>
+            <div className="inputForm">
+              <input
+                type="text"
+                name="image"
+                className="input"
+                placeholder={t("placeholder.urlImage")}
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+              />
             </div>
-
-            {imageMode === "url" ? (
-              <div className="inputForm">
-                <input
-                  type="text"
-                  name="image"
-                  className="input"
-                  placeholder={t("placeholder.urlImage")}
-                  value={form.image}
-                  onChange={handleChange}
-                />
-              </div>
-            ) : (
-              <div className="inputForm">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setImageFile(e.target.files[0])}
-                />
-              </div>
-            )}
           </div>
 
           <button className="button-submit" type="submit">
-            {t("button.addProduct")}
+            {t("buttons.addProduct")}
           </button>
         </form>
       </div>

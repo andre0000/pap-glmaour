@@ -2,12 +2,23 @@ const pool = require("../config/db");
 
 // Adicionar produto
 exports.addProduct = async (req, res) => {
-  const { name, description, price, stock, supplier_id, type_id } = req.body;
+  const {
+    name,
+    description,
+    price,
+    stock,
+    supplier_id,
+    type_id,
+    imageUrl, // URL da imagem vindo do frontend
+  } = req.body;
 
   try {
     const result = await pool.query(
-      "INSERT INTO products (name, description, price, stock, supplier_id, type_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [name, description, price, stock, supplier_id, type_id]
+      `INSERT INTO products 
+       (name, description, price, stock, supplier_id, type_id, image) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7) 
+       RETURNING id, name, description, price, stock, supplier_id, type_id, image AS "imageUrl"`,
+      [name, description, price, stock, supplier_id, type_id, imageUrl]
     );
 
     const newProduct = result.rows[0];
@@ -23,12 +34,22 @@ exports.addProduct = async (req, res) => {
 // Editar produto
 exports.editProduct = async (req, res) => {
   const { id } = req.params;
-  const { name, description, price, stock, supplier_id, type_id } = req.body;
+  const { name, description, price, stock, supplier_id, type_id, imageUrl } =
+    req.body;
 
   try {
     const result = await pool.query(
-      "UPDATE products SET name = $1, description = $2, price = $3, stock = $4, supplier_id = $5, type_id = $6 WHERE id = $7 AND is_deleted = false RETURNING *",
-      [name, description, price, stock, supplier_id, type_id, id]
+      `UPDATE products SET 
+         name = $1, 
+         description = $2, 
+         price = $3, 
+         stock = $4, 
+         supplier_id = $5, 
+         type_id = $6, 
+         image = $7
+       WHERE id = $8 AND is_deleted = false
+       RETURNING id, name, description, price, stock, supplier_id, type_id, image AS "imageUrl"`,
+      [name, description, price, stock, supplier_id, type_id, imageUrl, id]
     );
 
     const updatedProduct = result.rows[0];
@@ -61,7 +82,8 @@ exports.getProduct = async (req, res) => {
         p.type_id, 
         p.is_deleted, 
         p.created_at, 
-        p.updated_at
+        p.updated_at,
+        p.image AS "imageUrl"
       FROM products p
       WHERE p.is_deleted = false
       ORDER BY p.name ASC`

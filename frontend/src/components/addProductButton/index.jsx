@@ -10,7 +10,7 @@ const AddButton = ({ onClick }) => {
       onClick={onClick}
       title={t("button.addProduct")}
     >
-      + {t("button.addProduct")}
+      + {t("buttons.addProduct")}
     </button>
   );
 };

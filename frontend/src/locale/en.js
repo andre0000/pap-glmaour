@@ -48,6 +48,7 @@ const enTranslation = {
     buy: "Buy Now",
     shop: "Shop",
     browse: "Browse",
+    addProduct: "Add Product",
   },
 
   dropdown: {
@@ -81,12 +82,6 @@ const enTranslation = {
     empty: "Your cart is empty",
     total: "Total",
     checkout: "Checkout",
-  },
-
-  button: {
-    addProduct: "Add Product",
-    imageUrl: "Image URL",
-    imageUpload: "Image Upload",
   },
 };
 

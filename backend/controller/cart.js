@@ -4,17 +4,16 @@ const pool = require("../config/db");
 exports.addToCart = async (req, res) => {
   const { user_id, product_id, quantity, size, bought = false } = req.body;
 
-  try {
-    if (!user_id || !product_id || !quantity) {
-      return res.status(400).json({
-        message:
-          "Campos obrigatórios ausentes: user_id, product_id ou quantity",
-      });
-    }
+  if (!user_id || !product_id || !quantity) {
+    return res.status(400).json({
+      message: "Campos obrigatórios ausentes: user_id, product_id ou quantity",
+    });
+  }
 
+  try {
     const result = await pool.query(
-      `INSERT INTO cart (user_id, product_id, quantity, size, bought)
-       VALUES ($1, $2, $3, $4, $5)
+      `INSERT INTO cart (user_id, product_id, quantity, size, bought, is_deleted)
+       VALUES ($1, $2, $3, $4, $5, false)
        RETURNING *`,
       [user_id, product_id, quantity, size, bought]
     );
@@ -38,16 +37,14 @@ exports.getCartItems = async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT cart.*, products.name, products.price, products.image
+      `SELECT cart.id, cart.product_id, cart.quantity, cart.size, cart.bought, 
+              products.name, products.price, products.image
        FROM cart
        JOIN products ON cart.product_id = products.id
-       WHERE cart.user_id = $1 AND cart.is_deleted = false AND cart.bought = false`,
+       WHERE cart.user_id = $1 AND cart.is_deleted = false AND cart.bought = false
+       ORDER BY cart.id ASC`,
       [user_id]
     );
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: "Carrinho vazio" });
-    }
 
     res.status(200).json({ items: result.rows });
   } catch (error) {
@@ -103,12 +100,12 @@ exports.removeFromCart = async (req, res) => {
     const result = await pool.query(
       `UPDATE cart 
        SET is_deleted = true 
-       WHERE id = $1
+       WHERE id = $1 AND is_deleted = false
        RETURNING *`,
       [id]
     );
 
-    if (result.rowCount === 0) {
+    if (result.rows.length === 0) {
       return res
         .status(404)
         .json({ message: "Item não encontrado no carrinho" });

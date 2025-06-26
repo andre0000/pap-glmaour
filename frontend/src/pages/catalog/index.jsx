@@ -29,6 +29,7 @@ const CatalogPage = () => {
         if (!response.ok) throw new Error("Erro ao buscar produtos");
         const data = await response.json();
         setProducts(data);
+        console.log("Produtos recebidos do backend:", data);
       } catch (err) {
         console.error(err.message);
       }
@@ -54,7 +55,7 @@ const CatalogPage = () => {
   return (
     <div className="container py-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="title m-0">{t("title.catalog")}</h2>
+        <h2 className="title m-0">{t("title.allProducts")}</h2>
         {user?.is_admin && (
           <div className="add-button-wrapper">
             <AddButton onClick={() => setShowAddModal(true)} />
@@ -63,29 +64,32 @@ const CatalogPage = () => {
       </div>
 
       <div className="row">
-        {latestProducts.map((product) => (
-          <div key={product.id} className="col-12 col-sm-6 col-md-4 mb-4">
-            <div
-              className="product-card"
-              onClick={() => openCartModal(product)}
-            >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="product-img"
-              />
-              <div className="product-hover">
-                <button className="add-icon">+</button>
-              </div>
-              <div className="product-info">
-                <h5 className="product-name">{product.name}</h5>
-                <p className="product-price">
-                  € {Number(product.price).toFixed(2)}
-                </p>
+        {latestProducts.map((product) => {
+          return (
+            <div key={product.id} className="col-12 col-sm-6 col-md-4 mb-4">
+              <div
+                className="product-card"
+                onClick={() => openCartModal(product)}
+              >
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className="product-img"
+                />
+
+                <div className="product-hover">
+                  <button className="add-icon">+</button>
+                </div>
+                <div className="product-info">
+                  <h5 className="product-name">{product.name}</h5>
+                  <p className="product-price">
+                    € {Number(product.price).toFixed(2)}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Modals */}
