@@ -26,6 +26,23 @@ exports.up = async function (knex) {
       table.boolean('is_deleted').defaultTo(false);
       table.timestamps(true, true);
     })
+    .createTable('sub_types', (table) => {
+      table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+      table.string('name').notNullable();
+      table.timestamps(true, true);
+      table.boolean('is_deleted').defaultTo(false);
+    })
+    .createTable('types', (table) => {
+      table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+      table.string('name').notNullable();
+      table
+        .uuid('sub_type_id')
+        .references('id')
+        .inTable('sub_types')
+        .onDelete('SET NULL');
+      table.timestamps(true, true);
+      table.boolean('is_deleted').defaultTo(false);
+    })
     .createTable('products', (table) => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.string('name').notNullable();
@@ -36,6 +53,11 @@ exports.up = async function (knex) {
         .uuid('supplier_id')
         .references('id')
         .inTable('suppliers')
+        .onDelete('SET NULL');
+      table
+        .uuid('type_id')
+        .references('id')
+        .inTable('types')
         .onDelete('SET NULL');
       table.boolean('is_deleted').defaultTo(false);
       table.timestamps(true, true);
@@ -73,8 +95,8 @@ exports.up = async function (knex) {
         .inTable('products')
         .onDelete('SET NULL');
       table.integer('quantity').notNullable();
-      table.decimal('unit_price', 10, 2).notNullable(); // Preço do produto no momento da venda
-      table.decimal('total_price', 10, 2).notNullable(); // Quantidade * Preço unitário
+      table.decimal('unit_price', 10, 2).notNullable();
+      table.decimal('total_price', 10, 2).notNullable();
       table.boolean('is_deleted').defaultTo(false);
     });
 };
@@ -85,6 +107,11 @@ exports.up = async function (knex) {
  */
 exports.down = function (knex) {
   return knex.schema
+    .alterTable('products', (table) => {
+      table.dropColumn('type_id');
+    })
+    .dropTableIfExists('types')
+    .dropTableIfExists('sub_types')
     .dropTableIfExists('sale_items')
     .dropTableIfExists('sales')
     .dropTableIfExists('cart')
