@@ -1,0 +1,247 @@
+@font-face {
+  font-family: vixa;
+  src: url(../../fonts/Vixa-Regular.otf);
+}
+
+.custom-navbar {
+  background-color: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+  z-index: 10;
+  color: white;
+  top: 30px !important;
+  overflow: hidden;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  min-height: 48px;
+  height: 48px;
+}
+
+.custom-navbar:hover {
+  background-color: rgb(255, 255, 255);
+  color: black;
+}
+
+.custom-navbar .nav-link,
+.custom-navbar .minimal-brand,
+.custom-navbar .btn-icon,
+.custom-navbar .search-btn {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.minimal-brand {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 8rem;
+  font-family: vixa;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.custom-link {
+  font-size: 0.9rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  font-family: inherit;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.custom-link:hover {
+  text-decoration: underline;
+}
+
+.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-left,
+.navbar-right {
+  gap: 1rem;
+  height: 100%;
+}
+
+.search-form {
+  position: relative;
+}
+
+.minimal-search {
+  border: none;
+  border-bottom: 1px solid white;
+  border-radius: 0;
+  background: transparent;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.minimal-search::placeholder {
+  color: white;
+}
+
+.minimal-search:focus {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  border-color: white;
+  color: white;
+}
+
+/* BOTÃO DA LUPA */
+.search-btn {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 5px;
+}
+
+.search-btn:focus {
+  background: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: white;
+  transition: color 0.2s;
+  font-family: vixa;
+}
+
+.custom-navbar:hover .nav-link,
+.custom-navbar:hover .minimal-brand,
+.custom-navbar:hover .btn-icon,
+.custom-navbar:hover .search-btn {
+  color: black;
+}
+
+.icon-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.custom-navbar:hover .minimal-search {
+  border-bottom: 1px solid black;
+  color: black;
+}
+
+.custom-navbar:hover .minimal-search::placeholder {
+  color: black;
+}
+
+.custom-navbar:hover .custom-link {
+  color: black;
+}
+
+.custom-navbar:hover .minimal-search:focus {
+  border-color: black;
+  color: black;
+}
+
+.navbar .pfp-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  transition: transform 0.2s ease;
+}
+
+.custom-navbar:hover .pfp-img {
+  border-color: black;
+}
+
+.profile-dropdown-container {
+  position: relative;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  z-index: 1050;
+  min-width: 160px;
+  margin-top: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.profile-dropdown .dropdown-item {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 8px 16px;
+  width: 100%;
+  font-size: 0.9rem;
+  color: black;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.profile-dropdown .dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.profile-dropdown .logout {
+  color: red;
+}
+
+.custom-navbar:hover .profile-dropdown {
+  color: black;
+}
+
+.catalog-navbar {
+  background-color: transparent;
+  color: black !important;
+}
+
+.catalog-navbar .nav-link,
+.catalog-navbar .minimal-brand,
+.catalog-navbar .btn-icon,
+.catalog-navbar .search-btn,
+.catalog-navbar .custom-link,
+.catalog-navbar .minimal-search,
+.catalog-navbar .minimal-search::placeholder {
+  color: black !important;
+  border-color: black !important;
+}
+
+.catalog-navbar .navbar .pfp-img {
+  border-color: black !important;
+}
+
+.navbar-left .dropdown-menu {
+  min-width: 180px;
+  z-index: 2000;
+}
+
+.shop-dropdown-menu {
+  display: block;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  z-index: 3000;
+  min-width: 200px;
+}

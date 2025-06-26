@@ -5,13 +5,13 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
   host: 'smtp.sapo.pt',
   port: 587,
-  secure: false, // usa STARTTLS
+  secure: false,
   auth: {
     user: process.env.EMAIL_SENDER,
     pass: process.env.EMAIL_PASSWORD,
   },
   tls: {
-    rejectUnauthorized: false, // evitar erros de certificado em dev
+    rejectUnauthorized: false, 
   },
 });
 

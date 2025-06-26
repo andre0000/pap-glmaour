@@ -1,0 +1,142 @@
+import { useState } from "react";
+import "./styles.css";
+import ForgotPasswordModal from "../forgotPassword";
+import { useTranslation } from "react-i18next";
+
+const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const { t } = useTranslation();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Erro ao fazer login");
+      }
+
+      sessionStorage.setItem("token", data.token);
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+
+      if (data.user.pfp) {
+        sessionStorage.setItem("pfp", data.user.pfp);
+      } else {
+        sessionStorage.removeItem("pfp");
+      }
+
+      if (onLoginSuccess) onLoginSuccess(data.user);
+      onClose();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      {showForgotModal ? (
+        <ForgotPasswordModal onClose={() => setShowForgotModal(false)} />
+      ) : (
+        <div className="modal-backdrop" onClick={onClose}>
+          <div
+            className="login-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button className="modal-close" onClick={onClose}>
+              ×
+            </button>
+
+            {error && <div className="modal-error">{error}</div>}
+            <form className="form" onSubmit={handleLogin}>
+              <h2 style={{ marginBottom: "20px" }}>Login</h2>
+
+              <div className="flex-column">
+                <label>{t("label.email")}</label>
+              </div>
+              <div className="inputForm">
+                <input
+                  type="email"
+                  className="input"
+                  placeholder="Enter your Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="flex-column">
+                <label>{t("label.password")}</label>
+              </div>
+              <div className="inputForm">
+                <input
+                  type="password"
+                  className="input"
+                  placeholder="Enter your Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="flex-row">
+                <div className="checkbox-group">
+                  <input type="checkbox" id="rememberMe" />
+                  <label htmlFor="rememberMe">Remember me</label>
+                </div>
+
+                <span
+                  className="span"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    console.log("abrindo forgot modal");
+                    setShowForgotModal(true); // Apenas troca o modal
+                  }}
+                >
+                  Forgot password?
+                </span>
+              </div>
+
+              <button
+                className="button-submit"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? "Signing in..." : "Sign In"}
+              </button>
+
+              <p className="p">
+                Don't have an account?{" "}
+                <span
+                  className="span"
+                  onClick={() => {
+                    if (onOpenRegister) onOpenRegister();
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  Sign Up
+                </span>
+              </p>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default LoginModal;

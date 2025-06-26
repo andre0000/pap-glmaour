@@ -1,0 +1,146 @@
+/* Backdrop para a modal */
+.register-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  backdrop-filter: brightness(
+    0.7
+  ); /* Add this line to match login modal if needed */
+}
+
+/* Conteúdo da modal */
+.register-modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  width: 450px;
+  border-radius: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  position: relative;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Botão fechar */
+.register-modal-content .modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Estilo para link tipo texto */
+.register-modal-content .span {
+  color: #2d79f3;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.2s ease-in-out;
+}
+
+.register-modal-content .span:hover {
+  color: #1a5fd1;
+}
+
+.register-modal-content .modal-close:hover {
+  color: #2d79f3;
+}
+
+/* Form */
+.register-modal-content .form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Label */
+.register-modal-content .flex-column > label {
+  color: #151717;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Input wrapper */
+.register-modal-content .inputForm {
+  border: 1.5px solid #ecedec;
+  border-radius: 10px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  transition: 0.2s ease-in-out;
+}
+
+/* Input */
+.register-modal-content .input {
+  margin-left: 10px;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+.register-modal-content .input:focus {
+  outline: none;
+}
+.register-modal-content .inputForm:focus-within {
+  border: 1.5px solid #2d79f3;
+}
+
+/* Botão submit */
+.register-modal-content .button-submit {
+  margin: 20px 0 10px 0;
+  background-color: #151717;
+  border: none;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  height: 50px;
+  width: 100%;
+  cursor: pointer;
+}
+.register-modal-content .button-submit:hover {
+  background-color: #252727;
+}
+
+/* Erro */
+.register-modal-content .modal-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+/* Sucesso */
+.register-modal-content .modal-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Center align the paragraph and its contents */
+.register-modal-content .p {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+}

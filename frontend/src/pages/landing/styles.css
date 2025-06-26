@@ -1,0 +1,63 @@
+.split-screen {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin-top: -3rem;
+  z-index: 0;
+}
+
+.split {
+  position: relative;
+  width: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: vixa, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  z-index: 2;
+  transition: transform 0.3s ease, color 0.3s ease;
+  pointer-events: none;
+  text-align: center;
+  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+.split::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
+
+.split:hover::before {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.split:hover .bg-img {
+  transform: scale(1.02);
+}
+
+.custom-navbar {
+  position: relative;
+  z-index: 10;
+}
