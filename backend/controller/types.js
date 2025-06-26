@@ -3,7 +3,13 @@ const pool = require('../config/db');
 exports.getAllTypes = async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM types WHERE is_deleted = false ORDER BY name ASC'
+      `SELECT t.*, 
+              ARRAY_AGG(st.name) AS sub_types
+       FROM types t
+       LEFT JOIN sub_types st ON st.type_id = t.id
+       WHERE t.is_deleted = false
+       GROUP BY t.id
+       ORDER BY t.name ASC`
     );
     res.status(200).json(result.rows);
   } catch (error) {
@@ -16,7 +22,12 @@ exports.getTypeById = async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query(
-      'SELECT * FROM types WHERE id = $1 AND is_deleted = false',
+      `SELECT t.*, 
+              ARRAY_AGG(st.name) AS sub_types
+       FROM types t
+       LEFT JOIN sub_types st ON st.type_id = t.id
+       WHERE t.id = $1 AND t.is_deleted = false
+       GROUP BY t.id`,
       [id]
     );
     const type = result.rows[0];

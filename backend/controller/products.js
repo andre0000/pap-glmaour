@@ -8,14 +8,13 @@ exports.addProduct = async (req, res) => {
     stock,
     supplier_id,
     image,
-    capotype,
-    sub_type,
+    type_id,
   } = req.body;
 
   try {
     const result = await pool.query(
-      "INSERT INTO products (name, description, price, stock, supplier_id, image, type, sub_type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
-      [name, description, price, stock, supplier_id, image, type, sub_type]
+      "INSERT INTO products (name, description, price, stock, supplier_id, image, type_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+      [name, description, price, stock, supplier_id, image, type_id]
     );
 
     const newProduct = result.rows[0];
@@ -30,13 +29,12 @@ exports.addProduct = async (req, res) => {
 
 exports.editProduct = async (req, res) => {
   const { id } = req.params;
-  const { name, description, price, stock, supplier_id, type, sub_type } =
-    req.body;
+  const { name, description, price, stock, supplier_id, type_id } = req.body;
 
   try {
     const result = await pool.query(
-      "UPDATE products SET name = $1, description = $2, price = $3, stock = $4, supplier_id = $5, type = $6, sub_type = $7 WHERE id = $8 AND is_deleted = false RETURNING *",
-      [name, description, price, stock, supplier_id, type, sub_type, id]
+      "UPDATE products SET name = $1, description = $2, price = $3, stock = $4, supplier_id = $5, type_id = $6 WHERE id = $7 AND is_deleted = false RETURNING *",
+      [name, description, price, stock, supplier_id, type_id, id]
     );
 
     const updatedProduct = result.rows[0];
@@ -58,7 +56,12 @@ exports.editProduct = async (req, res) => {
 exports.getProduct = async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM products WHERE is_deleted = false ORDER BY name DESC"
+      `SELECT p.*, t.name AS type_name, st.name AS sub_type_name
+       FROM products p
+       LEFT JOIN types t ON p.type_id = t.id
+       LEFT JOIN sub_types st ON t.sub_type_id = st.id
+       WHERE p.is_deleted = false
+       ORDER BY p.name ASC`
     );
 
     const products = result.rows;

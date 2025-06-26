@@ -26,19 +26,19 @@ exports.up = async function (knex) {
       table.boolean('is_deleted').defaultTo(false);
       table.timestamps(true, true);
     })
-    .createTable('sub_types', (table) => {
+    .createTable('types', (table) => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.string('name').notNullable();
       table.timestamps(true, true);
       table.boolean('is_deleted').defaultTo(false);
     })
-    .createTable('types', (table) => {
+    .createTable('sub_types', (table) => {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.string('name').notNullable();
       table
-        .uuid('sub_type_id')
+        .uuid('type_id')
         .references('id')
-        .inTable('sub_types')
+        .inTable('types')
         .onDelete('SET NULL');
       table.timestamps(true, true);
       table.boolean('is_deleted').defaultTo(false);
@@ -107,11 +107,11 @@ exports.up = async function (knex) {
  */
 exports.down = function (knex) {
   return knex.schema
-    .alterTable('products', (table) => {
+    .alterTable('sub_types', (table) => {
       table.dropColumn('type_id');
     })
-    .dropTableIfExists('types')
     .dropTableIfExists('sub_types')
+    .dropTableIfExists('types')
     .dropTableIfExists('sale_items')
     .dropTableIfExists('sales')
     .dropTableIfExists('cart')

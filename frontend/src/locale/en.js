@@ -4,6 +4,8 @@ const enTranslation = {
     catalog: 'Catalog',
     addProduct: 'Add Product',
     cart: 'Cart',
+    newArrivals: 'New Arrivals',
+    bestSellers: 'Best Sellers',
   },
   label: {
     name: 'Name',

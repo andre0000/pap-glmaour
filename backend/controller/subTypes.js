@@ -33,11 +33,11 @@ exports.getSubTypeById = async (req, res) => {
 };
 
 exports.createSubType = async (req, res) => {
-  const { name } = req.body;
+  const { name, type_id } = req.body;
   try {
     const result = await pool.query(
-      'INSERT INTO sub_types (name) VALUES ($1) RETURNING *',
-      [name]
+      'INSERT INTO sub_types (name, type_id) VALUES ($1, $2) RETURNING *',
+      [name, type_id]
     );
     res
       .status(201)
