@@ -1,20 +1,13 @@
 const pool = require("../config/db");
 
+// Adicionar produto
 exports.addProduct = async (req, res) => {
-  const {
-    name,
-    description,
-    price,
-    stock,
-    supplier_id,
-    image,
-    type_id,
-  } = req.body;
+  const { name, description, price, stock, supplier_id, type_id } = req.body;
 
   try {
     const result = await pool.query(
-      "INSERT INTO products (name, description, price, stock, supplier_id, image, type_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
-      [name, description, price, stock, supplier_id, image, type_id]
+      "INSERT INTO products (name, description, price, stock, supplier_id, type_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      [name, description, price, stock, supplier_id, type_id]
     );
 
     const newProduct = result.rows[0];
@@ -27,6 +20,7 @@ exports.addProduct = async (req, res) => {
   }
 };
 
+// Editar produto
 exports.editProduct = async (req, res) => {
   const { id } = req.params;
   const { name, description, price, stock, supplier_id, type_id } = req.body;
@@ -53,15 +47,24 @@ exports.editProduct = async (req, res) => {
   }
 };
 
+// Buscar todos os produtos
 exports.getProduct = async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT p.*, t.name AS type_name, st.name AS sub_type_name
-       FROM products p
-       LEFT JOIN types t ON p.type_id = t.id
-       LEFT JOIN sub_types st ON t.sub_type_id = st.id
-       WHERE p.is_deleted = false
-       ORDER BY p.name ASC`
+      `SELECT 
+        p.id, 
+        p.name, 
+        p.description, 
+        p.price, 
+        p.stock, 
+        p.supplier_id, 
+        p.type_id, 
+        p.is_deleted, 
+        p.created_at, 
+        p.updated_at
+      FROM products p
+      WHERE p.is_deleted = false
+      ORDER BY p.name ASC`
     );
 
     const products = result.rows;
@@ -73,6 +76,7 @@ exports.getProduct = async (req, res) => {
   }
 };
 
+// Soft delete
 exports.softDeleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
@@ -92,23 +96,29 @@ exports.softDeleteProduct = async (req, res) => {
   }
 };
 
+// GET TYPES AND SUB_TYPES (corrigido para as novas colunas)
 exports.getTypesAndSubTypes = async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT DISTINCT type, sub_type FROM products WHERE is_deleted = false"
+      "SELECT DISTINCT capotype AS type, sub_type FROM products WHERE is_deleted = false"
     );
 
     const types = {};
     result.rows.forEach(({ type, sub_type }) => {
-      if (!types[type]) {
-        types[type] = [];
-      }
+      if (!type) return;
+      if (!types[type]) types[type] = [];
       if (sub_type && !types[type].includes(sub_type)) {
         types[type].push(sub_type);
       }
     });
 
-    res.status(200).json(types);
+    // Retorna como array para o frontend
+    const typesArray = Object.entries(types).map(([type, sub_types]) => ({
+      type,
+      sub_types,
+    }));
+
+    res.status(200).json(typesArray);
   } catch (error) {
     console.error("Erro ao buscar tipos e subtipos:", error);
     res.status(500).json({ message: "Erro ao buscar tipos e subtipos", error });
