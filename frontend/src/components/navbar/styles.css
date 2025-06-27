@@ -122,6 +122,7 @@
   color: white;
   transition: color 0.2s;
   font-family: vixa;
+  cursor: pointer;
 }
 
 .custom-navbar:hover .nav-link,
@@ -136,6 +137,10 @@
   height: 30px;
   object-fit: contain;
   transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.custom-navbar:hover .icon-img {
+  filter: brightness(0);
 }
 
 .custom-navbar:hover .minimal-search {

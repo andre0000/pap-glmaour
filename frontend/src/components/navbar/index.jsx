@@ -1,17 +1,17 @@
-import { useState, useContext } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { FaSearch, FaShoppingBag } from "react-icons/fa";
-import "./styles.css";
-import LoginModal from "../../modals/loginModal";
-import RegisterModal from "../../modals/registerModal";
-import profileWhiteIcon from "../../assets/wProfile.svg";
-import profileBlackIcon from "../../assets/profile.svg";
-import { useTranslation } from "react-i18next";
-import { UserContext } from "../../../userContext";
-import CartSidebar from "../cartSideBar";
-import ShopDropdown from "../../components/shopDropdown";
+import { useState, useContext, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { FaSearch, FaShoppingBag } from 'react-icons/fa';
+import './styles.css';
+import LoginModal from '../../modals/loginModal';
+import RegisterModal from '../../modals/registerModal';
+import profileWhiteIcon from '../../assets/wProfile.svg';
+import profileBlackIcon from '../../assets/profile.svg';
+import { useTranslation } from 'react-i18next';
+import { UserContext } from '../../../userContext';
+import CartSidebar from '../cartSideBar';
+import ShopDropdown from '../../components/shopDropdown';
 
 const Navbar = () => {
   const {
@@ -25,7 +25,6 @@ const Navbar = () => {
   } = useContext(UserContext);
 
   const [isHovered, setIsHovered] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
   const [shopCloseTimeout, setShopCloseTimeout] = useState(null);
   const navigate = useNavigate();
@@ -35,10 +34,19 @@ const Navbar = () => {
   const toggleCart = () => setIsCartOpen((prev) => !prev);
 
   const isLogged = !!user;
-  const isCatalogPage = location.pathname === "/catalog";
-  const isCheckoutPage = location.pathname === "/checkout"; // Check if on the checkout page
+  const isCatalogPage = location.pathname === '/catalog';
+  const isCheckoutPage = location.pathname === '/checkout';
 
-  if (isCheckoutPage) return null; // Do not render the navbar on the checkout page
+  // LOG: Estado inicial e mudanças
+  useEffect(() => {
+    console.log('🔍 [NAVBAR] Estado atual:', {
+      isLogged,
+      user: user ? { id: user.id, name: user.name } : null,
+      pathname: location.pathname,
+    });
+  }, [isLogged, user, location.pathname]); // Removed showDropdown from dependencies
+
+  if (isCheckoutPage) return null;
 
   const handleShopEnter = () => {
     if (shopCloseTimeout) {
@@ -55,67 +63,53 @@ const Navbar = () => {
     setShopCloseTimeout(timeout);
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("user");
-    updateUser(null);
-    setShowDropdown(false);
-    navigate("/");
-  };
-
-  const toggleDropdown = () => {
-    if (isLogged) {
-      setShowDropdown((prev) => !prev);
-    } else {
-      setIsLoginOpen(true);
-    }
-  };
-
   return (
+    // Corrected misplaced closing bracket
     <>
       <nav
         className={`navbar navbar-expand-lg custom-navbar sticky-top ${
-          isCatalogPage ? "catalog-navbar" : ""
+          isCatalogPage ? 'catalog-navbar' : ''
         }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <div
-          className="container-fluid d-flex justify-content-between align-items-center"
-          style={{ position: "relative" }}
+          className='container-fluid d-flex justify-content-between align-items-center'
+          style={{ position: 'relative' }}
         >
           <div
-            className="navbar-brand minimal-brand"
+            className='navbar-brand minimal-brand'
             style={{
-              userSelect: "none",
-              WebkitUserSelect: "none",
-              MozUserSelect: "none",
-              pointerEvents: "none",
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              MozUserSelect: 'none',
+              pointerEvents: 'none',
             }}
             tabIndex={-1}
           >
             Glamour
           </div>
 
-          <div className="navbar-left d-flex align-items-center gap-4 position-relative">
+          <div className='navbar-left d-flex align-items-center gap-4 position-relative'>
             <div
-              className="shop-dropdown-wrapper"
+              className='shop-dropdown-wrapper'
               onMouseEnter={handleShopEnter}
               onMouseLeave={handleShopLeave}
-              style={{ position: "relative" }}
+              style={{ position: 'relative' }}
             >
               <button
-                className="btn btn-icon dropdown-toggle"
-                type="button"
-                aria-haspopup="true"
+                className='btn btn-icon dropdown-toggle'
+                type='button'
+                aria-haspopup='true'
                 aria-expanded={shopOpen}
               >
-                {t("buttons.shop")}
+                {t('buttons.shop')}
               </button>
 
               {shopOpen && (
                 <div
-                  className="dropdown-menu show mt-2 shop-dropdown-menu"
-                  style={{ position: "absolute", top: "100%", left: 0 }}
+                  className='dropdown-menu show mt-2 shop-dropdown-menu'
+                  style={{ position: 'absolute', top: '100%', left: 0 }}
                 >
                   <ShopDropdown />
                 </div>
@@ -123,94 +117,51 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="navbar-center"></div>
+          <div className='navbar-center'></div>
 
-          <div className="navbar-right d-flex align-items-center gap-3">
+          <div className='navbar-right d-flex align-items-center gap-3 position-relative'>
             <form
-              className="search-form d-flex align-items-center"
-              role="search"
+              className='search-form d-flex align-items-center'
+              role='search'
             >
               <input
-                className="form-control form-control-sm minimal-search"
-                type="search"
-                placeholder={t("input.search")}
-                aria-label={t("input.search")}
+                className='form-control form-control-sm minimal-search'
+                type='search'
+                placeholder={t('input.search')}
+                aria-label={t('input.search')}
               />
               <button
-                className="btn btn-sm search-btn"
-                type="submit"
-                aria-label="Search"
+                className='btn btn-sm search-btn'
+                type='submit'
+                aria-label='Search'
               >
                 <FaSearch />
               </button>
             </form>
 
-            <div className="dropdown position-relative">
-              <button
-                className="btn btn-icon"
-                title="Profile"
-                aria-haspopup="true"
-                aria-expanded={showDropdown}
-                onClick={toggleDropdown}
-              >
-                {isLogged && user?.pfp ? (
-                  <img src={user.pfp} alt="Profile" className="pfp-img" />
-                ) : (
-                  <img
-                    src={
-                      isCatalogPage || isHovered
-                        ? profileBlackIcon
-                        : profileWhiteIcon
-                    }
-                    alt="Profile"
-                    className="icon-img"
-                  />
-                )}
-              </button>
-
-              {showDropdown && (
-                <div
-                  className="dropdown-menu show position-absolute end-0 mt-2"
-                  style={{ minWidth: "160px" }}
-                  role="menu"
-                >
-                  <button
-                    className="dropdown-item"
-                    onClick={() => {
-                      navigate("/profile");
-                      setShowDropdown(false);
-                    }}
-                    role="menuitem"
-                  >
-                    {t("dropdown.profile")}
-                  </button>
-                  {user?.is_admin && (
-                    <button
-                      className="dropdown-item"
-                      onClick={() => {
-                        navigate("/admin/settings");
-                        setShowDropdown(false);
-                      }}
-                      role="menuitem"
-                    >
-                      {t("dropdown.adminsettings")}
-                    </button>
-                  )}
-                  <button
-                    className="dropdown-item text-danger"
-                    onClick={handleLogout}
-                    role="menuitem"
-                  >
-                    {t("dropdown.logout")}
-                  </button>
-                </div>
-              )}
-            </div>
+            <button
+              className='btn btn-icon'
+              title='Profile'
+              aria-label='User profile'
+              onClick={() => {
+                if (isLogged) {
+                  navigate('/profile');
+                } else {
+                  setIsLoginOpen(true);
+                }
+              }}
+            >
+              <img
+                src={isHovered ? profileBlackIcon : profileWhiteIcon}
+                alt='Profile'
+                style={{ width: 20, height: 20 }}
+              />
+            </button>
 
             <button
-              className="btn btn-icon"
-              title="Bag"
-              aria-label="Shopping bag"
+              className='btn btn-icon'
+              title='Bag'
+              aria-label='Shopping bag'
               onClick={toggleCart}
             >
               <FaShoppingBag />
@@ -240,6 +191,7 @@ const Navbar = () => {
           }}
         />
       )}
+
       <CartSidebar isOpen={isCartOpen} toggleCart={toggleCart} />
     </>
   );
