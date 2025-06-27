@@ -28,7 +28,7 @@
 .profile-wrapper {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   max-width: 700px;
   width: 90%;
   margin: 10vh auto;
@@ -39,57 +39,13 @@
   padding: 2rem;
   color: #fff;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  gap: 2rem;
-}
-
-@media (max-width: 600px) {
-  .profile-wrapper {
-    padding: 1rem;
-    max-width: 95%;
-    flex-direction: column;
-  }
-
-  .profile-title {
-    font-size: 2rem;
-  }
-
-  .pfp-img {
-    width: 100px;
-    height: 100px;
-  }
-
-  .btn {
-    padding: 10px 16px;
-    font-size: 0.8rem;
-  }
-}
-
-.profile-wrapper input,
-.profile-wrapper label,
-.profile-wrapper p,
-.profile-wrapper h2 {
-  font-family: 'Vixa', sans-serif;
-}
-
-.profile-buttons .btn {
-  display: flex;
-  margin-right: 10px;
-  background: rgba(255, 255, 255, 0.15);
-  justify-content: flex-end;
-  border: none;
-  padding: 0.5rem 1rem;
-  color: #fff;
-  border-radius: 10px;
-  margin-top: 30px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.profile-buttons .btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+  gap: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .profile-title {
+  width: 100%;
   font-family: 'Vixa', sans-serif;
   font-size: 2.5rem;
   font-weight: bold;
@@ -100,41 +56,22 @@
   color: #fff;
 }
 
-.profile-group-row {
+.profile-left {
+  flex: 0 0 180px;
   display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  gap: 10px;
+  justify-content: center;
 }
 
-.profile-group-row label {
-  width: 80px;
-  text-align: right;
-  font-weight: bold;
-  color: #aaa;
-  font-size: 1.2rem;
-}
-
-.profile-group-row input,
-.profile-group-row span {
+.profile-right {
   flex: 1;
-  font-size: 1.1rem;
-  color: #fff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid #666;
-  padding: 5px 10px;
-}
-
-.profile-group-row input:focus {
-  outline: none;
-  border-bottom-color: #2ecc71;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 250px;
 }
 
 .profile-pfp {
   text-align: center;
-  margin-bottom: 20px;
   width: 180px;
   flex-shrink: 0;
   display: flex;
@@ -153,18 +90,90 @@
   margin-bottom: 10px;
 }
 
-.change-photo-link {
-  font-size: 0.9rem;
-  color: #2ecc71;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: underline;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  transition: color 0.3s;
+.profile-group-column {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.change-photo-link:hover {
-  color: #27ae60;
+.profile-group-column label {
+  font-weight: bold;
+  color: #aaa;
+  font-size: 1.1rem;
+  font-family: 'Vixa', sans-serif;
+}
+
+.profile-group-column input,
+.profile-group-column span {
+  font-size: 1.1rem;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #666;
+  padding: 5px 10px;
+}
+
+.profile-group-column input:focus {
+  outline: none;
+  border-bottom-color: #2ecc71;
+}
+
+.profile-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-buttons .btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Vixa', sans-serif;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.profile-buttons .btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 600px) {
+  .profile-wrapper {
+    flex-direction: column;
+    max-width: 95%;
+    padding: 1rem;
+  }
+
+  .profile-left {
+    flex: none;
+    margin-bottom: 20px;
+  }
+
+  .profile-right {
+    min-width: auto;
+  }
+
+  .pfp-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-group-column label {
+    font-size: 1rem;
+  }
+
+  .profile-group-column input,
+  .profile-group-column span {
+    font-size: 1rem;
+  }
+
+  .profile-buttons .btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
 }

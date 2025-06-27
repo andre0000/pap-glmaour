@@ -1,21 +1,18 @@
-import { useEffect, useRef, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../userContext';
 import { useTranslation } from 'react-i18next';
 import './styles.css';
 
 const ProfilePage = () => {
-  const { user, setUser, updateUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     pfp: '',
-    password: '',
   });
-  const [preview, setPreview] = useState(null);
   const { t } = useTranslation();
-  const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,7 +34,6 @@ const ProfilePage = () => {
             name: data.user.name,
             email: data.user.email,
             pfp: data.user.pfp || '',
-            password: '',
           });
         } else {
           navigate('/');
@@ -62,7 +58,6 @@ const ProfilePage = () => {
       };
       if (formData.pfp && formData.pfp !== user.pfp)
         updateData.pfp = formData.pfp;
-      if (formData.password) updateData.password = formData.password;
 
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/auth/update-profile`,
@@ -79,8 +74,6 @@ const ProfilePage = () => {
       const data = await response.json();
       if (response.ok) {
         setUser(data.user);
-        setFormData({ ...formData, password: '' }); // limpa a senha
-        setPreview(null);
         setIsEditing(false);
       } else {
         alert(data.message || 'Erro ao atualizar perfil');
@@ -99,18 +92,6 @@ const ProfilePage = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData({ ...formData, pfp: reader.result });
-      setPreview(reader.result);
-    };
-    reader.readAsDataURL(file);
   };
 
   if (!user) return null;
@@ -133,72 +114,77 @@ const ProfilePage = () => {
       <div className='profile-wrapper'>
         <h2 className='profile-title'>{t('title.profile')}</h2>
 
-        <div className='profile-pfp'>
-          <img
-            src={
-              preview ||
-              formData.pfp ||
-              user.pfp ||
-              'https://yt3.googleusercontent.com/g_ehk5ILwK_UcZpC3obW4-uL7PSeY8aOhXfqh4oIMBv0YlgimDGFoWPaZYrCmROu3_pXchDlwQ=s900-c-k-c0x00ffffff-no-rj'
-            }
-            alt='Foto de perfil'
-            className='pfp-img'
-          />
-          {isEditing && (
-            <>
-              <input
-                type='file'
-                accept='image/*'
-                ref={fileInputRef}
-                onChange={handleImageChange}
-                style={{ display: 'none' }}
-              />
-              <button
-                className='change-photo-link'
-                onClick={() => fileInputRef.current.click()}
-                type='button'
-              >
-                {t('buttons.pfp')}
-              </button>
-            </>
-          )}
-        </div>
-
-        <div className='profile-group-row'>
-          <label>{t('fields.name')}:</label>
-          {isEditing ? (
-            <input name='name' value={formData.name} onChange={handleChange} />
-          ) : (
-            <span>{user.name}</span>
-          )}
-        </div>
-
-        <div className='profile-group-row'>
-          <label>{t('fields.email')}:</label>
-          {isEditing ? (
-            <input
-              name='email'
-              value={formData.email}
-              onChange={handleChange}
+        <div className='profile-left'>
+          <div className='profile-pfp'>
+            <img
+              src={
+                formData.pfp ||
+                user.pfp ||
+                'https://yt3.googleusercontent.com/g_ehk5ILwK_UcZpC3obW4-uL7PSeY8aOhXfqh4oIMBv0YlgimDGFoWPaZYrCmROu3_pXchDlwQ=s900-c-k-c0x00ffffff-no-rj'
+              }
+              alt='Foto de perfil'
+              className='pfp-img'
             />
-          ) : (
-            <span>{user.email}</span>
-          )}
+          </div>
         </div>
 
-        <div className='profile-buttons'>
-          {isEditing ? (
-            <button className='btn save' onClick={handleSave}>
-              {t('buttons.save')}
-            </button>
-          ) : (
-            <button className='btn edit' onClick={handleEdit}>
-              {t('buttons.edit')}
-            </button>
+        <div className='profile-right'>
+          <div className='profile-group-column'>
+            <label>{t('fields.name')}:</label>
+            {isEditing ? (
+              <input
+                name='name'
+                value={formData.name}
+                onChange={handleChange}
+                autoComplete='name'
+              />
+            ) : (
+              <span>{user.name}</span>
+            )}
+          </div>
+
+          <div className='profile-group-column'>
+            <label>{t('fields.email')}:</label>
+            {isEditing ? (
+              <input
+                name='email'
+                value={formData.email}
+                onChange={handleChange}
+                autoComplete='email'
+              />
+            ) : (
+              <span>{user.email}</span>
+            )}
+          </div>
+
+          {isEditing && (
+            <div className='profile-group-column'>
+              <label>{t('fields.pfp_link') || 'Foto URL'}:</label>
+              <input
+                type='url'
+                name='pfp'
+                value={formData.pfp}
+                onChange={handleChange}
+                placeholder='https://...'
+                autoComplete='off'
+              />
+            </div>
           )}
-          <button className='btn logout' onClick={handleLogout}>
-            {t('buttons.logout')}
-          </button>
+
+          <div className='profile-buttons'>
+            {isEditing ? (
+              <button className='btn save' onClick={handleSave}>
+                {t('buttons.save')}
+              </button>
+            ) : (
+              <button className='btn edit' onClick={handleEdit}>
+                {t('buttons.edit')}
+              </button>
+            )}
+            <button className='btn logout' onClick={handleLogout}>
+              {t('buttons.logout')}
+            </button>
+          </div>
         </div>
       </div>
     </>
