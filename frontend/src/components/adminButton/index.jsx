@@ -9,7 +9,11 @@ const AdminButton = () => {
   if (!isAdmin) return null;
 
   return (
-    <Link to='/' className='floating-admin-btn' title='Home'>
+    <Link
+      to='/admin-settings'
+      className='floating-admin-btn'
+      title='AdminSettings'
+    >
       <GrUserAdmin size={18} />
     </Link>
   );

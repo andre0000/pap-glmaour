@@ -36,6 +36,7 @@ const Navbar = () => {
   const isLogged = !!user;
   const isCatalogPage = location.pathname === '/catalog';
   const isCheckoutPage = location.pathname === '/checkout';
+  const isAdminSettingsPage = location.pathname === '/admin-settings';
 
   // LOG: Estado inicial e mudanças
   useEffect(() => {
@@ -47,6 +48,7 @@ const Navbar = () => {
   }, [isLogged, user, location.pathname]); // Removed showDropdown from dependencies
 
   if (isCheckoutPage) return null;
+  if (isCheckoutPage || isAdminSettingsPage) return null;
 
   const handleShopEnter = () => {
     if (shopCloseTimeout) {
@@ -64,7 +66,6 @@ const Navbar = () => {
   };
 
   return (
-    // Corrected misplaced closing bracket
     <>
       <nav
         className={`navbar navbar-expand-lg custom-navbar sticky-top ${
