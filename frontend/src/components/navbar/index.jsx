@@ -154,7 +154,7 @@ const Navbar = () => {
               <img
                 src={isHovered ? profileBlackIcon : profileWhiteIcon}
                 alt='Profile'
-                style={{ width: 20, height: 20 }}
+                style={{ width: 30, height: 30 }}
               />
             </button>
 
