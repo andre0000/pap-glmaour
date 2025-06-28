@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { FaSearch, FaShoppingBag } from "react-icons/fa";
+import { FaShoppingBag } from "react-icons/fa";
 import "./styles.css";
 import LoginModal from "../../modals/loginModal";
 import RegisterModal from "../../modals/registerModal";
@@ -120,25 +120,6 @@ const Navbar = () => {
           <div className="navbar-center"></div>
 
           <div className="navbar-right d-flex align-items-center position-relative">
-            <form
-              className="search-form d-flex align-items-center"
-              role="search"
-            >
-              <input
-                className="form-control form-control-sm minimal-search"
-                type="search"
-                placeholder={t("input.search")}
-                aria-label={t("input.search")}
-              />
-              <button
-                className="btn btn-sm search-btn"
-                type="submit"
-                aria-label="Search"
-              >
-                <FaSearch />
-              </button>
-            </form>
-
             <button
               className="btn btn-icon profile-btn"
               title="Profile"
