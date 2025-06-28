@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { FaSearch, FaShoppingBag } from "react-icons/fa";
@@ -40,9 +40,9 @@ const Navbar = () => {
 
   useEffect(() => {}, [isLogged, user, location.pathname]);
 
-  if (isCheckoutPage) return null;
   if (isCheckoutPage || isAdminSettingsPage) return null;
 
+  // Para suportar hover no desktop e clique no mobile no dropdown shop:
   const handleShopEnter = () => {
     if (shopCloseTimeout) {
       clearTimeout(shopCloseTimeout);
@@ -56,6 +56,10 @@ const Navbar = () => {
       setShopOpen(false);
     }, 200);
     setShopCloseTimeout(timeout);
+  };
+
+  const handleShopClick = () => {
+    setShopOpen((prev) => !prev);
   };
 
   return (
@@ -96,6 +100,7 @@ const Navbar = () => {
                 type="button"
                 aria-haspopup="true"
                 aria-expanded={shopOpen}
+                onClick={handleShopClick} // clique para mobile
               >
                 {t("buttons.shop")}
               </button>
@@ -104,6 +109,7 @@ const Navbar = () => {
                 <div
                   className="dropdown-menu show mt-2 shop-dropdown-menu"
                   style={{ position: "absolute", top: "100%", left: 0 }}
+                  onClick={(e) => e.stopPropagation()} // evitar fechar ao clicar dentro
                 >
                   <ShopDropdown />
                 </div>
@@ -113,7 +119,7 @@ const Navbar = () => {
 
           <div className="navbar-center"></div>
 
-          <div className="navbar-right d-flex align-items-center gap-3 position-relative">
+          <div className="navbar-right d-flex align-items-center position-relative">
             <form
               className="search-form d-flex align-items-center"
               role="search"
@@ -134,7 +140,7 @@ const Navbar = () => {
             </form>
 
             <button
-              className="btn btn-icon"
+              className="btn btn-icon profile-btn"
               title="Profile"
               aria-label="User profile"
               onClick={() => {
@@ -154,12 +160,12 @@ const Navbar = () => {
                     : profileWhiteIcon
                 }
                 alt="Profile"
-                style={{ width: 30, height: 30, borderRadius: "50%" }}
+                className="icon-img"
               />
             </button>
 
             <button
-              className="btn btn-icon"
+              className="btn btn-icon bag-btn"
               title="Bag"
               aria-label="Shopping bag"
               onClick={toggleCart}

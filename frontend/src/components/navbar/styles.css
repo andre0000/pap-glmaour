@@ -245,3 +245,15 @@
   z-index: 3000;
   min-width: 200px;
 }
+
+@media (max-width: 480px) {
+  .navbar-right {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .minimal-search {
+    display: none;
+  }
+}
