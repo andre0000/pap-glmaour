@@ -121,6 +121,7 @@
   border: none;
   color: white;
   transition: color 0.2s;
+  font-weight: bold;
 }
 
 .custom-navbar:hover .nav-link,

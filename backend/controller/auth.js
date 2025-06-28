@@ -15,12 +15,18 @@ exports.login = async (req, res) => {
     const user = result.rows[0];
 
     if (!user) {
-      return res.status(400).json({ message: "Email ou senha inválidos" });
+      return res.status(400).json({
+        code: "user_or_email_not_found",
+        message: "Email não encontrado",
+      });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Email ou senha inválidos" });
+      return res.status(400).json({
+        code: "user_or_email_not_found",
+        message: "Email não encontrado",
+      });
     }
 
     const token = jwt.sign(
@@ -54,7 +60,12 @@ exports.register = async (req, res) => {
     );
 
     if (existingUser.rows.length > 0) {
-      return res.status(400).json({ message: "Email já registrado" });
+      return res
+        .status(400)
+        .json({
+          code: "email_already_registered",
+          message: "Email já registrado",
+        });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

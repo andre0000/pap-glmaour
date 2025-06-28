@@ -6,10 +6,9 @@
   padding: 30px;
   width: 450px;
   border-radius: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
-
 
 .modal-backdrop {
   position: fixed;
@@ -21,7 +20,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1050; 
+  z-index: 1050;
 }
 
 .modal-close {
@@ -47,7 +46,7 @@
   gap: 8px;
 }
 
-.login-modal-content .checkbox-group input[type='checkbox'] {
+.login-modal-content .checkbox-group input[type="checkbox"] {
   width: 16px;
   height: 16px;
   accent-color: #2d79f3;
@@ -61,8 +60,8 @@
 }
 
 .login-modal-content input::placeholder {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .login-modal-content .form button {
@@ -167,4 +166,15 @@
 
 .login-modal-content .btn:hover {
   border: 1px solid #2d79f3;
+}
+
+.modal-error {
+  color: #ff4d4f;
+  background-color: #fff1f0;
+  border: 1px solid #ffa39e;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  font-size: 14px;
 }

@@ -29,7 +29,10 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Erro ao fazer login");
+        const errorMsg = data.code
+          ? t(`error.${data.code}`)
+          : t("error.login_failed");
+        throw new Error(errorMsg);
       }
 
       sessionStorage.setItem("token", data.token);
@@ -64,8 +67,8 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
               ×
             </button>
 
-            {error && <div className="modal-error">{error}</div>}
             <form className="form" onSubmit={handleLogin}>
+              {error && <div className="modal-error">{error}</div>}
               <h2 style={{ marginBottom: "20px" }}>Login</h2>
 
               <div className="flex-column">
@@ -107,7 +110,7 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
                   style={{ cursor: "pointer" }}
                   onClick={() => {
                     console.log("abrindo forgot modal");
-                    setShowForgotModal(true); // Apenas troca o modal
+                    setShowForgotModal(true);
                   }}
                 >
                   Forgot password?
