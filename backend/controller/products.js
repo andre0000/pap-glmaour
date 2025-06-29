@@ -31,7 +31,6 @@ exports.addProduct = async (req, res) => {
   }
 };
 
-// Editar produto
 exports.editProduct = async (req, res) => {
   const { id } = req.params;
   const { name, description, price, stock, supplier_id, type_id, imageUrl } =
@@ -98,7 +97,6 @@ exports.getProduct = async (req, res) => {
   }
 };
 
-// Soft delete
 exports.softDeleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
@@ -118,7 +116,6 @@ exports.softDeleteProduct = async (req, res) => {
   }
 };
 
-// GET TYPES AND SUB_TYPES (corrigido para as novas colunas)
 exports.getTypesAndSubTypes = async (req, res) => {
   try {
     const result = await pool.query(

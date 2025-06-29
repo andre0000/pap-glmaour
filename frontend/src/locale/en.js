@@ -7,6 +7,9 @@ const enTranslation = {
     newArrivals: "NEW ARRIVALS",
     bestSellers: "BESTSELLERS",
     allProducts: "ALL PRODUCTS",
+    boughtProducts: "Bought Products",
+    Products: "Products",
+    subTypes: "SubTypes",
   },
   label: {
     name: "Name",
@@ -16,11 +19,15 @@ const enTranslation = {
     stock: "Stock Quantity",
     price: "Price",
     gender: "Gender",
-    image: "Image URL",
+    imageUrl: "Image URL",
     type: "Type",
     subType: "Sub Type",
     fileSelected: "File Selected",
     productSize: "Product Size",
+    image: "Image",
+    quantity: "Quantity",
+    actions: "Actions",
+    size: "Size",
   },
 
   modal: {
@@ -30,6 +37,9 @@ const enTranslation = {
   success: {
     title: "Success",
     productAdded: "Product added to cart successfully!",
+    updatedTitle: "Updated Successfully",
+    updatedText: "Product updated successfully!",
+    productRemoved: "Product removed successfully!",
   },
 
   options: {
@@ -60,6 +70,8 @@ const enTranslation = {
     browse: "Browse",
     addProduct: "Add Product",
     clearCart: "Clear Cart",
+    cancel: "Cancel",
+    addSubType: "Add Sub Type",
   },
 
   dropdown: {
@@ -106,6 +118,20 @@ const enTranslation = {
     email_already_registered: "Email already registered",
     login_failed: "Login failed",
     register_failed: "Registration failed",
+    updatedTitle: "Oops...",
+    updatedText: "An error occurred while updating the product.",
+    tokenFailed: "Token verification failed",
+    removeProduct: "Error removing product",
+    title: "Error",
+  },
+
+  confirmation: {
+    title: "Are you sure?",
+    text: "This action cannot be undone.",
+    buttons: {
+      confirm: "Yes, delete it!",
+      cancel: "Cancel",
+    },
   },
 
   checkout: {

@@ -270,7 +270,7 @@ const AddProductModal = ({ show, handleClose }) => {
 
           {/* Campo simplificado para a URL da imagem */}
           <div className="flex-column">
-            <label>{t("label.image")}</label>
+            <label>{t("label.imageUrl")}</label>
             <div className="inputForm">
               <input
                 type="text"
