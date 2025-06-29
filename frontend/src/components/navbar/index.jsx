@@ -34,7 +34,6 @@ const Navbar = () => {
   const toggleCart = () => setIsCartOpen((prev) => !prev);
 
   const isLogged = !!user;
-  const isCatalogPage = location.pathname === "/catalog";
   const isCheckoutPage = location.pathname === "/checkout";
   const isAdminSettingsPage = location.pathname === "/admin-settings";
 
@@ -42,7 +41,6 @@ const Navbar = () => {
 
   if (isCheckoutPage || isAdminSettingsPage) return null;
 
-  // Para suportar hover no desktop e clique no mobile no dropdown shop:
   const handleShopEnter = () => {
     if (shopCloseTimeout) {
       clearTimeout(shopCloseTimeout);
@@ -65,9 +63,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`navbar navbar-expand-lg custom-navbar sticky-top ${
-          isCatalogPage ? "catalog-navbar" : ""
-        }`}
+        className={`navbar navbar-expand-lg custom-navbar sticky-top`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -100,7 +96,7 @@ const Navbar = () => {
                 type="button"
                 aria-haspopup="true"
                 aria-expanded={shopOpen}
-                onClick={handleShopClick} // clique para mobile
+                onClick={handleShopClick}
               >
                 {t("buttons.shop")}
               </button>
@@ -109,7 +105,7 @@ const Navbar = () => {
                 <div
                   className="dropdown-menu show mt-2 shop-dropdown-menu"
                   style={{ position: "absolute", top: "100%", left: 0 }}
-                  onClick={(e) => e.stopPropagation()} // evitar fechar ao clicar dentro
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <ShopDropdown />
                 </div>
@@ -141,7 +137,7 @@ const Navbar = () => {
                     : profileWhiteIcon
                 }
                 alt="Profile"
-                className="icon-img"
+                className={isLogged ? "navbar-pfp-img" : "icon-img"}
               />
             </button>
 

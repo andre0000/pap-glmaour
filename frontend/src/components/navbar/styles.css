@@ -100,16 +100,16 @@
   color: black;
 }
 
-.navbar .pfp-img {
-  width: 48px; /* Increased size */
-  height: 48px; /* Increased size */
+.navbar .navbar-pfp-img {
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid white;
   transition: transform 0.2s ease;
 }
 
-.custom-navbar:hover .pfp-img {
+.custom-navbar:hover .navbar-pfp-img {
   border-color: black;
 }
 
@@ -168,7 +168,7 @@
   border-color: black !important;
 }
 
-.catalog-navbar .navbar .pfp-img {
+.catalog-navbar .navbar .navbar-pfp-img {
   border-color: black !important;
 }
 

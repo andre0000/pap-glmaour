@@ -1,37 +1,40 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import './styles.css';
-import CountrySelect from '../../components/countrySelect';
-import Select from 'react-select';
-import { FaCcVisa } from 'react-icons/fa';
-import { CiBank } from 'react-icons/ci';
-import Swal from 'sweetalert2'; // Import SweetAlert2
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import { useState, useEffect } from "react";
+import axios from "axios";
+import "./styles.css";
+import CountrySelect from "../../components/countrySelect";
+import Select from "react-select";
+import { FaCcVisa } from "react-icons/fa";
+import { CiBank } from "react-icons/ci";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const CheckoutPage = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+const CheckoutPage = (isOpen) => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [cartItems, setCartItems] = useState([]);
+  const [user, setUser] = useState(null);
+  const { t } = useTranslation();
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    address: '',
-    apartmentSuite: '',
-    city: '',
-    postal: '',
-    phoneNumber: '',
-    payment: '',
-    cardNumber: '',
-    cardName: '',
-    cardExpiry: '',
-    cardCVC: '',
-    mbwayNumber: '',
+    firstName: "",
+    lastName: "",
+    address: "",
+    apartmentSuite: "",
+    city: "",
+    postal: "",
+    phoneNumber: "",
+    payment: "",
+    cardNumber: "",
+    cardName: "",
+    cardExpiry: "",
+    cardCVC: "",
+    mbwayNumber: "",
   });
-  const [country, setCountry] = useState('PT');
+  const [country, setCountry] = useState("PT");
 
   const paymentOptions = [
     {
-      value: 'mbway',
+      value: "mbway",
       label: (
         <>
           <CiBank style={{ width: 20, height: 20, marginRight: 8 }} />
@@ -40,7 +43,7 @@ const CheckoutPage = () => {
       ),
     },
     {
-      value: 'visa',
+      value: "visa",
       label: (
         <>
           <FaCcVisa style={{ width: 20, height: 20, marginRight: 8 }} />
@@ -51,28 +54,42 @@ const CheckoutPage = () => {
   ];
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    if (!user) return;
+    if (!isOpen) return;
+
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
+    if (!storedUser) return;
+
+    setUser(storedUser);
+    fetchCartItems(storedUser.id);
+  }, [isOpen]);
+
+  const fetchCartItems = (userId) => {
+    if (!userId) return;
 
     axios
-      .get(`/cart/${user.id}`)
+      .get(`${import.meta.env.VITE_API_URL}/cart/${userId}`)
       .then((res) => {
         setCartItems(res.data.items || []);
       })
       .catch(() => setCartItems([]));
-  }, []);
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handlePostalCodeChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    let value = e.target.value.replace(/\D/g, "");
     if (value.length > 4) {
-      value = value.slice(0, 4) + '-' + value.slice(4, 7); // Adiciona o "-"
+      value = value.slice(0, 4) + "-" + value.slice(4, 7);
     }
     setForm({ ...form, postal: value });
   };
+
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   const handleValidation = () => {
     if (step === 1) {
@@ -86,7 +103,7 @@ const CheckoutPage = () => {
       );
     }
     if (step === 2) {
-      if (form.payment === 'visa') {
+      if (form.payment === "visa") {
         return (
           form.cardNumber.trim() &&
           form.cardName.trim() &&
@@ -94,7 +111,7 @@ const CheckoutPage = () => {
           form.cardCVC.trim()
         );
       }
-      if (form.payment === 'mbway') {
+      if (form.payment === "mbway") {
         return form.mbwayNumber.trim();
       }
     }
@@ -103,137 +120,167 @@ const CheckoutPage = () => {
 
   const handleInputValidation = (e, type) => {
     const value = e.target.value;
-    if (type === 'text' && !/^[a-zA-Z\s]*$/.test(value)) return;
-    if (type === 'number' && !/^\d*$/.test(value)) return;
+    if (type === "text" && !/^[\p{L}\s'-]+$/u.test(value)) return;
+    if (type === "number" && !/^\d*$/.test(value)) return;
     handleChange(e);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    Swal.fire({
-      title: 'Compra Realizada!',
-      text: `Compra realizado com sucesso!`,
-      icon: 'success',
-      confirmButtonText: 'OK',
-    }).then(() => {
-      navigate('/'); // Redirect to the landing page
-    });
+
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/cart/${user.id}/checkout`
+      );
+
+      Swal.fire({
+        title: t("checkout.messages.purchaseSuccessTitle"),
+        text: t("checkout.messages.purchaseSuccessText"),
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/");
+      });
+    } catch (error) {
+      console.error("Erro ao confirmar a compra:", error);
+      Swal.fire({
+        title: t("checkout.messages.purchaseFailedTitle"),
+        text: t("checkout.messages.purchaseFailedText"),
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   return (
-    <div className='checkout-container'>
-      <div className='checkout-left'>
-        <h2 className='checkout-title'>Glamour</h2>
+    <div className="checkout-container">
+      <div className="checkout-left">
+        <h2 className="checkout-title">Glamour</h2>
 
-        {/* Step progress visual */}
-        <div className='step-progress'>
+        <div className="step-progress">
           {[1, 2, 3].map((s) => (
             <div
               key={s}
-              className={`step ${step === s ? 'active' : ''} ${
-                step > s ? 'completed' : ''
+              className={`step ${step === s ? "active" : ""} ${
+                step > s ? "completed" : ""
               }`}
               style={{
                 backgroundColor:
-                  step === s ? '#000' : step > s ? '#000' : 'transparent',
-                color: step === s || step > s ? '#fff' : '#000',
-                border: step > s || step === s ? 'none' : '2px solid #000',
+                  step === s ? "#000" : step > s ? "#000" : "transparent",
+                color: step === s || step > s ? "#fff" : "#000",
+                border: step > s || step === s ? "none" : "2px solid #000",
               }}
             >
-              {s === 1 && '1. Envio'}
-              {s === 2 && '2. Pagamento'}
-              {s === 3 && '3. Confirmar'}
+              {t(`checkout.steps.${s}`)}
             </div>
           ))}
         </div>
 
-        <form className='checkout-form' onSubmit={handleSubmit}>
+        <form className="checkout-form" onSubmit={handleSubmit}>
           {step === 1 && (
             <>
-              <h4 className='section-title'>Dados de Envio</h4>
-              <div className='row g-3'>
-                <div className='col-md-6'>
-                  <label className='form-label'>Primeiro Nome</label>
+              <h4 className="section-title">
+                {t("checkout.sectionTitle.shippingData")}
+              </h4>
+              <div className="row g-3">
+                <div className="col-md-6">
+                  <label className="form-label">
+                    {t("checkout.labels.firstName")}
+                  </label>
                   <input
-                    type='text'
-                    name='firstName'
+                    type="text"
+                    name="firstName"
                     value={form.firstName}
-                    onChange={(e) => handleInputValidation(e, 'text')}
+                    onChange={(e) => handleInputValidation(e, "text")}
                     required
                   />
                 </div>
-                <div className='col-md-6'>
-                  <label className='form-label'>Último Nome</label>
+                <div className="col-md-6">
+                  <label className="form-label">
+                    {t("checkout.labels.lastName")}
+                  </label>
                   <input
-                    type='text'
-                    name='lastName'
+                    type="text"
+                    name="lastName"
                     value={form.lastName}
-                    onChange={(e) => handleInputValidation(e, 'text')}
+                    onChange={(e) => handleInputValidation(e, "text")}
                     required
                   />
                 </div>
-                <div className='col-md-12'>
-                  <label className='form-label'>Endereço</label>
+                <div className="col-md-12">
+                  <label className="form-label">
+                    {t("checkout.labels.address")}
+                  </label>
                   <input
-                    type='text'
-                    name='address'
+                    type="text"
+                    name="address"
                     value={form.address}
                     onChange={handleChange}
                     required
                   />
                 </div>
-                <div className='col-md-8'>
-                  <label className='form-label'>Apartamento/Suite</label>
+                <div className="col-md-8">
+                  <label className="form-label">
+                    {t("checkout.labels.apartmentSuite")}
+                  </label>
                   <input
-                    type='text'
-                    name='apartmentSuite'
+                    type="text"
+                    name="apartmentSuite"
                     value={form.apartmentSuite}
                     onChange={handleChange}
                   />
                 </div>
-                <div className='col-md-4'>
-                  <label className='form-label'>Número de Telefone</label>
+                <div className="col-md-4">
+                  <label className="form-label">
+                    {t("checkout.labels.phoneNumber")}
+                  </label>
                   <input
-                    type='text'
-                    name='phoneNumber'
+                    type="text"
+                    name="phoneNumber"
                     value={form.phoneNumber}
-                    onChange={(e) => handleInputValidation(e, 'number')}
+                    onChange={(e) => handleInputValidation(e, "number")}
                     required
                   />
                 </div>
-                <div className='col-md-4'>
-                  <label className='form-label'>Cidade</label>
+                <div className="col-md-4">
+                  <label className="form-label">
+                    {t("checkout.labels.city")}
+                  </label>
                   <input
-                    type='text'
-                    name='city'
+                    type="text"
+                    name="city"
                     value={form.city}
                     onChange={handleChange}
                     required
                   />
                 </div>
-                <div className='col-md-4'>
-                  <label className='form-label'>Código Postal</label>
+                <div className="col-md-4">
+                  <label className="form-label">
+                    {t("checkout.labels.postalCode")}
+                  </label>
                   <input
-                    type='text'
-                    name='postal'
+                    type="text"
+                    name="postal"
                     value={form.postal}
                     onChange={handlePostalCodeChange}
                     maxLength={8}
                     required
                   />
                 </div>
-                <div className='col-md-4'>
-                  <label className='form-label'>País</label>
+                <div className="col-md-4">
+                  <label className="form-label">
+                    {t("checkout.labels.country")}
+                  </label>
                   <CountrySelect
-                    className='CountrySelect'
+                    className="CountrySelect"
                     value={country}
                     onChange={setCountry}
                   />
                 </div>
-                <div className='col-12'>
+                <div className="col-12">
                   <button
-                    type='button'
-                    className='btn btn-dark w-100 mt-3'
+                    type="button"
+                    className="btn btn-dark w-100 mt-3"
                     onClick={() => handleValidation() && setStep(2)}
                     disabled={!handleValidation()}
                   >
@@ -246,57 +293,61 @@ const CheckoutPage = () => {
 
           {step === 2 && (
             <>
-              <h4 className='section-title'>Método de Pagamento</h4>
-              <div className='row g-3'>
-                <div className='col-12'>
-                  <label className='form-label'>Método de Pagamento</label>
+              <h4 className="section-title">
+                {t("checkout.sectionTitle.paymentMethod")}
+              </h4>
+              <div className="row g-3">
+                <div className="col-12">
+                  <label className="form-label">
+                    {t("checkout.labels.paymentMethod")}
+                  </label>
                   <Select
                     options={paymentOptions}
                     onChange={(selectedOption) =>
                       setForm({ ...form, payment: selectedOption.value })
                     }
-                    placeholder='Selecione...'
+                    placeholder="Selecione..."
                   />
                 </div>
 
-                {form.payment === 'visa' && (
+                {form.payment === "visa" && (
                   <>
-                    <div className='col-md-6'>
-                      <label>Número do Cartão</label>
+                    <div className="col-md-6">
+                      <label>{t("checkout.labels.cardNumber")}</label>
                       <input
-                        type='text'
-                        name='cardNumber'
+                        type="text"
+                        name="cardNumber"
                         value={form.cardNumber}
                         onChange={handleChange}
                         required
                       />
                     </div>
-                    <div className='col-md-6'>
-                      <label>Nome no Cartão</label>
+                    <div className="col-md-6">
+                      <label>{t("checkout.labels.cardName")}</label>
                       <input
-                        type='text'
-                        name='cardName'
+                        type="text"
+                        name="cardName"
                         value={form.cardName}
                         onChange={handleChange}
                         required
                       />
                     </div>
-                    <div className='col-md-6'>
-                      <label>Validade</label>
+                    <div className="col-md-6">
+                      <label>{t("checkout.labels.cardExpiry")}</label>
                       <input
-                        type='text'
-                        name='cardExpiry'
-                        placeholder='MM/AA'
+                        type="text"
+                        name="cardExpiry"
+                        placeholder="MM/AA"
                         value={form.cardExpiry}
                         onChange={handleChange}
                         required
                       />
                     </div>
-                    <div className='col-md-6'>
-                      <label>CVC</label>
+                    <div className="col-md-6">
+                      <label>{t("checkout.labels.cardCVC")}</label>
                       <input
-                        type='text'
-                        name='cardCVC'
+                        type="text"
+                        name="cardCVC"
                         value={form.cardCVC}
                         onChange={handleChange}
                         required
@@ -305,12 +356,12 @@ const CheckoutPage = () => {
                   </>
                 )}
 
-                {form.payment === 'mbway' && (
-                  <div className='col-md-6'>
-                    <label>Número MB Way</label>
+                {form.payment === "mbway" && (
+                  <div className="col-md-6">
+                    <label>{t("checkout.labels.mbwayNumber")}</label>
                     <input
-                      type='text'
-                      name='mbwayNumber'
+                      type="text"
+                      name="mbwayNumber"
                       value={form.mbwayNumber}
                       onChange={handleChange}
                       required
@@ -318,22 +369,22 @@ const CheckoutPage = () => {
                   </div>
                 )}
 
-                <div className='col-12'>
-                  <div className='button-row'>
+                <div className="col-12">
+                  <div className="button-row">
                     <button
-                      type='button'
-                      className='btn btn-secondary'
+                      type="button"
+                      className="btn btn-secondary"
                       onClick={() => setStep(1)}
                     >
-                      Voltar
+                      {t("checkout.buttons.back")}
                     </button>
                     <button
-                      type='button'
-                      className='btn btn-dark'
+                      type="button"
+                      className="btn btn-dark"
                       onClick={() => handleValidation() && setStep(3)}
                       disabled={!handleValidation()}
                     >
-                      Próximo
+                      {t("checkout.buttons.next")}
                     </button>
                   </div>
                 </div>
@@ -343,39 +394,46 @@ const CheckoutPage = () => {
 
           {step === 3 && (
             <>
-              <h4 className='section-title'>Confirmar e Finalizar</h4>
-              <div className='summary-box'>
+              <h4 className="section-title">
+                {t("checkout.sectionTitle.confirmFinish")}
+              </h4>
+              <div className="summary-box">
                 <p>
-                  <strong>Nome:</strong> {form.firstName} {form.lastName}
+                  <strong>{t("checkout.labels.name")}:</strong> {form.firstName}{" "}
+                  {form.lastName}
                 </p>
                 <p>
-                  <strong>Endereço:</strong> {form.address},{' '}
-                  {form.apartmentSuite}, {form.city}, {form.postal}, {country}
+                  <strong>{t("checkout.labels.address")}:</strong>{" "}
+                  {form.address}, {form.apartmentSuite}, {form.city},{" "}
+                  {form.postal}, {country}
                 </p>
                 <p>
-                  <strong>Telefone:</strong> {form.phoneNumber}
+                  <strong>{t("checkout.labels.phoneNumber")}:</strong>{" "}
+                  {form.phoneNumber}
                 </p>
                 <p>
-                  <strong>Pagamento:</strong> {form.payment.toUpperCase()}
+                  <strong>{t("checkout.labels.paymentType")}:</strong>{" "}
+                  {form.payment.toUpperCase()}
                 </p>
-                {form.payment === 'mbway' && (
+                {form.payment === "mbway" && (
                   <p>
-                    <strong>MB Way:</strong> {form.mbwayNumber}
+                    <strong>{t("checkout.labels.paymentTypeMbway")}:</strong>{" "}
+                    {form.mbwayNumber}
                   </p>
                 )}
               </div>
 
-              <div className='col-12'>
-                <div className='button-row'>
+              <div className="col-12">
+                <div className="button-row">
                   <button
-                    type='button'
-                    className='btn btn-secondary'
+                    type="button"
+                    className="btn btn-secondary"
                     onClick={() => setStep(2)}
                   >
-                    Voltar
+                    {t("checkout.buttons.back")}
                   </button>
-                  <button type='submit' className='btn btn-success'>
-                    Confirmar Compra
+                  <button type="submit" className="btn btn-success">
+                    {t("checkout.buttons.confirmPurchase")}
                   </button>
                 </div>
               </div>
@@ -384,33 +442,62 @@ const CheckoutPage = () => {
         </form>
       </div>
 
-      <div className='checkout-right'>
-        <h3 className='cart-title'>Produtos no Carrinho</h3>
-        <div className='cart-items'>
-          {cartItems.length > 0 ? (
-            cartItems.map((item) => (
-              <div key={item.id} className='cart-item'>
+      <div className="checkout-right">
+        <h3 className="cart-title">
+          {t("checkout.sectionTitle.productsInCart")}
+        </h3>
+
+        {cartItems.length === 0 ? (
+          <p>{t("checkout.labels.cartEmpty")}</p>
+        ) : (
+          <div className="cart-items">
+            {cartItems.map((item) => (
+              <div
+                className="cart-item"
+                key={item.id}
+                style={{
+                  display: "flex",
+                  gap: "12px",
+                  marginBottom: "12px",
+                  alignItems: "center",
+                }}
+              >
                 <img
                   src={item.image}
                   alt={item.name}
                   style={{
                     width: 60,
                     height: 60,
-                    objectFit: 'cover',
+                    objectFit: "cover",
                     borderRadius: 8,
                   }}
                 />
-                <div>
-                  <div className='fw-bold'>{item.name}</div>
-                  <div className='text-muted'>Size: {item.size}</div>
-                  <div className='text-primary'>{item.price}€</div>
+                <div style={{ flexGrow: 1 }}>
+                  <div className="cart-item-name" style={{ fontWeight: 600 }}>
+                    {item.name}
+                  </div>
+                  <div className="cart-item-meta text-muted">
+                    {item.quantity}x | {t("checkout.labels.size")}: {item.size}
+                  </div>
+                  <div className="cart-item-price text-primary">
+                    {(item.price * item.quantity).toFixed(2)}€
+                  </div>
                 </div>
               </div>
-            ))
-          ) : (
-            <p>Seu carrinho está vazio.</p>
-          )}
-        </div>
+            ))}
+
+            <div
+              className="cart-total"
+              style={{ marginTop: "20px", fontWeight: "bold" }}
+            >
+              {t("checkout.labels.totalPrice")}:{" "}
+              {cartItems
+                .reduce((sum, item) => sum + item.price * item.quantity, 0)
+                .toFixed(2)}
+              €
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

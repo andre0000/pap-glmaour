@@ -54,19 +54,33 @@ const CatalogPage = () => {
     .slice(0, 9);
 
   return (
-    <div className="container py-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="title m-0">{t("title.allProducts")}</h2>
-        {user?.is_admin && (
-          <div className="add-button-wrapper">
-            <AddButton onClick={() => setShowAddModal(true)} />
-          </div>
-        )}
+    <>
+      {/* Fundo com duas imagens blur e overlay escuro */}
+      <div className="catalog-background">
+        <img
+          src="https://www.apparelentrepreneurship.com/wp-content/uploads/2019/04/apparel_entrepreneurship_what_your_clothing_brand_needs_to_stay_relevant_2019.jpg"
+          alt="Background Left"
+          className="bg-img"
+        />
+        <img
+          src="https://cdn.prod.website-files.com/61083e5f5398b157c850d20a/6808fd7f84e7f1bab2bba0e8_660c252e41e2cc4e1aee8a9b_Main%2520Blog%2520Image%2520(1080%2520x%25201080%2520px).png"
+          alt="Background Right"
+          className="bg-img"
+        />
       </div>
 
-      <div className="row">
-        {latestProducts.map((product) => {
-          return (
+      <div className="container py-5">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2 className="title m-0">{t("title.allProducts")}</h2>
+          {user?.is_admin && (
+            <div className="add-button-wrapper">
+              <AddButton onClick={() => setShowAddModal(true)} />
+            </div>
+          )}
+        </div>
+
+        <div className="row">
+          {latestProducts.map((product) => (
             <div key={product.id} className="col-12 col-sm-6 col-md-4 mb-4">
               <div
                 className="product-card"
@@ -89,24 +103,23 @@ const CatalogPage = () => {
                 </div>
               </div>
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
 
-      {/* Modals */}
-      <AddProductModal
-        show={showAddModal}
-        handleClose={() => setShowAddModal(false)}
-      />
-      {selectedProduct && user && (
-        <AddToCartModal
-          product={selectedProduct}
-          show={showCartModal}
-          handleClose={closeCartModal}
-          user={user}
+        <AddProductModal
+          show={showAddModal}
+          handleClose={() => setShowAddModal(false)}
         />
-      )}
-    </div>
+        {selectedProduct && user && (
+          <AddToCartModal
+            product={selectedProduct}
+            show={showCartModal}
+            handleClose={closeCartModal}
+            user={user}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

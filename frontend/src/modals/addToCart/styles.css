@@ -4,49 +4,94 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
 .size-modal {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
   width: 90%;
-  max-width: 500px;
+  max-width: 480px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.size-modal h2 {
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #222;
 }
 
 .modal-img {
-  height: 100%;
-  max-width: auto;
-  object-fit: cover;
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
   border-radius: 12px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sizes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
 }
 
 .sizes button {
-  margin: 0.5rem;
-  padding: 0.5rem 1.2rem;
-  border: 1px solid #ccc;
-  background: #f9f9f9;
+  min-width: 52px;
+  padding: 0.6rem 1.3rem;
+  border: 2px solid #555;
+  background: #fafafa;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #555;
+  transition: background-color 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease;
+  user-select: none;
 }
 
-.sizes button:hover {
-  background: #eee;
+.sizes button:hover,
+.sizes button:focus {
+  background-color: #222;
+  color: #fff;
+  border-color: #222;
+  outline: none;
 }
 
 .close-btn {
-  margin-top: 1rem;
-  background: #000;
+  background: #222;
   color: #fff;
   border: none;
-  padding: 0.6rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.75rem 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 6px 12px rgba(34, 34, 34, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+  background: #555;
+  box-shadow: 0 8px 16px rgba(85, 85, 85, 0.5);
+}
+
+.modal-choose {
+  font-size: 1rem;
+  color: #555;
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  font-weight: 500;
 }
