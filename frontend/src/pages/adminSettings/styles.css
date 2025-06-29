@@ -59,16 +59,12 @@
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.2s ease;
+  transition: scale 0.2s ease-in-out;
 }
 
 .edit-button {
   background-color: #4caf50;
   color: white;
-}
-
-.edit-button:hover {
-  background-color: #43a047;
 }
 
 .cancel-button {
@@ -85,10 +81,6 @@
   color: white;
 }
 
-.delete-button:hover {
-  background-color: #e53935;
-}
-
 .icon-button {
   background: none;
   border: none;
@@ -100,11 +92,11 @@
 }
 
 .icon-button.edit-button {
-  color: #2563eb; /* azul */
+  color: #2563eb;
 }
 
 .icon-button.delete-button {
-  color: #dc2626; /* vermelho */
+  color: #dc2626;
 }
 
 /* Responsividade */

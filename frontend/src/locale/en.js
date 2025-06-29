@@ -10,6 +10,7 @@ const enTranslation = {
     boughtProducts: "Bought Products",
     Products: "Products",
     subTypes: "SubTypes",
+    suppliers: "Suppliers",
   },
   label: {
     name: "Name",
@@ -72,6 +73,7 @@ const enTranslation = {
     clearCart: "Clear Cart",
     cancel: "Cancel",
     addSubType: "Add Sub Type",
+    addSupplier: "Add Supplier",
   },
 
   dropdown: {

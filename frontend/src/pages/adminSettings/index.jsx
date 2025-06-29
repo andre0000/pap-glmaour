@@ -4,6 +4,8 @@ import "./styles.css";
 import Swal from "sweetalert2";
 import { useTranslation } from "react-i18next";
 import TypeModal from "../../modals/typesModal";
+import SupplierModal from "../../modals/addSupplier";
+import axios from "axios";
 
 const AdminSettings = () => {
   const [products, setProducts] = useState([]);
@@ -14,6 +16,11 @@ const AdminSettings = () => {
   const { t } = useTranslation();
   const [types, setTypes] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [suppliers, setSuppliers] = useState([]);
+  const [showSupplierModal, setShowSupplierModal] = useState(false);
+  const [editingSubType, setEditingSubType] = useState(null);
+  const [subTypeFormData, setSubTypeFormData] = useState({ name: "" });
+  const [supplierFormData, setSupplierFormData] = useState({ name: "" });
 
   const fetchProducts = async () => {
     try {
@@ -23,6 +30,43 @@ const AdminSettings = () => {
       setProducts(data);
     } catch (err) {
       console.error("Erro ao buscar produtos:", err);
+    }
+  };
+
+  const handleEditSubType = (subType) => {
+    setEditingSubType(subType.id);
+    setSubTypeFormData({ name: subType.name });
+  };
+
+  const handleSaveSubType = async (id) => {
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/subtypes/${id}`,
+        subTypeFormData
+      );
+      setEditingSubType(null);
+      fetchTypesAndSubTypes();
+    } catch (error) {
+      console.error("Erro ao salvar subtipo:", error);
+    }
+  };
+
+  const handleDeleteSubType = async (id) => {
+    try {
+      await axios.put(`${import.meta.env.VITE_API_URL}/subtypes/delete/${id}`);
+      fetchTypesAndSubTypes();
+    } catch (error) {
+      console.error("Erro ao eliminar subtipo:", error);
+    }
+  };
+
+  const fetchSuppliers = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/suppliers`);
+      const data = await res.json();
+      setSuppliers(data);
+    } catch (err) {
+      console.error("Erro ao buscar fornecedores:", err);
     }
   };
 
@@ -45,6 +89,27 @@ const AdminSettings = () => {
       setUsers(data);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleSaveSupplier = async (id) => {
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/suppliers/${id}`,
+        supplierFormData
+      );
+      fetchSuppliers();
+    } catch (error) {
+      console.error("Erro ao salvar fornecedor:", error);
+    }
+  };
+
+  const handleDeleteSupplier = async (id) => {
+    try {
+      await axios.put(`${import.meta.env.VITE_API_URL}/suppliers/delete/${id}`);
+      fetchSuppliers();
+    } catch (error) {
+      console.error("Erro ao eliminar fornecedor:", error);
     }
   };
 
@@ -85,6 +150,7 @@ const AdminSettings = () => {
     fetchBoughtItems();
     fetchUsers();
     fetchTypesAndSubTypes();
+    fetchSuppliers();
   }, []);
 
   const handleEdit = (product) => {
@@ -325,13 +391,60 @@ const AdminSettings = () => {
         <tbody>
           {Array.isArray(types) &&
             types.map((type) =>
-              type.sub_types.map((subType) => (
-                <tr key={subType.id}>
-                  <td>{subType.name}</td>
-                  <td>{type.name}</td>
-                  <td></td>
-                </tr>
-              ))
+              type.sub_types.map((subType) =>
+                editingSubType === subType.id ? (
+                  <tr key={subType.id} className="editing-row">
+                    <td>
+                      <input
+                        value={subTypeFormData.name}
+                        onChange={(e) =>
+                          setSubTypeFormData({
+                            ...subTypeFormData,
+                            name: e.target.value,
+                          })
+                        }
+                        className="edit-input"
+                      />
+                    </td>
+                    <td>{type.name}</td>
+                    <td>
+                      <button
+                        onClick={() => handleSaveSubType(subType.id)}
+                        className="action-button edit-button"
+                      >
+                        {t("buttons.save")}
+                      </button>
+                      <button
+                        onClick={() => setEditingSubType(null)}
+                        className="action-button cancel-button"
+                      >
+                        {t("buttons.cancel")}
+                      </button>
+                    </td>
+                  </tr>
+                ) : (
+                  <tr key={subType.id}>
+                    <td>{subType.name}</td>
+                    <td>{type.name}</td>
+                    <td>
+                      <button
+                        onClick={() => handleEditSubType(subType)}
+                        className="icon-button edit-button"
+                        title="Editar"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteSubType(subType.id)}
+                        className="icon-button delete-button"
+                        title="Eliminar"
+                      >
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                )
+              )
             )}
         </tbody>
       </table>
@@ -341,6 +454,46 @@ const AdminSettings = () => {
         style={{ marginBottom: "1rem", marginLeft: "80%" }}
       >
         + {t("buttons.addSubType")}
+      </button>
+
+      <SupplierModal
+        isOpen={showSupplierModal}
+        onClose={() => setShowSupplierModal(false)}
+        onCreated={fetchSuppliers}
+      />
+
+      <h2 className="admin-section-title">🏭 {t("title.suppliers")}</h2>
+      <table className="products-table">
+        <thead>
+          <tr>
+            <th>{t("label.name")}</th>
+            <th>{t("label.actions")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.isArray(suppliers) &&
+            suppliers.map((s) => (
+              <tr key={s.id}>
+                <td>{s.name}</td>
+                <td>
+                  <button
+                    onClick={() => handleDeleteSupplier(s.id)}
+                    className="icon-button delete-button"
+                    title="Eliminar"
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+      <button
+        onClick={() => setShowSupplierModal(true)}
+        className="action-button"
+        style={{ marginBottom: "1rem", marginLeft: "80%" }}
+      >
+        + {t("buttons.addSupplier")}
       </button>
     </div>
   );
