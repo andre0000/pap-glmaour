@@ -48,8 +48,8 @@ const enTranslation = {
     supplier: "Select Supplier",
     type: "Select Type",
     subType: "Select Sub Type",
-    male: "Male",
-    female: "Female",
+    men: "Men",
+    women: "Women",
     unisex: "Unisex",
   },
   placeholder: {

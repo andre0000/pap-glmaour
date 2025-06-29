@@ -45,6 +45,7 @@ const AddToCartModal = ({ product, show, handleClose, user }) => {
       <div className="size-modal" onClick={(e) => e.stopPropagation()}>
         <h2>{product.name}</h2>
         <img src={product.imageUrl} alt={product.name} className="modal-img" />
+        <p className="modal-description">{product.description}</p>
         <p className="modal-choose">{t("modal.chooseSize")}</p>
         <div className="sizes">
           {sizes.map((size) => (
