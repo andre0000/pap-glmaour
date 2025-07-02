@@ -81,6 +81,7 @@
   color: white;
   transition: color 0.2s;
   font-weight: bold;
+  font-family: vixa;
 }
 
 .custom-navbar:hover .nav-link,
@@ -115,6 +116,71 @@
 
 .profile-dropdown-container {
   position: relative;
+}
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-radius: 30px;
+  padding: 4px 8px;
+  cursor: pointer;
+  position: relative;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  user-select: none;
+  min-width: 90px;
+  height: 36px;
+  font-family: vixa;
+  border: none;
+}
+
+.lang-toggle .label-en,
+.lang-toggle .label-pt {
+  width: 30px;
+  text-align: center;
+  z-index: 2;
+}
+
+.toggle-track {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: #dee2e662;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-thumb {
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+  position: absolute;
+  left: 2px;
+  transition: left 0.3s ease;
+}
+
+.lang-toggle.pt .toggle-thumb {
+  left: 18px;
+}
+
+.custom-navbar:hover .lang-toggle {
+  color: black;
+}
+
+.custom-navbar:hover .toggle-track {
+  background: #47484962;
+}
+
+.custom-navbar:hover .lang-toggle .toggle-thumb {
+  border-color: #495057;
+  background-color: #212529;
 }
 
 .profile-dropdown {

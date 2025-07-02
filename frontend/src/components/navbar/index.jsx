@@ -29,9 +29,12 @@ const Navbar = () => {
   const [shopCloseTimeout, setShopCloseTimeout] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const toggleCart = () => setIsCartOpen((prev) => !prev);
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
 
   const isLogged = !!user;
   const isCheckoutPage = location.pathname === "/checkout";
@@ -116,6 +119,23 @@ const Navbar = () => {
           <div className="navbar-center"></div>
 
           <div className="navbar-right d-flex align-items-center position-relative">
+            <div className="language-toggle ms-3">
+              <button
+                className={`lang-toggle ${
+                  i18n.language === "pt" ? "pt" : "en"
+                }`}
+                onClick={() =>
+                  changeLanguage(i18n.language === "en" ? "pt" : "en")
+                }
+                aria-label="Toggle Language"
+              >
+                <span className="label-en">EN</span>
+                <div className="toggle-track">
+                  <div className="toggle-thumb" />
+                </div>
+                <span className="label-pt">PT</span>
+              </button>
+            </div>
             <button
               className="btn btn-icon profile-btn"
               title="Profile"
