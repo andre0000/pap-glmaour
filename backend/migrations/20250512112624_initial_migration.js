@@ -91,8 +91,6 @@ exports.down = function (knex) {
     })
     .dropTableIfExists("sub_types")
     .dropTableIfExists("types")
-    .dropTableIfExists("sale_items")
-    .dropTableIfExists("sales")
     .dropTableIfExists("cart")
     .dropTableIfExists("products")
     .dropTableIfExists("suppliers")
