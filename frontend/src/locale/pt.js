@@ -126,6 +126,8 @@ const ptTranslation = {
     tokenFailed: "Falha na verificação do token",
     removeProduct: "Erro ao remover o produto",
     title: "Erro",
+    noStockTitle: "Produto indisponível",
+    noStockText: "Este produto está sem stock no momento.",
   },
 
   confirmation: {

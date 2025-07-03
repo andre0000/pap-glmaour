@@ -11,6 +11,16 @@ const AddToCartModal = ({ product, show, handleClose, user }) => {
 
   const handleAddToCart = async (size) => {
     try {
+      // Verifica se há stock disponível
+      if (!product.stock || product.stock < 1) {
+        Swal.fire({
+          title: t("error.noStockTitle"),
+          text: t("error.noStockText"),
+          icon: "warning",
+        });
+        return;
+      }
+
       const response = await fetch(`${import.meta.env.VITE_API_URL}/cart`, {
         method: "POST",
         headers: {
@@ -36,7 +46,11 @@ const AddToCartModal = ({ product, show, handleClose, user }) => {
       });
       handleClose();
     } catch (err) {
-      alert(err.message);
+      Swal.fire({
+        title: t("error.title"),
+        text: err.message,
+        icon: "error",
+      });
     }
   };
 

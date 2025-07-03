@@ -125,6 +125,8 @@ const enTranslation = {
     tokenFailed: "Token verification failed",
     removeProduct: "Error removing product",
     title: "Error",
+    noStockTitle: "Product Out Of Stock",
+    noStockText: "At the moment, this product is out of stock.",
   },
 
   confirmation: {
