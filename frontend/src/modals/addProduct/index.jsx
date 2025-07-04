@@ -87,6 +87,7 @@ const AddProductModal = ({ show, handleClose }) => {
       const payload = {
         ...form,
         type_id: form.type,
+        sub_type_id: form.subType,
         imageUrl,
       };
       delete payload.type;
@@ -127,7 +128,7 @@ const AddProductModal = ({ show, handleClose }) => {
           ×
         </button>
         <form className="add-product-form" onSubmit={handleSubmit}>
-          <h2 className="add-product-title">Adicionar Produto</h2>
+          <h2 className="add-product-title">{t("title.addProduct")}</h2>
 
           <div className="flex-column">
             <label>{t("label.name")}</label>
@@ -185,8 +186,8 @@ const AddProductModal = ({ show, handleClose }) => {
                 required
               >
                 <option value="">{t("options.gender")}</option>
-                <option value="male">{t("options.male")}</option>
-                <option value="female">{t("options.female")}</option>
+                <option value="men">{t("options.men")}</option>
+                <option value="women">{t("options.women")}</option>
                 <option value="unisex">{t("options.unisex")}</option>
               </select>
             </div>
@@ -207,7 +208,7 @@ const AddProductModal = ({ show, handleClose }) => {
           </div>
 
           <div className="flex-column">
-            <label>Fornecedor</label>
+            <label>{t("label.supplier")}</label>
             <div className="inputForm">
               <select
                 name="supplier_id"
@@ -270,7 +271,7 @@ const AddProductModal = ({ show, handleClose }) => {
 
           {/* Campo simplificado para a URL da imagem */}
           <div className="flex-column">
-            <label>{t("label.image")}</label>
+            <label>{t("label.imageUrl")}</label>
             <div className="inputForm">
               <input
                 type="text"

@@ -1,13 +1,26 @@
 import "./styles.css";
+import { useTranslation } from "react-i18next";
+import Swal from "sweetalert2";
 
 const AddToCartModal = ({ product, show, handleClose, user }) => {
   if (!show) return null;
 
+  const { t } = useTranslation();
+
   const sizes = ["XS", "S", "M", "L", "XL"];
 
   const handleAddToCart = async (size) => {
-    // Só exemplo, quantidade fixa 1
     try {
+      // Verifica se há stock disponível
+      if (!product.stock || product.stock < 1) {
+        Swal.fire({
+          title: t("error.noStockTitle"),
+          text: t("error.noStockText"),
+          icon: "warning",
+        });
+        return;
+      }
+
       const response = await fetch(`${import.meta.env.VITE_API_URL}/cart`, {
         method: "POST",
         headers: {
@@ -26,12 +39,18 @@ const AddToCartModal = ({ product, show, handleClose, user }) => {
         throw new Error(errorData.message || "Erro ao adicionar ao carrinho");
       }
 
-      alert(
-        `Produto ${product.name} (tamanho ${size}) adicionado ao carrinho!`
-      );
+      Swal.fire({
+        title: t("success.title"),
+        text: t("success.productAdded"),
+        icon: "success",
+      });
       handleClose();
     } catch (err) {
-      alert(err.message);
+      Swal.fire({
+        title: t("error.title"),
+        text: err.message,
+        icon: "error",
+      });
     }
   };
 
@@ -39,7 +58,9 @@ const AddToCartModal = ({ product, show, handleClose, user }) => {
     <div className="modal-backdrop" onClick={handleClose}>
       <div className="size-modal" onClick={(e) => e.stopPropagation()}>
         <h2>{product.name}</h2>
-        <img src={product.image} alt={product.name} className="modal-img" />
+        <img src={product.imageUrl} alt={product.name} className="modal-img" />
+        <p className="modal-description">{product.description}</p>
+        <p className="modal-choose">{t("modal.chooseSize")}</p>
         <div className="sizes">
           {sizes.map((size) => (
             <button key={size} onClick={() => handleAddToCart(size)}>

@@ -8,17 +8,29 @@ exports.addProduct = async (req, res) => {
     price,
     stock,
     supplier_id,
+    gender,
     type_id,
-    imageUrl, // URL da imagem vindo do frontend
+    sub_type_id,
+    imageUrl,
   } = req.body;
 
   try {
     const result = await pool.query(
       `INSERT INTO products 
-       (name, description, price, stock, supplier_id, type_id, image) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7) 
-       RETURNING id, name, description, price, stock, supplier_id, type_id, image AS "imageUrl"`,
-      [name, description, price, stock, supplier_id, type_id, imageUrl]
+       (name, description, price, stock, gender, supplier_id, type_id, sub_type_id, image) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+       RETURNING id, name, description, price, stock, gender, supplier_id, type_id, sub_type_id, image AS "imageUrl"`,
+      [
+        name,
+        description,
+        price,
+        stock,
+        gender,
+        supplier_id,
+        type_id,
+        sub_type_id,
+        imageUrl,
+      ]
     );
 
     const newProduct = result.rows[0];
@@ -31,7 +43,6 @@ exports.addProduct = async (req, res) => {
   }
 };
 
-// Editar produto
 exports.editProduct = async (req, res) => {
   const { id } = req.params;
   const { name, description, price, stock, supplier_id, type_id, imageUrl } =
@@ -44,12 +55,23 @@ exports.editProduct = async (req, res) => {
          description = $2, 
          price = $3, 
          stock = $4, 
-         supplier_id = $5, 
-         type_id = $6, 
-         image = $7
-       WHERE id = $8 AND is_deleted = false
-       RETURNING id, name, description, price, stock, supplier_id, type_id, image AS "imageUrl"`,
-      [name, description, price, stock, supplier_id, type_id, imageUrl, id]
+         gender= $5,
+         supplier_id = $6, 
+         type_id = $7, 
+         image = $8
+       WHERE id = $9 AND is_deleted = false
+       RETURNING id, name, description, price, stock, gender, supplier_id, type_id, image AS "imageUrl"`,
+      [
+        name,
+        description,
+        price,
+        stock,
+        gender,
+        supplier_id,
+        type_id,
+        imageUrl,
+        id,
+      ]
     );
 
     const updatedProduct = result.rows[0];
@@ -78,8 +100,10 @@ exports.getProduct = async (req, res) => {
         p.description, 
         p.price, 
         p.stock, 
+        p.gender,
         p.supplier_id, 
         p.type_id, 
+        p.sub_type_id,
         p.is_deleted, 
         p.created_at, 
         p.updated_at,
@@ -98,7 +122,6 @@ exports.getProduct = async (req, res) => {
   }
 };
 
-// Soft delete
 exports.softDeleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
@@ -118,7 +141,6 @@ exports.softDeleteProduct = async (req, res) => {
   }
 };
 
-// GET TYPES AND SUB_TYPES (corrigido para as novas colunas)
 exports.getTypesAndSubTypes = async (req, res) => {
   try {
     const result = await pool.query(

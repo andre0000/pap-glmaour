@@ -17,17 +17,33 @@ export default function CartSidebar({ isOpen, toggleCart }) {
     if (!storedUser) return;
 
     setUser(storedUser);
-
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/cart/${storedUser.id}`)
-      .then((res) => {
-        setCartItems(res.data.items || []);
-      })
-      .catch(() => setCartItems([]));
+    fetchCartItems(storedUser.id);
   }, [isOpen]);
 
   const handleCheckout = () => {
     navigate("/checkout");
+  };
+
+  const handleRemoveItem = (itemId) => {
+    if (!user) return;
+
+    axios
+      .put(`${import.meta.env.VITE_API_URL}/cart/${itemId}/remove`)
+      .then(() => {
+        fetchCartItems(user.id);
+      })
+      .catch((err) => console.error("Error removing item:", err));
+  };
+
+  const handleClearCart = () => {
+    if (!user) return;
+
+    axios
+      .put(`${import.meta.env.VITE_API_URL}/cart/${user.id}/clear`)
+      .then(() => {
+        setCartItems([]);
+      })
+      .catch((err) => console.error("Error clearing cart:", err));
   };
 
   const total = cartItems.reduce(
@@ -35,29 +51,16 @@ export default function CartSidebar({ isOpen, toggleCart }) {
     0
   );
 
-  if (!cartItems.length) {
-    return (
-      <>
-        <div className={`cart-sidebar ${isOpen ? "open" : ""}`}>
-          <div className="cart-header">
-            <h2>{t("title.cart")}</h2>
-            <button className="cart-close-btn" onClick={toggleCart}>
-              ✕
-            </button>
-          </div>
-          <div className="cart-content">
-            <p>{t("cart.empty")}</p>
-          </div>
-          <div className="cart-footer">
-            <button className="checkout-btn" onClick={handleCheckout}>
-              {t("cart.checkout")}
-            </button>
-          </div>
-        </div>
-        {isOpen && <div className="cart-overlay" onClick={toggleCart}></div>}
-      </>
-    );
-  }
+  const fetchCartItems = (userId) => {
+    if (!userId) return;
+
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/cart/${userId}`)
+      .then((res) => {
+        setCartItems(res.data.items || []);
+      })
+      .catch(() => setCartItems([]));
+  };
 
   return (
     <>
@@ -70,35 +73,52 @@ export default function CartSidebar({ isOpen, toggleCart }) {
         </div>
 
         <div className="cart-content">
-          <div className="cart-items">
-            {cartItems.map((item) => (
-              <div className="cart-item" key={item.id}>
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="cart-item-image"
-                />
-                <div className="cart-item-details">
-                  <div className="cart-item-name">{item.name}</div>
-                  <div className="cart-item-meta">
-                    {item.quantity}x | Size: {item.size}
+          {cartItems.length === 0 ? (
+            <p>{t("cart.empty")}</p>
+          ) : (
+            <div className="cart-items">
+              {cartItems.map((item) => (
+                <div className="cart-item" key={item.id}>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="cart-item-image"
+                  />
+                  <div className="cart-item-details">
+                    <div className="cart-item-name">{item.name}</div>
+                    <div className="cart-item-meta">
+                      {item.quantity}x | {t("label.productSize")}: {item.size}
+                    </div>
+                    <div className="cart-item-price">
+                      {(item.price * item.quantity).toFixed(2)}€
+                    </div>
                   </div>
-                  <div className="cart-item-price">
-                    {(item.price * item.quantity).toFixed(2)}€
-                  </div>
+                  <button
+                    className="cart-remove-btn"
+                    onClick={() => handleRemoveItem(item.id)}
+                  >
+                    ✕
+                  </button>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="cart-footer">
           <div className="cart-total">
-            <strong>Total: {total.toFixed(2)}€</strong>
+            <strong>
+              {t("cart.total")}: {total.toFixed(2)}€
+            </strong>
           </div>
           <button className="checkout-btn" onClick={handleCheckout}>
             {t("cart.checkout")}
           </button>
+          {cartItems.length > 0 && (
+            <button className="clear-cart-btn" onClick={handleClearCart}>
+              🗑️ {t("buttons.clearCart")}
+            </button>
+          )}
         </div>
       </div>
 

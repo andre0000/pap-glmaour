@@ -30,21 +30,22 @@ const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Error creating account");
+        const errorMsg = data.code
+          ? t(`error.${data.code}`)
+          : t("error.register_failed");
+        throw new Error(errorMsg);
       }
 
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem("token", data.token);
-        sessionStorage.setItem("user", JSON.stringify(data.user));
+      sessionStorage.setItem("token", data.token);
+      sessionStorage.setItem("user", JSON.stringify(data.user));
 
-        if (data.user.pfp) {
-          sessionStorage.setItem("pfp", data.user.pfp);
-        } else {
-          sessionStorage.removeItem("pfp");
-        }
+      if (data.user.pfp) {
+        sessionStorage.setItem("pfp", data.user.pfp);
+      } else {
+        sessionStorage.removeItem("pfp");
       }
 
-      setSuccess("Account created with success!");
+      setSuccess("Conta criada com sucesso!");
       if (onLoginSuccess) onLoginSuccess(data.user);
 
       setTimeout(() => {

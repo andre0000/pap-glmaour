@@ -24,8 +24,7 @@
 
 .custom-navbar .nav-link,
 .custom-navbar .minimal-brand,
-.custom-navbar .btn-icon,
-.custom-navbar .search-btn {
+.custom-navbar .btn-icon {
   color: white;
   transition: color 0.3s ease;
 }
@@ -76,58 +75,18 @@
   height: 100%;
 }
 
-.search-form {
-  position: relative;
-}
-
-.minimal-search {
-  border: none;
-  border-bottom: 1px solid white;
-  border-radius: 0;
-  background: transparent;
-  padding: 4px 8px;
-  font-size: 0.9rem;
-  color: white;
-}
-
-.minimal-search::placeholder {
-  color: white;
-}
-
-.minimal-search:focus {
-  background: transparent;
-  outline: none;
-  box-shadow: none;
-  border-color: white;
-  color: white;
-}
-
-/* BOTÃO DA LUPA */
-.search-btn {
-  background: none;
-  border: none;
-  color: white;
-  margin-left: 5px;
-}
-
-.search-btn:focus {
-  background: none;
-  outline: none;
-  box-shadow: none;
-}
-
 .btn-icon {
   background: none;
   border: none;
   color: white;
   transition: color 0.2s;
+  font-weight: bold;
   font-family: vixa;
 }
 
 .custom-navbar:hover .nav-link,
 .custom-navbar:hover .minimal-brand,
-.custom-navbar:hover .btn-icon,
-.custom-navbar:hover .search-btn {
+.custom-navbar:hover .btn-icon {
   color: black;
 }
 
@@ -138,39 +97,90 @@
   transition: filter 0.2s ease, opacity 0.2s ease;
 }
 
-.custom-navbar:hover .minimal-search {
-  border-bottom: 1px solid black;
-  color: black;
-}
-
-.custom-navbar:hover .minimal-search::placeholder {
-  color: black;
-}
-
 .custom-navbar:hover .custom-link {
   color: black;
 }
 
-.custom-navbar:hover .minimal-search:focus {
-  border-color: black;
-  color: black;
-}
-
-.navbar .pfp-img {
-  width: 36px;
-  height: 36px;
+.navbar .navbar-pfp-img {
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid white;
   transition: transform 0.2s ease;
 }
 
-.custom-navbar:hover .pfp-img {
+.custom-navbar:hover .navbar-pfp-img {
   border-color: black;
 }
 
 .profile-dropdown-container {
   position: relative;
+}
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-radius: 30px;
+  padding: 4px 8px;
+  cursor: pointer;
+  position: relative;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  user-select: none;
+  min-width: 90px;
+  height: 36px;
+  font-family: vixa;
+  border: none;
+}
+
+.lang-toggle .label-en,
+.lang-toggle .label-pt {
+  width: 30px;
+  text-align: center;
+  z-index: 2;
+}
+
+.toggle-track {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: #dee2e662;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-thumb {
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+  position: absolute;
+  left: 2px;
+  transition: left 0.3s ease;
+}
+
+.lang-toggle.pt .toggle-thumb {
+  left: 18px;
+}
+
+.custom-navbar:hover .lang-toggle {
+  color: black;
+}
+
+.custom-navbar:hover .toggle-track {
+  background: #47484962;
+}
+
+.custom-navbar:hover .lang-toggle .toggle-thumb {
+  border-color: #495057;
+  background-color: #212529;
 }
 
 .profile-dropdown {
@@ -219,15 +229,12 @@
 .catalog-navbar .nav-link,
 .catalog-navbar .minimal-brand,
 .catalog-navbar .btn-icon,
-.catalog-navbar .search-btn,
-.catalog-navbar .custom-link,
-.catalog-navbar .minimal-search,
-.catalog-navbar .minimal-search::placeholder {
+.catalog-navbar .custom-link {
   color: black !important;
   border-color: black !important;
 }
 
-.catalog-navbar .navbar .pfp-img {
+.catalog-navbar .navbar .navbar-pfp-img {
   border-color: black !important;
 }
 
@@ -244,4 +251,12 @@
   padding: 0.5rem 0;
   z-index: 3000;
   min-width: 200px;
+}
+
+@media (max-width: 480px) {
+  .navbar-right {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
 }

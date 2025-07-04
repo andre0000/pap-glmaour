@@ -7,6 +7,6 @@ router.get("/type/:typeId", subTypesController.getSubTypesByTypeId);
 router.get("/:id", subTypesController.getSubTypeById);
 router.post("/", subTypesController.createSubType);
 router.put("/:id", subTypesController.updateSubType);
-router.delete("/:id", subTypesController.softDeleteSubType);
+router.put("/delete/:id", subTypesController.softDeleteSubType);
 
 module.exports = router;
