@@ -114,6 +114,7 @@ const ptTranslation = {
     name: "Nome",
     password: "Palavra-passe",
     email: "Email",
+    pfp_link: "Foto de Perfil",
   },
 
   error: {

@@ -113,6 +113,7 @@ const enTranslation = {
     name: "Name",
     password: "Password",
     email: "Email",
+    pfp_link: "Profile Photo",
   },
 
   error: {
