@@ -11,6 +11,7 @@ const ptTranslation = {
     Products: "Produtos",
     subTypes: "Subtipos",
     suppliers: "Fornecedores",
+    createAccount: "Criar Conta",
   },
   label: {
     name: "Nome",
@@ -33,6 +34,14 @@ const ptTranslation = {
 
   modal: {
     chooseSize: "Escolher Tamanho",
+  },
+
+  span: {
+    forgotPassword: "Esqueceu-se da Palavra-passe?",
+    signUp: "Não tem conta? ",
+    signUpLink: "Registe-se",
+    signIn: "Já tem conta? ",
+    signInLink: "Entre",
   },
 
   success: {
@@ -75,6 +84,8 @@ const ptTranslation = {
     cancel: "Cancelar",
     addSubType: "Adicionar Subtipo",
     addSupplier: "Adicionar Fornecedor",
+    signIn: "Entrar",
+    signInLoading: "Entrando...",
   },
 
   dropdown: {

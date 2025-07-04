@@ -11,6 +11,7 @@ const enTranslation = {
     Products: "Products",
     subTypes: "SubTypes",
     suppliers: "Suppliers",
+    createAccount: "Create Account",
   },
   label: {
     name: "Name",
@@ -41,6 +42,14 @@ const enTranslation = {
     updatedTitle: "Updated Successfully",
     updatedText: "Product updated successfully!",
     productRemoved: "Product removed successfully!",
+  },
+
+  span: {
+    forgotPassword: "Forgot Password?",
+    signUp: "Don't have an account? ",
+    signUpLink: "Register",
+    signIn: "Already Signed up? ",
+    signInLink: "Sign Up",
   },
 
   options: {
@@ -74,6 +83,8 @@ const enTranslation = {
     cancel: "Cancel",
     addSubType: "Add Sub Type",
     addSupplier: "Add Supplier",
+    signIn: "Sign In",
+    signInLoading: "Signing in...",
   },
 
   dropdown: {

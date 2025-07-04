@@ -68,7 +68,7 @@ const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
           ×
         </button>
 
-        <h2 style={{ marginBottom: "20px" }}>Create Account</h2>
+        <h2 style={{ marginBottom: "20px" }}>{t("title.createAccount")}</h2>
 
         {error && <div className="modal-error">{error}</div>}
         {success && <div className="modal-success">{success}</div>}
@@ -161,7 +161,7 @@ const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
         </form>
 
         <p className="p">
-          Already Signed up?{" "}
+          {t("span.signIn")}
           <span
             className="span"
             onClick={() => {
@@ -169,7 +169,7 @@ const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
             }}
             style={{ cursor: "pointer" }}
           >
-            Sign in
+            {t("span.signInLink")}
           </span>
         </p>
       </div>

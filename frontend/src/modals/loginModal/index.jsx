@@ -100,11 +100,6 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
               </div>
 
               <div className="flex-row">
-                <div className="checkbox-group">
-                  <input type="checkbox" id="rememberMe" />
-                  <label htmlFor="rememberMe">Remember me</label>
-                </div>
-
                 <span
                   className="span"
                   style={{ cursor: "pointer" }}
@@ -113,7 +108,7 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
                     setShowForgotModal(true);
                   }}
                 >
-                  Forgot password?
+                  {t("span.forgotPassword")}
                 </span>
               </div>
 
@@ -122,11 +117,11 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
                 type="submit"
                 disabled={loading}
               >
-                {loading ? "Signing in..." : "Sign In"}
+                {loading ? t("buttons.signInLoading") : t("buttons.signIn")}
               </button>
 
               <p className="p">
-                Don't have an account?{" "}
+                {t("span.signUp")}
                 <span
                   className="span"
                   onClick={() => {
@@ -134,7 +129,7 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
                   }}
                   style={{ cursor: "pointer" }}
                 >
-                  Sign Up
+                  {t("span.signUpLink")}
                 </span>
               </p>
             </form>
