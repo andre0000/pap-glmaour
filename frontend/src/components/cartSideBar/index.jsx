@@ -111,7 +111,11 @@ export default function CartSidebar({ isOpen, toggleCart }) {
               {t("cart.total")}: {total.toFixed(2)}€
             </strong>
           </div>
-          <button className="checkout-btn" onClick={handleCheckout}>
+          <button
+            className="checkout-btn"
+            onClick={handleCheckout}
+            disabled={cartItems.length === 0}
+          >
             {t("cart.checkout")}
           </button>
           {cartItems.length > 0 && (
