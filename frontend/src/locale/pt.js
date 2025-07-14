@@ -52,6 +52,9 @@ const ptTranslation = {
     updatedTitle: "Atualizado com Sucesso",
     updatedText: "Produto atualizado com sucesso!",
     productRemoved: "Produto removido com sucesso!",
+    supplierAdded: "Fornecedor adicionado com sucesso!",
+    productAdded: "Produto adicionado com sucesso!",
+    subTypeCreated: "Subtipo criado com sucesso!",
   },
 
   options: {
@@ -146,14 +149,20 @@ const ptTranslation = {
     title: "Erro",
     noStockTitle: "Produto indisponível",
     noStockText: "Este produto está sem stock no momento.",
+    subTypeText: "Erro ao remover o subtipo",
   },
 
   confirmation: {
     title: "Tem a certeza?",
     text: "Esta ação não pode ser anulada.",
+    subTypeText:
+      "Este é o último subtipo. Deseja eliminar também o tipo associado?",
+    subTypeTitle: "Último Subtipo",
     buttons: {
       confirm: "Sim, eliminar!",
       cancel: "Cancelar",
+      confirmButtonText: "Sim, eliminar ambos",
+      cancelButtonText: "Não, apenas o subtipo",
     },
   },
 

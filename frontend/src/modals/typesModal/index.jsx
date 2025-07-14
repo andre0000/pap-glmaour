@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./styles.css";
+import Swal from "sweetalert2";
 
 const TypeModal = ({ isOpen, onClose, onCreated }) => {
   const [mode, setMode] = useState("new_subtype");
@@ -73,7 +74,11 @@ const TypeModal = ({ isOpen, onClose, onCreated }) => {
       throw new Error(`Erro ao criar subtipo: ${err}`);
     }
 
-    console.log("Subtipo criado com sucesso");
+    Swal.fire({
+      icon: "success",
+      title: t("success.title"),
+      text: t("success.subTypeCreated"),
+    });
     onCreated();
     onClose();
     resetForm();

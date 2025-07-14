@@ -44,6 +44,9 @@ const enTranslation = {
     updatedTitle: "Updated Successfully",
     updatedText: "Product updated successfully!",
     productRemoved: "Product removed successfully!",
+    supplierAdded: "Supplier added successfully!",
+    productAdded: "Product added successfully!",
+    subTypeCreated: "Sub-type created successfully!",
   },
 
   span: {
@@ -145,14 +148,20 @@ const enTranslation = {
     title: "Error",
     noStockTitle: "Product Out Of Stock",
     noStockText: "At the moment, this product is out of stock.",
+    subTypeText: "Error removing sub-type",
   },
 
   confirmation: {
     title: "Are you sure?",
     text: "This action cannot be undone.",
+    subTypeText:
+      "This is the last sub-type. Do you want to delete the associated type as well?",
+    subTypeTitle: "Last Sub-Type",
     buttons: {
       confirm: "Yes, delete it!",
       cancel: "Cancel",
+      confirmButtonText: "Yes, delete both",
+      cancelButtonText: "No, just the sub-type",
     },
   },
 

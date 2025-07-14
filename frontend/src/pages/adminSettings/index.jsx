@@ -63,12 +63,12 @@ const AdminSettings = () => {
 
       if (subTypesCount === 1) {
         const result = await Swal.fire({
-          title: "Último subtipo",
-          text: "Este é o último subtipo. Deseja eliminar também o tipo associado?",
+          title: t("confirmation.subTypeTitle"),
+          text: t("confirmation.subTypeText"),
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: "Sim, eliminar ambos",
-          cancelButtonText: "Não, apenas o subtipo",
+          confirmButtonText: t("confirmation.confirmButtonText"),
+          cancelButtonText: t("confirmation.cancelButtonText"),
           confirmButtonColor: "#d33",
           cancelButtonColor: "#3085d6",
         });
@@ -94,7 +94,7 @@ const AdminSettings = () => {
       fetchTypesAndSubTypes();
     } catch (error) {
       console.error("Erro ao eliminar subtipo:", error);
-      Swal.fire("Erro", "Não foi possível eliminar o subtipo.", "error");
+      Swal.fire(t("error.title"), t("error.subTypeText"), "error");
     }
   };
 
@@ -278,7 +278,7 @@ const AdminSettings = () => {
       Swal.fire({
         icon: "error",
         title: t("error.updatedTitle"),
-        text: "Erro na requisição.",
+        text: t("error.updatedText"),
       });
     }
   };

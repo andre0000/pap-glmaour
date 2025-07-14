@@ -104,15 +104,19 @@ const AddProductModal = ({ show, handleClose }) => {
       const data = await response.json();
 
       if (response.ok) {
-        alert("Produto adicionado com sucesso!");
+        Swal.fire({
+          icon: "success",
+          title: t("success.title"),
+          text: t("success.productAdded"),
+        });
         handleClose();
         window.location.reload();
       } else {
-        alert(data.message || "Erro ao adicionar produto.");
+        alert(data.message || "Error creating product.");
       }
     } catch (error) {
       console.error(error);
-      alert("Erro ao conectar ao servidor.");
+      alert("Error connecting to server.");
     }
   };
 

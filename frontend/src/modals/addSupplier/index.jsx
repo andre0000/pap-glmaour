@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./styles.css";
+import Swal from "sweetalert2";
 
 const SupplierModal = ({ isOpen, onClose, onCreated }) => {
   const [name, setName] = useState("");
@@ -27,7 +28,11 @@ const SupplierModal = ({ isOpen, onClose, onCreated }) => {
         throw new Error(`Erro ao adicionar fornecedor: ${err}`);
       }
 
-      alert("Fornecedor adicionado com sucesso");
+      Swal.fire({
+        icon: "success",
+        title: t("success.title"),
+        text: t("success.supplierAdded"),
+      });
       onCreated();
       onClose();
       resetForm();
