@@ -10,6 +10,10 @@
   animation: fadeInDown 0.2s;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .shop-dropdown-inner {
   display: flex;
   gap: 4rem;

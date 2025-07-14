@@ -51,12 +51,50 @@ const AdminSettings = () => {
     }
   };
 
-  const handleDeleteSubType = async (id) => {
+  const handleDeleteSubType = async (subTypeId) => {
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/subtypes/delete/${id}`);
+      const type = types.find((t) =>
+        t.sub_types.some((sub) => sub.id === subTypeId)
+      );
+
+      if (!type) return;
+
+      const subTypesCount = type.sub_types.length;
+
+      if (subTypesCount === 1) {
+        const result = await Swal.fire({
+          title: "Último subtipo",
+          text: "Este é o último subtipo. Deseja eliminar também o tipo associado?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sim, eliminar ambos",
+          cancelButtonText: "Não, apenas o subtipo",
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+        });
+
+        if (result.isConfirmed) {
+          await axios.put(
+            `${import.meta.env.VITE_API_URL}/subtypes/delete/${subTypeId}`
+          );
+          await axios.put(
+            `${import.meta.env.VITE_API_URL}/types/delete/${type.id}`
+          );
+        } else {
+          await axios.put(
+            `${import.meta.env.VITE_API_URL}/subtypes/delete/${subTypeId}`
+          );
+        }
+      } else {
+        await axios.put(
+          `${import.meta.env.VITE_API_URL}/subtypes/delete/${subTypeId}`
+        );
+      }
+
       fetchTypesAndSubTypes();
     } catch (error) {
       console.error("Erro ao eliminar subtipo:", error);
+      Swal.fire("Erro", "Não foi possível eliminar o subtipo.", "error");
     }
   };
 
@@ -128,9 +166,6 @@ const AdminSettings = () => {
 
       const typesData = await typesResponse.json();
       const subTypesData = await subTypesResponse.json();
-
-      console.log("Tipos recebidos:", typesData);
-      console.log("Subtipos recebidos:", subTypesData);
 
       const processedTypes = typesData.map((type) => ({
         ...type,
@@ -383,50 +418,61 @@ const AdminSettings = () => {
       <table className="products-table">
         <thead>
           <tr>
-            <th>{t("label.name")}</th>
             <th>{t("label.type")}</th>
+            <th>{t("label.name")}</th>
             <th>{t("label.actions")}</th>
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(types) &&
-            types.map((type) =>
-              type.sub_types.map((subType) =>
-                editingSubType === subType.id ? (
-                  <tr key={subType.id} className="editing-row">
-                    <td>
-                      <input
-                        value={subTypeFormData.name}
-                        onChange={(e) =>
-                          setSubTypeFormData({
-                            ...subTypeFormData,
-                            name: e.target.value,
-                          })
-                        }
-                        className="edit-input"
-                      />
-                    </td>
-                    <td>{type.name}</td>
-                    <td>
+          {types.map((type) => {
+            if (type.sub_types.length === 0) {
+              return (
+                <tr key={`type-${type.id}`}>
+                  <td>{type.name}</td>
+                  <td
+                    colSpan={2}
+                    style={{ fontStyle: "italic", color: "#999" }}
+                  >
+                    {t("label.noSubTypes")}
+                  </td>
+                </tr>
+              );
+            }
+
+            return type.sub_types.map((subType, index) => (
+              <tr key={`subtype-${subType.id}`}>
+                <td>{index === 0 ? type.name : ""}</td>
+                <td>
+                  {editingSubType === subType.id ? (
+                    <input
+                      value={subTypeFormData.name}
+                      onChange={(e) =>
+                        setSubTypeFormData({ name: e.target.value })
+                      }
+                      className="edit-input"
+                    />
+                  ) : (
+                    subType.name
+                  )}
+                </td>
+                <td>
+                  {editingSubType === subType.id ? (
+                    <>
                       <button
-                        onClick={() => handleSaveSubType(subType.id)}
                         className="action-button edit-button"
+                        onClick={() => handleSaveSubType(subType.id)}
                       >
                         {t("buttons.save")}
                       </button>
                       <button
-                        onClick={() => setEditingSubType(null)}
                         className="action-button cancel-button"
+                        onClick={() => setEditingSubType(null)}
                       >
                         {t("buttons.cancel")}
                       </button>
-                    </td>
-                  </tr>
-                ) : (
-                  <tr key={subType.id}>
-                    <td>{subType.name}</td>
-                    <td>{type.name}</td>
-                    <td>
+                    </>
+                  ) : (
+                    <>
                       <button
                         onClick={() => handleEditSubType(subType)}
                         className="icon-button edit-button"
@@ -441,11 +487,12 @@ const AdminSettings = () => {
                       >
                         <FaTrash />
                       </button>
-                    </td>
-                  </tr>
-                )
-              )
-            )}
+                    </>
+                  )}
+                </td>
+              </tr>
+            ));
+          })}
         </tbody>
       </table>
       <button

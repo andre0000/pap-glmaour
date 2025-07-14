@@ -78,7 +78,7 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
                 <input
                   type="email"
                   className="input"
-                  placeholder="Enter your Email"
+                  placeholder={t("placeholder.enterEmail")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -92,7 +92,7 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
                 <input
                   type="password"
                   className="input"
-                  placeholder="Enter your Password"
+                  placeholder={t("placeholder.enterPassword")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required

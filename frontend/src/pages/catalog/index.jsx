@@ -19,6 +19,8 @@ const CatalogPage = () => {
   const subTypeId = searchParams.get("sub_type_id");
   const filter = searchParams.get("filter");
   const gender = searchParams.get("gender");
+  const [types, setTypes] = useState([]);
+  const [subTypes, setSubTypes] = useState([]);
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -44,6 +46,24 @@ const CatalogPage = () => {
       }
     };
 
+    const fetchTypesAndSubtypes = async () => {
+      try {
+        const [typesRes, subTypesRes] = await Promise.all([
+          fetch(`${import.meta.env.VITE_API_URL}/types`),
+          fetch(`${import.meta.env.VITE_API_URL}/subtypes`),
+        ]);
+        const [typesData, subTypesData] = await Promise.all([
+          typesRes.json(),
+          subTypesRes.json(),
+        ]);
+        setTypes(typesData);
+        setSubTypes(subTypesData);
+      } catch (error) {
+        console.error("Erro ao buscar tipos e subtipos:", error);
+      }
+    };
+
+    fetchTypesAndSubtypes();
     fetchProducts();
   }, []);
 
@@ -57,13 +77,24 @@ const CatalogPage = () => {
     setShowCartModal(false);
   };
 
-  const chunkProducts = (products, size) => {
-    const chunks = [];
-    for (let i = 0; i < products.length; i += size) {
-      chunks.push(products.slice(i, i + size));
+  const catalogTitle = useMemo(() => {
+    if (filter === "new_arrivals") return t("title.newArrivals");
+
+    if (subTypeId) {
+      const sub = subTypes.find((s) => s.id === subTypeId);
+      if (sub) return sub.name;
     }
-    return chunks;
-  };
+
+    if (typeId) {
+      const type = types.find((t) => t.id === typeId);
+      if (type) return type.name;
+    }
+
+    if (gender === "men") return t("title.mens");
+    if (gender === "women") return t("title.womens");
+
+    return t("title.allProducts");
+  }, [filter, typeId, subTypeId, gender, types, subTypes, t]);
 
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
@@ -108,14 +139,13 @@ const CatalogPage = () => {
 
       <div className="container py-5">
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h2 className="title m-0">{t("title.allProducts")}</h2>
+          <h2 className="title m-0">{catalogTitle}</h2>{" "}
           {user?.is_admin && (
             <div className="add-button-wrapper">
               <AddButton onClick={() => setShowAddModal(true)} />
             </div>
           )}
         </div>
-
         <div className="row">
           {filteredProducts.map((product) => (
             <div

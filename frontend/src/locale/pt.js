@@ -12,6 +12,8 @@ const ptTranslation = {
     subTypes: "Subtipos",
     suppliers: "Fornecedores",
     createAccount: "Criar Conta",
+    mens: "Coleção Masculina",
+    womens: "Coleção Feminina",
   },
   label: {
     name: "Nome",
@@ -69,6 +71,8 @@ const ptTranslation = {
     price: "Insira o preço do produto",
     description: "Insira a descrição do produto",
     urlImage: "Insira o URL da imagem",
+    enterEmail: "Insira o seu Email",
+    enterPassword: "Insira a sua Palavra-passe",
   },
 
   buttons: {
@@ -86,6 +90,8 @@ const ptTranslation = {
     addSupplier: "Adicionar Fornecedor",
     signIn: "Entrar",
     signInLoading: "Entrando...",
+    signUp: "Registar",
+    signingUp: "A registar...",
   },
 
   dropdown: {

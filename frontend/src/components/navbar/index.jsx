@@ -63,6 +63,9 @@ const Navbar = () => {
     setShopOpen((prev) => !prev);
   };
 
+  const sessionUser = JSON.parse(sessionStorage.getItem("user"));
+  const userHasPfp = !!sessionUser?.pfp;
+
   return (
     <>
       <nav
@@ -110,7 +113,7 @@ const Navbar = () => {
                   style={{ position: "absolute", top: "100%", left: 0 }}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <ShopDropdown />
+                  <ShopDropdown onClose={() => setShopOpen(false)} />
                 </div>
               )}
             </div>
@@ -151,13 +154,19 @@ const Navbar = () => {
               <img
                 src={
                   isLogged
-                    ? JSON.parse(sessionStorage.getItem("user"))?.pfp
+                    ? userHasPfp
+                      ? sessionUser.pfp
+                      : isHovered
+                      ? profileBlackIcon
+                      : profileWhiteIcon
                     : isHovered
                     ? profileBlackIcon
                     : profileWhiteIcon
                 }
                 alt="Profile"
-                className={isLogged ? "navbar-pfp-img" : "icon-img"}
+                className={
+                  isLogged && userHasPfp ? "navbar-pfp-img" : "icon-img"
+                }
               />
             </button>
 

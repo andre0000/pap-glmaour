@@ -12,6 +12,8 @@ const enTranslation = {
     subTypes: "SubTypes",
     suppliers: "Suppliers",
     createAccount: "Create Account",
+    mens: "Men's Collection",
+    womens: "Women's Collection",
   },
   label: {
     name: "Name",
@@ -68,6 +70,8 @@ const enTranslation = {
     price: "Enter product price",
     description: "Enter product description",
     urlImage: "Enter image URL",
+    enterEmail: "Enter your Email",
+    enterPassword: "Enter your Password",
   },
 
   buttons: {
@@ -85,6 +89,8 @@ const enTranslation = {
     addSupplier: "Add Supplier",
     signIn: "Sign In",
     signInLoading: "Signing in...",
+    signUp: "Sign Up",
+    signingUp: "Signing up...",
   },
 
   dropdown: {

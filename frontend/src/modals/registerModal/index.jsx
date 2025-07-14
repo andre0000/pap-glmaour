@@ -156,7 +156,7 @@ const RegisterModal = ({ onClose, onLoginSuccess, onOpenLogin }) => {
           </div>
 
           <button className="button-submit" type="submit" disabled={loading}>
-            {loading ? "Signing up..." : "Sign up"}
+            {loading ? t("buttons.signingUp") : t("buttons.signUp")}
           </button>
         </form>
 
