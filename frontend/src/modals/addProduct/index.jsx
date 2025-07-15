@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./styles.css";
 import { useTranslation } from "react-i18next";
+import Swal from "sweetalert2";
 
 const AddProductModal = ({ show, handleClose }) => {
   const [form, setForm] = useState({
