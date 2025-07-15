@@ -112,6 +112,8 @@ exports.getSubTypesByTypeId = async (req, res) => {
     res.status(200).json(result.rows);
   } catch (error) {
     console.error("Erro ao buscar subtipos por tipo:", error);
-    res.status(500).json({ message: "Erro ao buscar subtipos por tipo", error });
+    res
+      .status(500)
+      .json({ message: "Erro ao buscar subtipos por tipo", error });
   }
 };

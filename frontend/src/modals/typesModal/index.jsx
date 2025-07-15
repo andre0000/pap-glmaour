@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import "./styles.css";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 const TypeModal = ({ isOpen, onClose, onCreated }) => {
+  const { t } = useTranslation();
   const [mode, setMode] = useState("new_subtype");
   const [typeName, setTypeName] = useState("");
   const [subTypeName, setSubTypeName] = useState("");
@@ -44,7 +46,6 @@ const TypeModal = ({ isOpen, onClose, onCreated }) => {
         if (!newTypeId)
           throw new Error("Resposta inválida: ID do tipo ausente");
 
-        console.log("Novo tipo criado com ID:", newTypeId);
         await createSubType(newTypeId);
       } else {
         if (!selectedTypeId) return alert("Escolha um tipo existente");
@@ -52,7 +53,7 @@ const TypeModal = ({ isOpen, onClose, onCreated }) => {
       }
     } catch (err) {
       console.error(err);
-      alert("Erro ao criar tipo/subtipo. Verifique o console.");
+      alert("Error creating subtype: " + err.message);
     }
   };
 
@@ -96,7 +97,7 @@ const TypeModal = ({ isOpen, onClose, onCreated }) => {
   return (
     <div className="type-modal-overlay">
       <div className="type-modal">
-        <h3>Criar Subtipo</h3>
+        <h3>{t("title.createSubType")}</h3>
         <div className="mode-switch">
           <label>
             <input
@@ -105,7 +106,7 @@ const TypeModal = ({ isOpen, onClose, onCreated }) => {
               checked={mode === "new_subtype"}
               onChange={() => setMode("new_subtype")}
             />
-            Associar a um tipo existente
+            {t("label.choosetype")}
           </label>
           <label>
             <input
@@ -114,14 +115,14 @@ const TypeModal = ({ isOpen, onClose, onCreated }) => {
               checked={mode === "new_type"}
               onChange={() => setMode("new_type")}
             />
-            Criar novo tipo
+            {t("label.createNewType")}
           </label>
         </div>
 
         {mode === "new_type" ? (
           <input
             type="text"
-            placeholder="Nome do novo tipo"
+            placeholder={t("label.typeName")}
             value={typeName}
             onChange={(e) => setTypeName(e.target.value)}
             required
@@ -132,7 +133,8 @@ const TypeModal = ({ isOpen, onClose, onCreated }) => {
             onChange={(e) => setSelectedTypeId(e.target.value)}
             required
           >
-            <option value="">Escolha um tipo</option>
+            {console.log("selectedTypeId", selectedTypeId)}
+            <option value="">{t("label.chooseType")}</option>
             {existingTypes.map((t) => (
               <option key={t.id} value={t.id}>
                 {t.name}
@@ -143,16 +145,16 @@ const TypeModal = ({ isOpen, onClose, onCreated }) => {
 
         <input
           type="text"
-          placeholder="Nome do subtipo"
+          placeholder={t("label.subType")}
           value={subTypeName}
           onChange={(e) => setSubTypeName(e.target.value)}
           required
         />
 
         <div className="type-modal-actions">
-          <button onClick={handleSubmit}>Salvar</button>
+          <button onClick={handleSubmit}>{t("buttons.save")}</button>
           <button onClick={onClose} className="cancel-btn">
-            Cancelar
+            {t("buttons.cancel")}
           </button>
         </div>
       </div>

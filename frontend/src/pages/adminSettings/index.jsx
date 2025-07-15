@@ -67,8 +67,8 @@ const AdminSettings = () => {
           text: t("confirmation.subTypeText"),
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: t("confirmation.confirmButtonText"),
-          cancelButtonText: t("confirmation.cancelButtonText"),
+          confirmButtonText: t("confirmation.buttons.confirmButtonText"),
+          cancelButtonText: t("confirmation.buttons.cancelButtonText"),
           confirmButtonColor: "#d33",
           cancelButtonColor: "#3085d6",
         });
@@ -127,18 +127,6 @@ const AdminSettings = () => {
       setUsers(data);
     } catch (err) {
       console.error(err);
-    }
-  };
-
-  const handleSaveSupplier = async (id) => {
-    try {
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/suppliers/${id}`,
-        supplierFormData
-      );
-      fetchSuppliers();
-    } catch (error) {
-      console.error("Erro ao salvar fornecedor:", error);
     }
   };
 
