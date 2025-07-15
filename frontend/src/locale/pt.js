@@ -33,6 +33,16 @@ const ptTranslation = {
     actions: "Ações",
     size: "Tamanho",
   },
+  recovery: {
+    title: "Recuperar Palavra-Passe",
+    emailLabel: "Email",
+    emailPlaceholder: "Introduza o seu email",
+    submitButton: "Enviar",
+    successTitle: "Email de recuperação enviado!",
+    successText: "Verifique o seu email para continuar com a redefinição.",
+    error: "Ocorreu um erro ao enviar o email de recuperação.",
+    okButton: "OK",
+  },
 
   modal: {
     chooseSize: "Escolher Tamanho",

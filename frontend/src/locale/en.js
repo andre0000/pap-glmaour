@@ -34,6 +34,17 @@ const enTranslation = {
     size: "Size",
   },
 
+  recovery: {
+    title: "Recover Password",
+    emailLabel: "Email",
+    emailPlaceholder: "Enter your email",
+    submitButton: "Send",
+    successTitle: "Recovery email sent!",
+    successText: "Check your email to continue the reset process.",
+    error: "An error occurred while sending the recovery email.",
+    okButton: "OK",
+  },
+
   modal: {
     chooseSize: "Choose Size",
   },

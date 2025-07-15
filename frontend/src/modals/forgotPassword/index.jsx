@@ -1,6 +1,9 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 export default function ForgotPasswordModal({ onClose }) {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(null);
@@ -22,10 +25,17 @@ export default function ForgotPasswordModal({ onClose }) {
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.message || "Erro ao enviar email de recuperação.");
+        throw new Error(data.message || t("recovery.error"));
       }
 
       setSubmitted(true);
+
+      Swal.fire({
+        icon: "success",
+        title: t("recovery.successTitle"),
+        text: t("recovery.successText"),
+        confirmButtonText: t("recovery.okButton"),
+      });
 
       setTimeout(() => {
         onClose();
@@ -45,23 +55,20 @@ export default function ForgotPasswordModal({ onClose }) {
 
         {submitted ? (
           <div className="form">
-            <h2 style={{ marginBottom: "20px" }}>Recuperar Palavra-Passe</h2>
-            <p className="p" style={{ fontWeight: "500" }}>
-              Email de recuperação enviado!
-            </p>
+            <h2 style={{ marginBottom: "20px" }}>{t("recovery.title")}</h2>
           </div>
         ) : (
           <form className="form" onSubmit={handleSubmit}>
-            <h2 style={{ marginBottom: "20px" }}>Recuperar Palavra-Passe</h2>
+            <h2 style={{ marginBottom: "20px" }}>{t("recovery.title")}</h2>
 
             <div className="flex-column">
-              <label>Email</label>
+              <label>{t("recovery.emailLabel")}</label>
             </div>
             <div className="inputForm">
               <input
                 type="email"
                 className="input"
-                placeholder="Digite seu email"
+                placeholder={t("recovery.emailPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -71,7 +78,7 @@ export default function ForgotPasswordModal({ onClose }) {
             {error && <p style={{ color: "red" }}>{error}</p>}
 
             <button type="submit" className="button-submit">
-              Enviar
+              {t("recovery.submitButton")}
             </button>
           </form>
         )}

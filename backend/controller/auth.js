@@ -60,12 +60,10 @@ exports.register = async (req, res) => {
     );
 
     if (existingUser.rows.length > 0) {
-      return res
-        .status(400)
-        .json({
-          code: "email_already_registered",
-          message: "Email já registrado",
-        });
+      return res.status(400).json({
+        code: "email_already_registered",
+        message: "Email já registrado",
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -145,12 +143,18 @@ exports.forgotPassword = async (req, res) => {
       [resetToken, user.id]
     );
 
-    console.log("Enviando email para", user.email);
     await transporter.sendMail({
       from: process.env.EMAIL_SENDER,
       to: user.email,
-      subject: "Redefinir senha - Glamour",
-      html: `<p>Clique <a href="${resetLink}">aqui</a> para redefinir sua senha.</p>`,
+      subject: "Redefinir palavra-passe / Reset password - Glamour",
+      html: `
+    <p>
+      🇵🇹 Português: Clique <a href="${resetLink}">aqui</a> para redefinir a sua palavra-passe.
+    </p>
+    <p>
+      🇬🇧 English: Click <a href="${resetLink}">here</a> to reset your password.
+    </p>
+  `,
     });
 
     res.status(200).json({ message: "E-mail enviado com sucesso" });

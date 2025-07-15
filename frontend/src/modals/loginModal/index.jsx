@@ -104,7 +104,6 @@ const LoginModal = ({ onClose, onLoginSuccess, onOpenRegister }) => {
                   className="span"
                   style={{ cursor: "pointer" }}
                   onClick={() => {
-                    console.log("abrindo forgot modal");
                     setShowForgotModal(true);
                   }}
                 >
