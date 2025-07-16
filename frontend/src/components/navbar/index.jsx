@@ -34,6 +34,7 @@ const Navbar = () => {
   const toggleCart = () => setIsCartOpen((prev) => !prev);
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
+    sessionStorage.setItem("language", lng);
   };
 
   const isLogged = !!user;
