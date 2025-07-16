@@ -7,7 +7,7 @@ const enTranslation = {
     newArrivals: "NEW ARRIVALS",
     bestSellers: "BESTSELLERS",
     allProducts: "ALL PRODUCTS",
-    boughtProducts: "Bought Products",
+    soldProducts: "Sold Products",
     Products: "Products",
     subTypes: "SubTypes",
     suppliers: "Suppliers",

@@ -371,7 +371,7 @@ const AdminSettings = () => {
             )}
         </tbody>
       </table>
-      <h2 className="admin-section-title">📦 {t("title.boughtProducts")}</h2>
+      <h2 className="admin-section-title">📦 {t("title.soldProducts")}</h2>
       <table className="products-table">
         <thead>
           <tr>

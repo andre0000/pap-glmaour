@@ -7,7 +7,7 @@ const ptTranslation = {
     newArrivals: "NOVIDADES",
     bestSellers: "MAIS VENDIDOS",
     allProducts: "TODOS OS PRODUTOS",
-    boughtProducts: "Produtos Comprados",
+    soldProducts: "Produtos Vendidos",
     Products: "Produtos",
     subTypes: "Subtipos",
     suppliers: "Fornecedores",
