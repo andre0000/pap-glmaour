@@ -14,6 +14,7 @@ const ptTranslation = {
     createAccount: "Criar Conta",
     mens: "Coleção Masculina",
     womens: "Coleção Feminina",
+    addSupplier: "Adicionar Fornecedor",
   },
   label: {
     name: "Nome",
@@ -36,6 +37,8 @@ const ptTranslation = {
     createNewType: "Criar Novo Tipo",
     createSubType: "Criar Subtipo",
     createNewType: "Criar Novo Tipo",
+    phone: "Telefone",
+    address: "Endereço",
   },
   recovery: {
     title: "Recuperar Palavra-Passe",
@@ -90,6 +93,9 @@ const ptTranslation = {
     urlImage: "Insira o URL da imagem",
     enterEmail: "Insira o seu Email",
     enterPassword: "Insira a sua Palavra-passe",
+    phone: "Insira o número de telefone",
+    address: "Insira o endereço",
+    productName: "Insira o nome do produto",
   },
 
   buttons: {

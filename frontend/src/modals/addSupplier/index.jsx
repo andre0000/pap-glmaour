@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./styles.css";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 const SupplierModal = ({ isOpen, onClose, onCreated }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const { t } = useTranslation();
 
   const handleSubmit = async () => {
     const token = sessionStorage.getItem("token");
@@ -54,39 +56,45 @@ const SupplierModal = ({ isOpen, onClose, onCreated }) => {
   return (
     <div className="supplier-modal-overlay">
       <div className="supplier-modal">
-        <h3>Adicionar Fornecedor</h3>
+        <h3>{t("title.addSupplier")}</h3>
 
+        <label>{t("label.name")}</label>
         <input
           type="text"
-          placeholder="Nome *"
+          placeholder={t("placeholder.name")}
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
         />
+
+        <label>{t("label.email")}</label>
         <input
           type="email"
-          placeholder="Email"
+          placeholder={t("placeholder.enterEmail")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
+        <label>{t("label.phone")}</label>
         <input
           type="tel"
-          placeholder="Telefone"
+          placeholder={t("placeholder.phone")}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
+
+        <label>{t("label.address")}</label>
         <input
           type="text"
-          placeholder="Endereço"
+          placeholder={t("placeholder.address")}
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
 
         <div className="supplier-modal-actions">
-          {" "}
-          <button onClick={handleSubmit}>Salvar</button>
+          <button onClick={handleSubmit}>{t("buttons.save")}</button>
           <button onClick={onClose} className="cancel-btn">
-            Cancelar
+            {t("buttons.cancel")}
           </button>
         </div>
       </div>

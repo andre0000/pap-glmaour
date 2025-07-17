@@ -14,6 +14,7 @@ const enTranslation = {
     createAccount: "Create Account",
     mens: "Men's Collection",
     womens: "Women's Collection",
+    addSupplier: "Add Supplier",
   },
   label: {
     name: "Name",
@@ -38,6 +39,8 @@ const enTranslation = {
     createNewType: "Create New Type",
     createSubType: "Create Sub Type",
     subTypeName: "Sub Type Name",
+    phone: "Phone",
+    address: "Address",
   },
 
   recovery: {
@@ -92,6 +95,9 @@ const enTranslation = {
     urlImage: "Enter image URL",
     enterEmail: "Enter your Email",
     enterPassword: "Enter your Password",
+    phone: "Enter phone number",
+    address: "Enter address",
+    productName: "Enter product name",
   },
 
   buttons: {

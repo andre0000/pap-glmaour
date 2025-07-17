@@ -142,7 +142,7 @@ const AddProductModal = ({ show, handleClose }) => {
                 type="text"
                 name="name"
                 className="input"
-                placeholder={t("placeholder.name")}
+                placeholder={t("placeholder.productName")}
                 value={form.name}
                 onChange={handleChange}
                 required
